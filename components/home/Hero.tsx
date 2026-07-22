@@ -105,6 +105,7 @@ export function Hero() {
                   src="/photos/user-lisbon-golden.jpg"
                   alt="Lisbon at golden hour, the castle above the rooftops and the Tagus beyond"
                   fill
+                  priority
                   sizes="(max-width: 1024px) 40vw, 20vw"
                   className="object-cover"
                 />
