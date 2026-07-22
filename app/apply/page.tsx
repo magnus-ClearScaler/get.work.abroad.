@@ -83,7 +83,20 @@ export default async function ApplyPage(props: PageProps<"/apply">) {
               ))}
             </ul>
 
-            <div className="mt-10 rounded-2xl bg-[color:var(--color-sand-100)] p-6">
+            <div className="mt-10 rounded-2xl border border-[color:var(--color-sea-200)] bg-[color:var(--color-sea-50)] p-6">
+              <h3 className="font-[family-name:var(--font-display)] text-[1.0625rem] font-semibold tracking-[-0.015em] text-[color:var(--color-sea-900)]">
+                We will never ask you for money
+              </h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
+                No fee, no deposit, no visa charge, at any stage. If anyone using
+                our name asks you to pay, it is not us.
+              </p>
+              <Button href="/safety" variant="outline" className="mt-4 w-full">
+                How to spot a recruitment scam
+              </Button>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-[color:var(--color-sand-100)] p-6">
               <p className="text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
                 Would rather just message? We answer WhatsApp faster than email.
               </p>

@@ -33,8 +33,8 @@ export const destinations: Destination[] = [
         "Málaga and Alicante. Where the Costa del Sol turned into a tech coast.",
     },
     hero: {
-      photo: "/photos/user-malaga-aerial.jpg",
-      alt: "Málaga from above, the bullring and the port meeting the Mediterranean",
+      photo: "/photos/malaga-sunset.jpg",
+      alt: "Sunset over the harbour and rooftops of Málaga",
     },
     headline: "Spain",
     intro:
@@ -133,8 +133,8 @@ export const destinations: Destination[] = [
         "Lisbon and Porto. The softest landing there is for a first move abroad.",
     },
     hero: {
-      photo: "/photos/user-lisbon-golden.jpg",
-      alt: "Lisbon at golden hour, the castle above the rooftops and the Tagus beyond",
+      photo: "/photos/lisbon-sunset-bridge.jpg",
+      alt: "Golden sunset over the rooftops of Lisbon with the 25 de Abril bridge beyond",
     },
     headline: "Portugal",
     intro:

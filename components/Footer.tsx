@@ -15,7 +15,8 @@ export function Footer() {
             <Logo tone="light" showTagline />
             <p className="mt-5 text-[0.9375rem] leading-relaxed text-[color:var(--color-sea-200)]/80">
               We place native language speakers into permanent roles in Spain,
-              Portugal and Greece. Always free for the candidate.
+              Portugal and Greece. Always free for the candidate: we are paid by
+              the employer, never by you.
             </p>
             <div className="mt-6 flex items-center gap-2.5">
               {[
@@ -61,6 +62,7 @@ export function Footer() {
             links={[
               { label: "About us", href: "/about" },
               { label: "For employers", href: "/employers" },
+              { label: "Your safety", href: "/safety" },
               { label: "Privacy", href: "/privacy" },
             ]}
           />

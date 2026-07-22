@@ -183,18 +183,40 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         </div>
       </div>
 
+      <label className="mt-7 flex cursor-pointer items-start gap-3 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-sand-50)] p-4">
+        <input
+          type="checkbox"
+          name="consent"
+          required
+          className="mt-0.5 h-4 w-4 shrink-0 accent-[color:var(--color-sea-700)]"
+        />
+        <span className="text-[0.8125rem] leading-relaxed text-[color:var(--color-body)]">
+          I agree that {site.name} may store these details and contact me about
+          roles. My CV is never sent to an employer without my say-so, and I can
+          ask for my data to be deleted at any time.{" "}
+          <a
+            href="/privacy"
+            className="font-medium text-[color:var(--color-sea-700)] underline underline-offset-2"
+          >
+            Privacy notice
+          </a>
+          .
+        </span>
+      </label>
+
       <button
         type="submit"
-        className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--color-sea-700)] px-7 py-4 text-[0.9375rem] font-semibold text-white shadow-[var(--shadow-soft)] transition-colors hover:bg-[color:var(--color-sea-800)] sm:w-auto"
+        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--color-sea-700)] px-7 py-4 text-[0.9375rem] font-semibold text-white shadow-[var(--shadow-soft)] transition-colors hover:bg-[color:var(--color-sea-800)] sm:w-auto"
       >
         Send my application
         <ArrowRight className="h-4 w-4" />
       </button>
 
       <p className="mt-4 text-[0.8125rem] leading-relaxed text-[color:var(--color-mute)]">
-        We use your details only to match you to roles and to contact you about
-        them. No fee, ever, and we never pass your CV on without asking you
-        first.
+        Submitting opens WhatsApp with your details ready to send, so the
+        message travels over WhatsApp and is covered by their encryption and
+        privacy terms as well as ours. Prefer email? Use the email option on the
+        next screen instead. We never charge candidates a fee.
       </p>
     </form>
   );
