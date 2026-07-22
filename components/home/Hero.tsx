@@ -21,7 +21,7 @@ export function Hero() {
       <Container className="relative">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* ── Copy ─────────────────────────────────────────────── */}
-          <div className="rise">
+          <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] bg-white/70 px-3.5 py-1.5 text-[0.8125rem] font-medium text-[color:var(--color-sea-700)] backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--color-sun-400)] opacity-70" />
@@ -68,7 +68,7 @@ export function Hero() {
           </div>
 
           {/* ── Photo composition ────────────────────────────────── */}
-          <div className="rise [animation-delay:120ms]">
+          <div>
             <div className="grid grid-cols-5 grid-rows-6 gap-3 sm:gap-4 lg:h-[34rem]">
               <figure className="relative col-span-3 row-span-6 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
                 <Image

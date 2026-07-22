@@ -144,7 +144,9 @@ body {
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
-/* Entrance — one shared, cheap animation */
+/* Entrance animation, for below-the-fold use only.
+   Never put this on anything above the fold: an element at opacity 0 is not
+   "contentful", so it defers Largest Contentful Paint by the whole duration. */
 @keyframes rise {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
