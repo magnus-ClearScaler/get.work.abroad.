@@ -56,6 +56,9 @@ export default async function JobPage(props: PageProps<"/jobs/[slug]">) {
     { Icon: Shield, label: "You would work for", value: job.employer },
     { Icon: Plane, label: "Contract", value: `${job.contract} · ${job.model}` },
     { Icon: Euro, label: "Package", value: job.packageHighlight },
+    ...(job.openings
+      ? [{ Icon: Check, label: "Openings", value: job.openings }]
+      : []),
   ];
 
   return (
@@ -89,6 +92,21 @@ export default async function JobPage(props: PageProps<"/jobs/[slug]">) {
             <p className="text-[1.15rem] leading-relaxed text-pretty text-[color:var(--color-ink)]">
               {job.summary}
             </p>
+
+            {job.openings ? (
+              <p className="mt-6 flex items-start gap-3 rounded-2xl border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] p-5 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--color-sun-600)]" />
+                <span>
+                  <strong className="font-semibold text-[color:var(--color-sun-600)]">
+                    {job.openings}.
+                  </strong>{" "}
+                  This is a standing desk rather than a single vacancy, so we
+                  match you to whichever programme suits you best and to the
+                  next intake you can make. Tell us what you would rather be
+                  doing and we will work from there.
+                </span>
+              </p>
+            ) : null}
 
             <Block title="What you will be doing">
               <ul className="space-y-3">

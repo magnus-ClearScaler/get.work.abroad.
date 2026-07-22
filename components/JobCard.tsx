@@ -39,6 +39,11 @@ export function JobCard({ job, priority }: { job: Job; priority?: boolean }) {
           <span className="text-[0.75rem] font-medium text-[color:var(--color-mute)]">
             {job.category}
           </span>
+          {job.openings ? (
+            <span className="ml-auto rounded-full border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-2 py-0.5 text-[0.6875rem] font-semibold whitespace-nowrap text-[color:var(--color-sun-600)]">
+              Several seats
+            </span>
+          ) : null}
         </div>
 
         <h3 className="mt-3 font-[family-name:var(--font-display)] text-[1.2rem] leading-tight font-semibold tracking-[-0.02em] text-balance text-[color:var(--color-ink)]">

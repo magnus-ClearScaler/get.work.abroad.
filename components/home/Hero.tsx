@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Container, Button } from "@/components/ui";
 import { ArrowRight, Check, Plane } from "@/components/Icons";
-import { jobs } from "@/lib/jobs";
 
 const proof = [
   "Free for candidates",
@@ -22,15 +21,7 @@ export function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* ── Copy ─────────────────────────────────────────────── */}
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-line)] bg-white/70 px-3.5 py-1.5 text-[0.8125rem] font-medium text-[color:var(--color-sea-700)] backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--color-sun-400)] opacity-70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--color-sun-500)]" />
-              </span>
-              {`${jobs.length} open roles · Spain, Portugal & Greece`}
-            </span>
-
-            <h1 className="h-display mt-6 max-w-[13ch] text-[clamp(2.5rem,5.8vw,4rem)] text-balance">
+            <h1 className="h-display max-w-[13ch] text-[clamp(2.5rem,5.8vw,4rem)] text-balance">
               Work in your language.{" "}
               <span className="text-[color:var(--color-sea-600)]">
                 Live on the Mediterranean.
