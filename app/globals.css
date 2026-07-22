@@ -1,26 +1,162 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ── Get Work Abroad ───────────────────────────────────────────────
+     Mediterranean, not tropical. Deep sea blue as the structural colour,
+     a low sun gold for warmth, terracotta for accent, warm sand paper. */
+
+  --color-sea-950: #06202b;   /* near-black teal — dark sections, headings */
+  --color-sea-900: #0b2f3f;
+  --color-sea-800: #10404f;
+  --color-sea-700: #15566e;
+  --color-sea-600: #1a6b87;
+  --color-sea-500: #1f7fa0;   /* primary */
+  --color-sea-400: #4a9cb8;
+  --color-sea-300: #86c2d6;
+  --color-sea-200: #bfdee8;
+  --color-sea-100: #dcedf3;
+  --color-sea-50:  #eff7fa;
+
+  --color-sun-600: #b8701f;
+  --color-sun-500: #d2872a;
+  --color-sun-400: #e9a13b;   /* gold */
+  --color-sun-200: #f6dcaa;
+  --color-sun-100: #fbeed3;
+
+  --color-terra-600: #a8452e;
+  --color-terra-500: #c8563a;  /* terracotta */
+  --color-terra-100: #f6e2db;
+
+  --color-sand-50:  #fbf8f3;   /* page surface */
+  --color-sand-100: #f5efe5;
+  --color-sand-200: #ece3d5;
+  --color-line:     #e4dbcb;
+  --color-line-soft:#efe8dc;
+
+  --color-ink:  #0d1f28;       /* headings */
+  --color-body: #47585f;       /* body copy */
+  --color-mute: #7b8a91;       /* meta */
+
+  --font-sans:    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft:  0 10px 30px -18px rgba(6, 32, 43, 0.28);
+  --shadow-card:  0 1px 0 rgba(6, 32, 43, 0.03), 0 18px 40px -28px rgba(6, 32, 43, 0.30);
+  --shadow-lift:  0 26px 60px -30px rgba(6, 32, 43, 0.42);
+  --shadow-photo: 0 30px 70px -40px rgba(6, 32, 43, 0.6);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-sand-50);
+  color: var(--color-body);
+  font-family: var(--font-sans);
 }
+
+::selection {
+  background: var(--color-sea-500);
+  color: #fff;
+}
+
+/* Focus ring that reads on both light sand and dark sea backgrounds */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-sea-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.text-balance { text-wrap: balance; }
+.text-pretty  { text-wrap: pretty; }
+
+/* Display type: tight, optical, confident.
+   These live in the components layer so that Tailwind colour utilities
+   (text-white on a dark section, for instance) still win over them. */
+@layer components {
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    color: var(--color-ink);
+  }
+  .h-section {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    color: var(--color-ink);
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-sea-600);
+  }
+}
+
+/* Photographic scrims — keeps white type legible over any photo */
+.scrim-b {
+  background: linear-gradient(
+    to top,
+    rgba(6, 32, 43, 0.95) 0%,
+    rgba(6, 32, 43, 0.82) 35%,
+    rgba(6, 32, 43, 0.64) 60%,
+    rgba(6, 32, 43, 0.40) 85%,
+    rgba(6, 32, 43, 0.20) 100%
+  );
+}
+.scrim-full {
+  background: linear-gradient(
+    to top,
+    rgba(6, 32, 43, 0.86) 0%,
+    rgba(6, 32, 43, 0.42) 48%,
+    rgba(6, 32, 43, 0.16) 100%
+  );
+}
+/* For type set in the middle of a bright photo */
+.scrim-center {
+  background:
+    radial-gradient(70% 60% at 50% 45%, rgba(6, 32, 43, 0.62), transparent 75%),
+    linear-gradient(to top, rgba(6, 32, 43, 0.6) 0%, rgba(6, 32, 43, 0.3) 100%);
+}
+
+/* Language marquee */
+@keyframes drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: drift 46s linear infinite;
+  will-change: transform;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Entrance — one shared, cheap animation */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
+  .rise { animation: none; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Native accordion chrome */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-sign { transform: rotate(45deg); }
