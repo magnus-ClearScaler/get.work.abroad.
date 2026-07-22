@@ -17,6 +17,7 @@
   --color-sea-100: #dcecf5;
   --color-sea-50:  #eff7fb;
 
+  --color-sun-700: #a1530d;   /* small text on sun-100 — WCAG AA */
   --color-sun-600: #b85f10;
   --color-sun-500: #ef8a24;   /* logo orange */
   --color-sun-400: #f59b3d;

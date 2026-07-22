@@ -60,14 +60,14 @@ export function Hero() {
 
           {/* ── Photo composition ────────────────────────────────── */}
           <div>
-            <div className="grid grid-cols-5 grid-rows-6 gap-3 sm:gap-4 lg:h-[34rem]">
-              <figure className="relative col-span-3 row-span-6 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
+            <div className="grid grid-cols-1 grid-rows-1 gap-3 sm:grid-cols-5 sm:grid-rows-6 sm:gap-4 lg:h-[34rem]">
+              <figure className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)] sm:col-span-3 sm:row-span-6 sm:aspect-auto">
                 <Image
                   src="/photos/user-greece-cove.jpg"
                   alt="A turquoise cove with umbrellas on a white pebble beach in Greece"
                   fill
                   priority
-                  sizes="(max-width: 1024px) 55vw, 30vw"
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 55vw, 30vw"
                   className="object-cover"
                 />
                 <figcaption className="absolute bottom-0 left-0 w-full scrim-b p-4 pt-12">
@@ -80,7 +80,7 @@ export function Hero() {
                 </figcaption>
               </figure>
 
-              <figure className="relative col-span-2 row-span-3 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
+              <figure className="relative hidden overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)] sm:col-span-2 sm:row-span-3 sm:block">
                 <Image
                   src="/photos/user-malaga-aerial.jpg"
                   alt="Málaga from above, the bullring and the port meeting the Mediterranean"
@@ -91,7 +91,7 @@ export function Hero() {
                 />
               </figure>
 
-              <figure className="relative col-span-2 row-span-3 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
+              <figure className="relative hidden overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)] sm:col-span-2 sm:row-span-3 sm:block">
                 <Image
                   src="/photos/user-lisbon-golden.jpg"
                   alt="Lisbon at golden hour, the castle above the rooftops and the Tagus beyond"

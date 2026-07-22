@@ -40,7 +40,7 @@ export function JobCard({ job, priority }: { job: Job; priority?: boolean }) {
             {job.category}
           </span>
           {job.openings ? (
-            <span className="ml-auto rounded-full border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-2 py-0.5 text-[0.6875rem] font-semibold whitespace-nowrap text-[color:var(--color-sun-600)]">
+            <span className="ml-auto rounded-full border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-2 py-0.5 text-[0.6875rem] font-semibold whitespace-nowrap text-[color:var(--color-sun-700)]">
               Several seats
             </span>
           ) : null}
