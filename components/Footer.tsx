@@ -12,7 +12,7 @@ export function Footer() {
       <div className="mx-auto max-w-[84rem] px-5 pt-16 pb-10 sm:px-8 sm:pt-20">
         <div className="grid gap-12 border-b border-white/10 pb-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
-            <Logo tone="light" />
+            <Logo tone="light" showTagline />
             <p className="mt-5 text-[0.9375rem] leading-relaxed text-[color:var(--color-sea-200)]/80">
               We place native language speakers into permanent roles in Spain,
               Portugal and Greece. Always free for the candidate.

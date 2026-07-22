@@ -72,8 +72,8 @@ export function Hero() {
             <div className="grid grid-cols-5 grid-rows-6 gap-3 sm:gap-4 lg:h-[34rem]">
               <figure className="relative col-span-3 row-span-6 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
                 <Image
-                  src="/photos/spain-barcelona-aerial.jpg"
-                  alt="Aerial view of Barcelona's Eixample grid with the Sagrada Família"
+                  src="/photos/user-greece-cove.jpg"
+                  alt="A turquoise cove with umbrellas on a white pebble beach in Greece"
                   fill
                   priority
                   sizes="(max-width: 1024px) 55vw, 30vw"
@@ -81,18 +81,18 @@ export function Hero() {
                 />
                 <figcaption className="absolute bottom-0 left-0 w-full scrim-b p-4 pt-12">
                   <span className="text-[0.8125rem] font-semibold tracking-[0.02em] text-white">
-                    Barcelona
+                    Greece
                   </span>
                   <span className="ml-2 text-[0.8125rem] text-white/70">
-                    Spain
+                    a ferry from Athens
                   </span>
                 </figcaption>
               </figure>
 
               <figure className="relative col-span-2 row-span-3 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
                 <Image
-                  src="/photos/greece-milos-cove.jpg"
-                  alt="Fishing boats moored in a turquoise cove on Milos, Greece"
+                  src="/photos/user-malaga-aerial.jpg"
+                  alt="Málaga from above, the bullring and the port meeting the Mediterranean"
                   fill
                   priority
                   sizes="(max-width: 1024px) 40vw, 20vw"
@@ -102,8 +102,8 @@ export function Hero() {
 
               <figure className="relative col-span-2 row-span-3 overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
                 <Image
-                  src="/photos/lisbon-funicular.jpg"
-                  alt="A yellow funicular climbing a colourful street in Lisbon"
+                  src="/photos/user-lisbon-golden.jpg"
+                  alt="Lisbon at golden hour, the castle above the rooftops and the Tagus beyond"
                   fill
                   sizes="(max-width: 1024px) 40vw, 20vw"
                   className="object-cover"

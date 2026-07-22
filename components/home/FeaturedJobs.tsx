@@ -11,7 +11,7 @@ export function FeaturedJobs() {
           <SectionHead
             eyebrow="Hiring now"
             title="A few of the roles open this month"
-            intro="Every listing states the salary, the contract and exactly what the employer covers. No vague packages, no bait."
+            intro="Every listing states the contract, the working model and exactly what the employer covers to get you there. No vague packages, no bait."
           />
           <Button href="/jobs" variant="outline" className="shrink-0">
             All {jobs.length} jobs

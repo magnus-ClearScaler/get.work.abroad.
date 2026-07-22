@@ -27,8 +27,8 @@ const steps = [
     n: "04",
     title: "You land",
     body: "Offer, contract, flight, keys. We stay reachable until you are through your first week at work.",
-    photo: "/photos/barcelona-palms.jpg",
-    alt: "Palm trees along the beachfront in Barcelona",
+    photo: "/photos/user-alicante-explanada.jpg",
+    alt: "Palms and the Explanada promenade in Alicante under a Spanish flag",
   },
 ];
 

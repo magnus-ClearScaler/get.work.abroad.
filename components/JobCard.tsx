@@ -52,11 +52,11 @@ export function JobCard({ job, priority }: { job: Job; priority?: boolean }) {
         <div className="mt-auto pt-5">
           <div className="flex items-center justify-between gap-3 border-t border-[color:var(--color-line-soft)] pt-4">
             <div className="min-w-0">
-              <p className="truncate text-[0.8125rem] font-semibold text-[color:var(--color-ink)]">
-                {job.salary.split(/,\s*plus\s/i)[0]}
+              <p className="text-[0.8125rem] leading-snug font-semibold text-balance text-[color:var(--color-ink)]">
+                {job.packageHighlight}
               </p>
-              <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] text-[color:var(--color-mute)]">
-                <Pin className="h-3.5 w-3.5" />
+              <p className="mt-1 flex items-center gap-1 text-[0.75rem] text-[color:var(--color-mute)]">
+                <Pin className="h-3.5 w-3.5 shrink-0" />
                 {job.contract} · {job.start}
               </p>
             </div>

@@ -2,13 +2,15 @@ import { languages } from "@/lib/site";
 
 /** A quiet, continuously drifting statement of what we actually recruit on. */
 export function LanguageBand() {
-  const row = [...languages, ...languages];
+  /* Four copies so five languages still fill a wide viewport; the track
+     translates by half its width, which lands exactly on copy three. */
+  const row = [...languages, ...languages, ...languages, ...languages];
 
   return (
     <section className="border-y border-[color:var(--color-line)] bg-white py-7">
       <div className="mx-auto mb-5 max-w-[84rem] px-5 sm:px-8">
         <p className="eyebrow text-center">
-          We recruit native speakers of
+          The five languages we recruit
         </p>
       </div>
       <div className="marquee-mask overflow-hidden">

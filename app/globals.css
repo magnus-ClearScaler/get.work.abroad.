@@ -5,26 +5,30 @@
      Mediterranean, not tropical. Deep sea blue as the structural colour,
      a low sun gold for warmth, terracotta for accent, warm sand paper. */
 
-  --color-sea-950: #06202b;   /* near-black teal — dark sections, headings */
-  --color-sea-900: #0b2f3f;
-  --color-sea-800: #10404f;
-  --color-sea-700: #15566e;
-  --color-sea-600: #1a6b87;
-  --color-sea-500: #1f7fa0;   /* primary */
-  --color-sea-400: #4a9cb8;
-  --color-sea-300: #86c2d6;
-  --color-sea-200: #bfdee8;
-  --color-sea-100: #dcedf3;
-  --color-sea-50:  #eff7fa;
+  --color-sea-950: #082a3f;   /* deep navy — dark sections */
+  --color-sea-900: #0d3a56;
+  --color-sea-800: #124a6d;
+  --color-sea-700: #175a83;   /* logo blue, deep */
+  --color-sea-600: #1a6b9a;
+  --color-sea-500: #1e7bb0;   /* logo blue */
+  --color-sea-400: #4a9bc9;
+  --color-sea-300: #86c0dd;
+  --color-sea-200: #bfdcec;
+  --color-sea-100: #dcecf5;
+  --color-sea-50:  #eff7fb;
 
-  --color-sun-600: #b8701f;
-  --color-sun-500: #d2872a;
-  --color-sun-400: #e9a13b;   /* gold */
-  --color-sun-200: #f6dcaa;
-  --color-sun-100: #fbeed3;
+  --color-sun-600: #b85f10;
+  --color-sun-500: #ef8a24;   /* logo orange */
+  --color-sun-400: #f59b3d;
+  --color-sun-200: #fbd9ab;
+  --color-sun-100: #fdeed6;
+
+  --color-olive-600: #667d28;
+  --color-olive-500: #7e9b33;  /* logo olive, from the branch */
+  --color-olive-100: #eef2df;
 
   --color-terra-600: #a8452e;
-  --color-terra-500: #c8563a;  /* terracotta */
+  --color-terra-500: #c8563a;
   --color-terra-100: #f6e2db;
 
   --color-sand-50:  #fbf8f3;   /* page surface */

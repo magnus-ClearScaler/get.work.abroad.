@@ -13,20 +13,20 @@ export const metadata: Metadata = {
 
 const principles = [
   {
-    title: "Free for the candidate, always",
-    body: "We are paid by the employer when you are hired. If a recruiter ever asks you to pay a placement fee, for any reason, that is not how this industry is supposed to work.",
+    title: "You find out who you are without the scaffolding",
+    body: "At home you are held up by people who have known you for years. Move, and none of that comes with you. What is left is you, and almost everybody discovers they are considerably more capable than they had assumed.",
   },
   {
-    title: "The package in writing, up front",
-    body: "Every listing states the salary, the contract type and exactly what the employer covers. You should know what you are agreeing to before the first interview, not after.",
+    title: "You stop being a tourist in other people's lives",
+    body: "There is a difference between visiting a country and having a landlord in it, a local bar, a colleague whose mother sends food. You start understanding how other people actually live, and your own upbringing stops looking like the default setting.",
   },
   {
-    title: "Three countries, properly",
-    body: "Spain, Portugal and Greece. We turn down work outside them. Knowing three markets well beats knowing fifteen badly when someone is about to move their life.",
+    title: "Your circle stops looking like you",
+    body: "In these offices your team is Dutch, Greek, Portuguese, Brazilian, Italian and Norwegian in the same room. You will end up with friends across a dozen countries and a permanent list of places you now have a reason to visit.",
   },
   {
-    title: "We would rather lose the placement",
-    body: "If a role is wrong for you we will say so, even when it costs us the fee. A person who leaves after two months is worse for everybody than a placement we never made.",
+    title: "It is the fastest two years of growth you will get",
+    body: "New country, new language, new job, new everything, all at once. It is genuinely hard for the first month and then it is not. Nobody we know who has done it regrets it, and most of them stayed far longer than they planned to.",
   },
 ];
 
@@ -36,7 +36,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="About us"
         title="Moving abroad is the easiest hard thing you will ever do"
-        intro="Get Work Abroad places native language speakers into permanent roles across Spain, Portugal and Greece. We started it because the jobs are genuinely good and almost nobody explains them properly."
+        intro="We place native language speakers into permanent roles across Spain, Portugal and Greece. We do it because we have made the move ourselves, and because we have yet to meet anyone who did it and wished they had not."
       />
 
       {/* ── Story ───────────────────────────────────────────────── */}
@@ -44,27 +44,32 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>
-              <SectionHead eyebrow="Why we exist" title="The jobs are real. The marketing around them usually is not." />
+              <SectionHead
+                eyebrow="Why we exist"
+                title="We are not selling you a job. We are selling you a couple of years you will talk about forever."
+              />
               <div className="mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-pretty text-[color:var(--color-body)]">
                 <p>
-                  Across the Mediterranean there are thousands of permanent
-                  roles that need a native Dutch, German, Finnish or Hebrew
-                  speaker and cannot find one locally. To bridge that, employers
-                  pay for your flight, put you up when you land and train you on
-                  full salary.
+                  We moved abroad ourselves. We know the specific feeling of
+                  landing somewhere with two suitcases and no idea where the
+                  supermarket is, and we know what happens about six weeks
+                  later, when the city stops being foreign and starts being
+                  yours.
                 </p>
                 <p>
-                  It is one of the few genuinely good deals left in entry-level
-                  hiring. And it is buried under recruiters who will not tell
-                  you the salary, agencies charging candidates fees they should
-                  never pay, and adverts written by people who have never seen
-                  the city they are selling.
+                  That is the part nobody puts in a job advert. You learn a
+                  language by embarrassing yourself in it. You get a group of
+                  friends from eight countries. You come back able to handle
+                  the kind of thing that would have floored you a year earlier,
+                  because you have already sorted out a tax number in a
+                  language you do not speak.
                 </p>
                 <p>
-                  So we built the opposite. Every role on this site states what
-                  it pays, what the contract is and what the employer covers.
-                  Every destination page tells you what a room costs and what
-                  the paperwork involves. Then you decide.
+                  Every expat we know personally loves it, and the ones who
+                  planned on a year are mostly still there. So we built the
+                  company we would have wanted: real roles, honest numbers on
+                  what a room actually costs, and someone on the other end of
+                  the phone who has done the move themselves.
                 </p>
               </div>
 
@@ -82,8 +87,8 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 gap-4 lg:sticky lg:top-28 lg:h-fit">
               <div className="relative aspect-[3/4] overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
                 <Image
-                  src="/photos/greece-mykonos.jpg"
-                  alt="Whitewashed houses above turquoise water in Mykonos"
+                  src="/photos/greek-taverna-table.jpg"
+                  alt="A taverna table with blue chairs set right beside the sea"
                   fill
                   sizes="(max-width: 1024px) 46vw, 22vw"
                   className="object-cover"
@@ -91,8 +96,8 @@ export default function AboutPage() {
               </div>
               <div className="relative mt-8 aspect-[3/4] overflow-hidden rounded-[1.25rem] shadow-[var(--shadow-photo)]">
                 <Image
-                  src="/photos/malaga-sunset.jpg"
-                  alt="Sunset over the harbour in Málaga"
+                  src="/photos/portugal-surf.jpg"
+                  alt="A surfer walking out at a Portuguese beach break"
                   fill
                   sizes="(max-width: 1024px) 46vw, 22vw"
                   className="object-cover"
@@ -107,8 +112,8 @@ export default function AboutPage() {
       <section className="border-y border-[color:var(--color-line)] bg-white py-20 sm:py-28">
         <Container>
           <SectionHead
-            eyebrow="How we work"
-            title="Four things we will not compromise on"
+            eyebrow="The real reason to do it"
+            title="What actually happens when you go"
             align="center"
           />
           <div className="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2">

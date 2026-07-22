@@ -3,7 +3,7 @@ import { Container, Button } from "@/components/ui";
 import { ArrowRight, Check } from "@/components/Icons";
 
 const points = [
-  "Native speakers in 17 languages, sourced and screened",
+  "Native speakers across northern and central Europe, sourced and screened",
   "Candidates who already want to relocate, not ones you have to convince",
   "Shortlists in days, because we build the pipeline before you ask",
 ];

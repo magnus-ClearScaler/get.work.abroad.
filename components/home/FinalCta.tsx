@@ -9,7 +9,7 @@ export function FinalCta() {
       <Container>
         <div className="relative overflow-hidden rounded-[1.75rem] px-6 py-16 text-center sm:px-12 sm:py-24">
           <Image
-            src="/photos/greece-oia-domes.jpg"
+            src="/photos/user-greece-cove.jpg"
             alt=""
             aria-hidden="true"
             fill

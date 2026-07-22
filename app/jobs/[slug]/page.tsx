@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Container, Button, Chip } from "@/components/ui";
 import { PhotoHeader, Breadcrumb } from "@/components/PageHeader";
 import { JobCard } from "@/components/JobCard";
-import { ArrowRight, Check, Euro, Pin, Plane, Translate, Whatsapp } from "@/components/Icons";
+import { ArrowRight, Check, Euro, Pin, Plane, Shield, Translate, Whatsapp } from "@/components/Icons";
 import { jobs, jobBySlug } from "@/lib/jobs";
 import { site } from "@/lib/site";
 
@@ -53,8 +53,9 @@ export default async function JobPage(props: PageProps<"/jobs/[slug]">) {
   const meta = [
     { Icon: Pin, label: "Location", value: `${job.city}, ${job.countryName}` },
     { Icon: Translate, label: "Language", value: job.language },
-    { Icon: Euro, label: "Salary", value: job.salary },
+    { Icon: Shield, label: "You would work for", value: job.employer },
     { Icon: Plane, label: "Contract", value: `${job.contract} · ${job.model}` },
+    { Icon: Euro, label: "Package", value: job.packageHighlight },
   ];
 
   return (

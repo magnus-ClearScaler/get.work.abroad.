@@ -88,6 +88,82 @@ export default async function DestinationPage(
         </Container>
       </section>
 
+
+      {/* ── Why people move here ────────────────────────────────── */}
+      <section className="py-20 sm:py-28">
+        <Container>
+          <SectionHead
+            eyebrow="Why people go"
+            title={`What actually makes ${d.country} worth the move`}
+            intro="Not the brochure version. The things people who moved here bring up unprompted a year later."
+          />
+          <div className="mt-14 space-y-16 sm:space-y-24">
+            {d.whyMove.map((w, i) => (
+              <div
+                key={w.title}
+                className={`grid items-center gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16 ${
+                  i % 2 === 1 ? "lg:[&>figure]:order-last" : ""
+                }`}
+              >
+                <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-photo)]">
+                  <Image
+                    src={w.photo}
+                    alt={w.alt}
+                    fill
+                    sizes="(max-width: 1024px) 92vw, 46vw"
+                    className="object-cover"
+                  />
+                </figure>
+                <div>
+                  <span className="font-[family-name:var(--font-display)] text-[0.8125rem] font-bold tracking-[0.14em] text-[color:var(--color-sun-500)] uppercase">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="h-section mt-3 text-[clamp(1.4rem,3vw,1.9rem)] text-balance">
+                    {w.title}
+                  </h3>
+                  <p className="mt-4 text-[1.0625rem] leading-relaxed text-pretty text-[color:var(--color-body)]">
+                    {w.body}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ── What it actually costs ──────────────────────────────── */}
+      <section className="border-y border-[color:var(--color-line)] bg-white py-20 sm:py-28">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+            <div>
+              <SectionHead
+                eyebrow="Real numbers"
+                title={`What a month in ${d.country} actually costs`}
+                intro="Current 2026 prices, not figures copied from a five-year-old guide. If anything here turns out to be wrong, tell us and we will fix it."
+              />
+              <p className="mt-6 rounded-2xl bg-[color:var(--color-sand-100)] p-5 text-[0.9375rem] leading-relaxed text-pretty text-[color:var(--color-body)]">
+                {d.costNote}
+              </p>
+            </div>
+            <dl className="divide-y divide-[color:var(--color-line)] border-y border-[color:var(--color-line)]">
+              {d.costs.map((c) => (
+                <div
+                  key={c.item}
+                  className="flex items-baseline justify-between gap-6 py-4"
+                >
+                  <dt className="text-[0.9375rem] text-[color:var(--color-body)]">
+                    {c.item}
+                  </dt>
+                  <dd className="shrink-0 font-[family-name:var(--font-display)] text-[1.0625rem] font-semibold tracking-[-0.015em] text-[color:var(--color-ink)]">
+                    {c.price}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Container>
+      </section>
+
       {/* ── Cities ──────────────────────────────────────────────── */}
       <section className="py-20 sm:py-28">
         <Container>

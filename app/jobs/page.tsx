@@ -21,7 +21,7 @@ export default async function JobsPage(props: PageProps<"/jobs">) {
       <PageHeader
         eyebrow={`${jobs.length} roles open`}
         title="Open jobs"
-        intro="Permanent roles for native language speakers in Spain, Portugal and Greece. Each listing states the salary, the contract and exactly what the employer covers to get you there."
+        intro="Permanent roles for native language speakers in Spain, Portugal and Greece. Each listing states the contract, the working model and exactly what the employer covers to get you there. We confirm the salary with you on the first call."
       />
 
       <Container className="pt-8 pb-20 sm:pb-28">
