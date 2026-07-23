@@ -85,8 +85,8 @@ export function Hero() {
                 className="aspect-[4/5] sm:col-span-3 sm:row-span-6 sm:aspect-auto"
               />
               <HeroPhoto
-                src="/photos/malaga-bluehour.jpg"
-                alt="Málaga waterfront at blue hour, city lights reflecting across the harbour"
+                src="/photos/user-malaga-aerial.jpg"
+                alt="Málaga from above, the bullring and the port meeting the Mediterranean"
                 place="Spain"
                 note="Málaga"
                 priority
