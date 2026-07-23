@@ -5,7 +5,7 @@ import { featuredJobs, jobs } from "@/lib/jobs";
 
 export function FeaturedJobs() {
   return (
-    <section className="border-y border-[color:var(--color-line)] bg-white py-20 sm:py-28">
+    <section className="border-y border-[color:var(--color-line)] bg-white py-14 sm:py-20">
       <Container>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <SectionHead

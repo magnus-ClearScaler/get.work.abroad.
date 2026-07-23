@@ -34,7 +34,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section className="bg-[color:var(--color-sand-100)] py-20 sm:py-28">
+    <section className="bg-[color:var(--color-sand-100)] py-14 sm:py-20">
       <Container>
         <SectionHead
           eyebrow="How it works"

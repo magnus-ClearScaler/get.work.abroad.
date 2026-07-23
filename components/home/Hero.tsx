@@ -48,16 +48,6 @@ export function Hero() {
           </Button>
         </div>
       </Container>
-
-      {/* Quiet scroll cue */}
-      <div
-        aria-hidden="true"
-        className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 sm:block"
-      >
-        <span className="flex h-9 w-[22px] items-start justify-center rounded-full border border-white/40 p-1.5">
-          <span className="h-2 w-1 animate-bounce rounded-full bg-white/70" />
-        </span>
-      </div>
     </section>
   );
 }

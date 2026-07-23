@@ -37,7 +37,7 @@ const included = [
 
 export function Package() {
   return (
-    <section className="bg-[color:var(--color-sand-100)] py-20 sm:py-28">
+    <section className="bg-[color:var(--color-sand-100)] py-14 sm:py-20">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div className="relative">

@@ -24,7 +24,7 @@ export function EmployerBand() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_75%_15%,rgba(31,127,160,0.35),transparent_70%)]"
       />
 
-      <Container className="relative z-10 py-20 sm:py-28">
+      <Container className="relative z-10 py-14 sm:py-20">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           <div>
             <p className="eyebrow text-[color:var(--color-sun-400)]">

@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 
 export function FinalCta() {
   return (
-    <section className="pb-20 sm:pb-28">
+    <section className="pb-14 sm:pb-20">
       <Container>
         <div className="relative overflow-hidden rounded-[1.75rem] px-6 py-16 text-center sm:px-12 sm:py-24">
           <Image
