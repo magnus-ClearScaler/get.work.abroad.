@@ -25,13 +25,7 @@ export function Hero() {
 
       {/* Centred content */}
       <Container className="relative z-10 flex flex-col items-center py-24 text-center">
-        <p className="flex items-center gap-3 text-[0.75rem] font-semibold tracking-[0.18em] text-white/80 uppercase">
-          <span aria-hidden="true" className="h-px w-6 bg-[color:var(--color-sun-400)]" />
-          Language recruitment
-          <span aria-hidden="true" className="h-px w-6 bg-[color:var(--color-sun-400)]" />
-        </p>
-
-        <h1 className="h-display mt-6 max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.4)]">
+        <h1 className="h-display max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.4)]">
           Work in your language,{" "}
           <span className="text-[color:var(--color-sun-400)]">
             on the Mediterranean.
