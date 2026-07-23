@@ -2,15 +2,6 @@ import Image from "next/image";
 import { Container, Button } from "@/components/ui";
 import { ArrowRight, Plane } from "@/components/Icons";
 
-/* Three signals that state the substance of the offer, not the price of it.
-   "Free for candidates" lives on the Package, FAQ, Apply and Safety pages —
-   it does not need to open the site as well. */
-const proof = [
-  { k: "Permanent", v: "local EU contracts" },
-  { k: "Relocation", v: "flight & first weeks covered" },
-  { k: "Paid training", v: "from day one" },
-];
-
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-24">
@@ -22,7 +13,7 @@ export function Hero() {
 
       <Container className="relative">
         <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
-          {/* ── Copy ─────────────────────────────────────────────── */}
+          {/* ── Copy: minimal on purpose. The rest of the site explains. ── */}
           <div>
             <p className="flex items-center gap-2.5 text-[0.75rem] font-semibold tracking-[0.16em] text-[color:var(--color-sea-700)] uppercase">
               <span
@@ -32,21 +23,19 @@ export function Hero() {
               Language recruitment · Spain · Portugal · Greece
             </p>
 
-            <h1 className="h-display mt-6 max-w-[15ch] text-[clamp(2.6rem,6vw,4.15rem)] text-balance">
+            <h1 className="h-display mt-6 max-w-[15ch] text-[clamp(2.75rem,6.4vw,4.5rem)] text-balance">
               Work in your language,{" "}
               <span className="text-[color:var(--color-sea-600)]">
                 on the Mediterranean.
               </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-pretty text-[color:var(--color-body)] sm:text-[1.15rem]">
-              Permanent roles with the major international brands in Spain,
-              Portugal and Greece, for Dutch, German and Scandinavian speakers.
-              The employer covers your flight, your first weeks of accommodation
-              and your training. You bring the language.
+            <p className="mt-6 max-w-md text-[1.15rem] leading-relaxed text-pretty text-[color:var(--color-body)]">
+              Permanent roles for Dutch, German and Scandinavian speakers.
+              Relocation covered.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button href="/jobs" size="lg">
                 See open roles
                 <ArrowRight className="h-4 w-4" />
@@ -56,20 +45,6 @@ export function Hero() {
                 Send an open application
               </Button>
             </div>
-
-            {/* Proof strip: substance, framed rather than loose */}
-            <dl className="mt-10 grid max-w-xl grid-cols-3 divide-x divide-[color:var(--color-line)] border-y border-[color:var(--color-line)] py-4">
-              {proof.map((p) => (
-                <div key={p.k} className="px-3 first:pl-0 sm:px-4">
-                  <dt className="font-[family-name:var(--font-display)] text-[0.95rem] leading-tight font-semibold tracking-[-0.01em] text-[color:var(--color-ink)] sm:text-[1.05rem]">
-                    {p.k}
-                  </dt>
-                  <dd className="mt-1 text-[0.75rem] leading-snug text-[color:var(--color-mute)] sm:text-[0.8125rem]">
-                    {p.v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
           {/* ── Photo composition ────────────────────────────────── */}
