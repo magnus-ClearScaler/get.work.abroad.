@@ -53,8 +53,8 @@ export const destinations: Destination[] = [
         alt: "Palm-lined beach promenade in Málaga",
       },
       {
-        title: "Lunch takes two hours and nobody apologises",
-        body: "The menú del día is a national institution: three courses, bread and a drink for €12 to €15, on a terrace, in the middle of a working day. Dinner starts at nine. The city is out until two. It takes about a month to stop feeling like you are getting away with something.",
+        title: "Life runs slower here, and mostly outdoors",
+        body: "The rhythm takes adjusting to, in the best way. Evenings are long: dinner starts at nine, the terraces stay full past midnight, and most of life happens outside rather than behind a door. Your weekends fill up with the slow version of everything — a menú del día with the team, three courses for €12 to €15, or the beach after work. It takes about a month to stop rushing, and then you never want to go back.",
         photo: "/photos/spain-tapas-table.jpg",
         alt: "A table of croquetas, jamón and cold drinks in the Spanish sun",
       },
