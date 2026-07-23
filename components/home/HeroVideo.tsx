@@ -34,9 +34,25 @@ export function HeroVideo() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    setTier(
-      window.matchMedia("(min-width: 768px)").matches ? "desktop" : "mobile",
-    );
+    const pick = () =>
+      setTier(
+        window.matchMedia("(min-width: 768px)").matches ? "desktop" : "mobile",
+      );
+    // Defer the video fetch until the page has painted and the network is
+    // quiet, so several MB of video never competes with the hero text for LCP.
+    const w = window as typeof window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    };
+    const idle = w.requestIdleCallback
+      ? w.requestIdleCallback(pick, { timeout: 2500 })
+      : window.setTimeout(pick, 1200);
+    return () => {
+      const cancel = (window as typeof window & {
+        cancelIdleCallback?: (id: number) => void;
+      }).cancelIdleCallback;
+      if (cancel) cancel(idle);
+      else clearTimeout(idle);
+    };
   }, []);
 
   useEffect(() => {
