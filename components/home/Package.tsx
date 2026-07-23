@@ -6,7 +6,7 @@ const included = [
   {
     Icon: Plane,
     title: "Your flight, paid",
-    body: "Booked for you or reimbursed once you arrive. Getting there should not cost you anything.",
+    body: "Booked for you, or reimbursed once you arrive. Getting there is the employer's problem to solve, not yours.",
   },
   {
     Icon: Keys,

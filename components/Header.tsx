@@ -76,7 +76,7 @@ export function Header() {
           </a>
           <Link
             href="/apply"
-            className="inline-flex items-center rounded-full bg-[color:var(--color-sea-700)] px-5 py-2.5 text-[0.8125rem] font-semibold text-white shadow-[var(--shadow-soft)] transition-colors hover:bg-[color:var(--color-sea-800)]"
+            className="inline-flex items-center whitespace-nowrap rounded-full bg-[color:var(--color-sea-700)] px-4 py-2.5 text-[0.8125rem] font-semibold text-white shadow-[var(--shadow-soft)] transition-colors hover:bg-[color:var(--color-sea-800)] sm:px-5"
           >
             Apply now
           </Link>
