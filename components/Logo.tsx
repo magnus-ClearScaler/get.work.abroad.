@@ -44,7 +44,15 @@ export function Logo({
           >
             Get Work
           </span>{" "}
-          <span className="text-[color:var(--color-sun-500)]">Abroad</span>
+          <span
+            className={
+              tone === "light"
+                ? "text-[color:var(--color-sun-400)]"
+                : "text-[color:var(--color-sun-650)]"
+            }
+          >
+            Abroad
+          </span>
         </span>
         {showTagline ? (
           <span className="mt-1.5 text-[0.5625rem] font-semibold tracking-[0.18em] text-[color:var(--color-olive-500)] uppercase sm:text-[0.625rem]">

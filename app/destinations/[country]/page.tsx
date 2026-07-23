@@ -115,7 +115,7 @@ export default async function DestinationPage(
                   />
                 </figure>
                 <div>
-                  <span className="font-[family-name:var(--font-display)] text-[0.8125rem] font-bold tracking-[0.14em] text-[color:var(--color-sun-500)] uppercase">
+                  <span className="font-[family-name:var(--font-display)] text-[0.8125rem] font-bold tracking-[0.14em] text-[color:var(--color-sun-650)] uppercase">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="h-section mt-3 text-[clamp(1.4rem,3vw,1.9rem)] text-balance">
