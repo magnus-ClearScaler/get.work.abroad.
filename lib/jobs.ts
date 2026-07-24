@@ -93,11 +93,11 @@ export const jobs: Job[] = [
     employer: "A globally recognised brand, from its Lisbon hub",
     contract: "Permanent",
     model: "On-site",
-    packageHighlight: "Private room in shared accommodation, bills included",
+    packageHighlight: "Your own room, every bill covered",
     start: "Intakes every two weeks",
     featured: true,
     summary:
-      "The most complete accommodation package we place on. You are picked up at the airport and moved straight into your own room in a shared flat, with rent, electricity and water covered for the length of your contract. No experience needed.",
+      "The most complete move we place on. You are met at the airport and taken straight to your own room in a shared flat, with the rent, the electricity and the water all covered for as long as your contract runs, so the thing that stops most people, finding somewhere to live in a country you do not know yet, is simply handled for you. You work in Dutch for a brand the whole world knows, on a permanent Portuguese contract, in the city that has quietly become one of Europe's favourite places to be young: Lisbon, all tiled hills and river light, cheap pastéis and long evenings, a fast train to the surf and a short hop home. No experience needed. You bring the language and the nerve to go.",
     responsibilities: [
       "Support Dutch customers by phone, email and live chat",
       "Resolve enquiries and complaints professionally and first time where you can",
@@ -140,7 +140,7 @@ export const jobs: Job[] = [
     packageHighlight: "300 days of sun · a Nordic community already on site",
     start: "Rolling intakes",
     summary:
-      "The Norwegian desk in Málaga. Same offices, same Nordic community, and a two-and-a-half hour flight home when you need it.",
+      "The Norwegian desk on the Costa del Sol, inside one of the biggest multilingual offices in the south of Spain. Several hundred Nordic and Dutch speakers already work this floor, so you will not be the only Norwegian in the building, which matters far more in month three than you would guess. Málaga around it has become one of Europe's most talked-about cities: Google built its largest cybersecurity centre in Europe on the seafront, the tech and finance money keeps arriving, and a young international crowd has come with it. And then the everyday reason people stay: three hundred days of sun, the beach a tram ride from your desk, and Oslo two and a half hours away for whenever you need it.",
     responsibilities: [
       "Support Norwegian customers by phone, email and chat",
       "Resolve account, order and service issues end to end",
@@ -168,10 +168,10 @@ export const jobs: Job[] = [
     employer: "A Dutch telecoms provider, from its Alicante hub",
     contract: "Permanent",
     model: "On-site",
-    packageHighlight: "Costa Blanca · a Dutch brand, a Spanish contract",
+    packageHighlight: "Costa Blanca · a Dutch brand you know, a Spanish contract",
     start: "Rolling intakes",
     summary:
-      "A Dutch telecoms brand runs its customer desk from Alicante, on the Costa Blanca. You work in Dutch for a company you already know, on a Spanish contract, with the Explanada and the beach ten minutes from the office.",
+      "A Dutch telecoms brand you already know runs its customer desk from Alicante, on the Costa Blanca. You work in your own language for a company you grew up with, on a permanent Spanish contract, in a city with one of the kindest climates in Europe and none of the price tags of the busier coasts. The Explanada palms and the beach are ten minutes from the office, the old town fills up on a Thursday night, and the rest of the Costa Blanca is a short drive when the weekend comes.",
     responsibilities: [
       "Support Dutch customers with subscriptions, billing and connectivity",
       "Troubleshoot mobile and home internet issues",
@@ -199,20 +199,22 @@ export const jobs: Job[] = [
     employer: "A people-first support company by Málaga harbour",
     contract: "Permanent",
     model: "Hybrid",
-    packageHighlight: "Hybrid · indefinido contract from the start",
+    packageHighlight: "Swim before work · permanent from day one",
     start: "Rolling intakes",
     summary:
-      "The smallest employer we place with, and for a lot of people the best fit. A support team by Málaga harbour that works for product-led European companies, with hybrid working and a permanent indefinido contract from day one rather than after probation.",
+      "The opposite of a call-centre floor. A small, deliberately un-corporate team looks after the Dutch-speaking customers of product-led European tech companies, the kind of firms people actually enjoy using, from an office right on Málaga harbour. You are on a permanent indefinido contract from your first day, not after a probation gauntlet, and the week is hybrid, so the sea is a five-minute walk when you are in the office and your own sofa when you are not. The whole south of Spain is on the rise and Málaga is leading it: Google put its largest cybersecurity centre in Europe on this seafront, tech and finance firms keep arriving, and a young international crowd has come with them, so you land somewhere that is growing rather than somewhere already settled. And around it sits the everyday part: three hundred days of sun a year, a swim before your shift, and dinner on a terrace for the price of a coffee back home.",
     responsibilities: [
-      "Handle incoming enquiries and support tickets in Dutch, thoughtfully and on time",
-      "Solve the problem rather than close the ticket",
-      "Work with the wider team on how support itself gets better",
+      "Look after Dutch-speaking customers over chat, email and the occasional call, in full sentences rather than a script",
+      "Solve the actual problem and own it until it is done, rather than closing the ticket fastest",
+      "Feed what you learn back into how the product and the support get better; your read on the customer is listened to here",
+      "Help keep a small, close team a good place to work as it grows",
     ],
     requirements: [
-      "Fluent Dutch",
-      "Good English",
-      "Quick with digital tools",
-      "Living in Málaga or relocating there",
+      "Native or near-native Dutch, written and spoken",
+      "English at B2 or better for the team and the tools",
+      "Quick with digital tools, and happy to pick up new ones",
+      "EU passport or the existing right to work in Spain",
+      "Already in Málaga, or genuinely ready to move soon",
     ],
     package: SPAIN_ATENDER,
   },
@@ -234,11 +236,11 @@ export const jobs: Job[] = [
     start: "Rolling intakes",
     featured: true,
     summary:
-      "The opposite of a call-centre floor. A small, deliberately un-corporate team looks after the Danish-speaking customers of product-led European tech companies — the kind of firms people actually enjoy using — from an office right on Málaga harbour. You are on a permanent indefinido contract from your first day, not after a probation gauntlet, and the week is hybrid, so the sea is a five-minute walk when you are in the office and your own sofa when you are not. The whole south of Spain is on the rise, and Málaga is leading it — Google put its largest cybersecurity centre in Europe on this seafront, tech and finance firms keep arriving behind it, and with them a young international crowd from every corner of Europe, so you land somewhere that is growing rather than somewhere already settled. But what you actually feel is the smaller stuff: three hundred days of sun a year, a swim before your shift, and dinner on a terrace for what a coffee costs in Copenhagen.",
+      "The opposite of a call-centre floor. A small, deliberately un-corporate team looks after the Danish-speaking customers of product-led European tech companies, the kind of firms people actually enjoy using, from an office right on Málaga harbour. You are on a permanent indefinido contract from your first day, not after a probation gauntlet, and the week is hybrid, so the sea is a five-minute walk when you are in the office and your own sofa when you are not. The whole south of Spain is on the rise and Málaga is leading it: Google put its largest cybersecurity centre in Europe on this seafront, tech and finance firms keep arriving behind it, and a young international crowd has come with them, so you land somewhere that is growing rather than somewhere already settled. But what you actually feel is the smaller stuff: three hundred days of sun a year, a swim before your shift, and dinner on a terrace for what a coffee costs in Copenhagen.",
     responsibilities: [
-      "Look after Danish-speaking customers over chat, email and the occasional call — in full sentences, never a script",
+      "Look after Danish-speaking customers over chat, email and the occasional call, in full sentences and never a script",
       "Solve the actual problem and own it until it is done, rather than closing the ticket fastest",
-      "Feed what you learn back into how the product and the support get better — your read on the customer is listened to here",
+      "Feed what you learn back into how the product and the support get better; your read on the customer is listened to here",
       "Help keep a small, close team a good place to work as it grows",
     ],
     requirements: [
@@ -246,7 +248,7 @@ export const jobs: Job[] = [
       "English at B2 or better for the team and the tools",
       "Quick with digital tools, and happy to pick up new ones",
       "EU passport or the existing right to work in Spain",
-      "Already in Málaga, or genuinely ready to move soon — not a someday plan",
+      "Already in Málaga, or genuinely ready to move soon, not a someday plan",
     ],
     package: SPAIN_ATENDER,
   },
@@ -267,11 +269,11 @@ export const jobs: Job[] = [
     packageHighlight: "Swap the winter · permanent from day one",
     start: "Rolling intakes",
     summary:
-      "The Norwegian seat on a small, un-corporate support team based right on Málaga harbour, looking after the customers of product-led European tech companies. You are on a permanent indefinido contract from your first day, and the week is hybrid, so you are by the water when you are in the office and home when you are not — with Oslo two and a half hours away for when you need it. The whole south of Spain is on the rise, and Málaga is leading it — Google's largest cybersecurity centre in Europe sits on this seafront, tech and finance firms keep arriving, and a young international crowd is landing from across Europe, so you arrive somewhere that is growing rather than somewhere already settled. And it trades the Norwegian winter for three hundred days of sun, a coast you can swim off before work, and a cost of living that lets a Spanish salary stretch in a way a Norwegian one never had to.",
+      "The Norwegian seat on a small, un-corporate support team based right on Málaga harbour, looking after the customers of product-led European tech companies. You are on a permanent indefinido contract from your first day, and the week is hybrid, so you are by the water when you are in the office and home when you are not, with Oslo two and a half hours away for whenever you need it. The whole south of Spain is on the rise and Málaga is leading it: Google's largest cybersecurity centre in Europe sits on this seafront, tech and finance firms keep arriving, and a young international crowd has come with them, so you arrive somewhere that is growing rather than somewhere already settled. And it trades the Norwegian winter for three hundred days of sun, a coast you can swim off before work, and a cost of living that lets a Spanish salary stretch in a way a Norwegian one never had to.",
     responsibilities: [
       "Support Norwegian-speaking customers over chat, email and the occasional call, in proper Norwegian rather than a script",
       "Solve the problem properly and see it through, rather than racing to close the ticket",
-      "Flag the patterns you spot back to the team — recurring issues get fixed here, not filed",
+      "Flag the patterns you spot back to the team; recurring issues get fixed here, not filed",
       "Help keep a small, close team a good place to work as it grows",
     ],
     requirements: [
@@ -307,7 +309,7 @@ export const jobs: Job[] = [
     openings: "Multiple positions, hiring continuously",
     start: "Intakes every two weeks",
     summary:
-      "Dutch is one of the two languages our Greek partner hires for all year round. There is almost always something open, usually across several programmes at once, so this is less a single vacancy than a standing invitation.",
+      "Dutch is one of the two languages our Greek partner hires for all year round, so there is nearly always something open, usually across several programmes at once. This is less a single vacancy than a standing invitation: tell us you are ready and we match you to the desk and the start date that suit you, with the flight and the first weeks' hotel covered before you arrive. Athens hands you an ancient city with a coastline attached, and the islands are a ferry away for the weekend.",
     responsibilities: [
       "Support Dutch-speaking customers by phone, email and chat",
       "Depending on the desk: streaming and entertainment, consumer electronics, home technology, cameras and imaging, travel bookings, financial services, or first-line software support",
@@ -341,7 +343,7 @@ export const jobs: Job[] = [
     start: "Intakes every two weeks",
     featured: true,
     summary:
-      "The largest and most consistently open desk in Greece. German speakers are hired effectively without pause, across several programmes and in both Athens and Thessaloniki, so start dates are frequent and you rarely wait long.",
+      "The largest and most consistently open desk in Greece. German speakers are hired here effectively without pause, across several programmes and in both Athens and Thessaloniki, so start dates come round every couple of weeks and you rarely wait long. It is the surest and fastest route we have onto the Greek coast, and the flight and your first weeks' hotel are covered before you have unpacked.",
     responsibilities: [
       "Support German-speaking customers by phone, email and chat",
       "Depending on the desk: consumer brands, software and technical support, home technology, or financial services",
@@ -374,7 +376,7 @@ export const jobs: Job[] = [
     openings: "Several desks, intakes monthly",
     start: "Intakes monthly",
     summary:
-      "Danish speakers are scarce on the ground in Greece, which is why these desks carry the full relocation package. Several programmes run a Danish seat, in Athens and in Thessaloniki, and we will match you to whichever fits.",
+      "Danish speakers are scarce on the ground in Greece, and that scarcity works in your favour: it is exactly why these desks carry the full relocation package and get properly looked after. Several programmes run a Danish seat, in Athens and in Thessaloniki, and we match you to the one that fits. You land into fourteen salaries a year, private healthcare, and a country where a Copenhagen rent buys a whole life by the sea.",
     responsibilities: [
       "Support Danish-speaking customers across phone, email and chat",
       "Depending on the desk: travel bookings, consumer electronics, home appliances, financial services, or social media content review",
@@ -411,7 +413,7 @@ export const jobs: Job[] = [
     start: "Intakes monthly",
     featured: true,
     summary:
-      "Norwegian speakers are rare enough in Greece that these desks get looked after. The unusual part: alongside Athens and Thessaloniki, one of the programmes runs from Chania on Crete, with the Venetian harbour a walk from the office.",
+      "Norwegian speakers are rare enough in Greece that these desks get looked after properly, with the entire move paid for. The unusual part: alongside Athens and Thessaloniki, one of the programmes runs from Chania on Crete, with the old Venetian harbour a walk from the office. Choose the island if the thought of it makes you smile, because most people who can, do.",
     responsibilities: [
       "Support Norwegian-speaking customers across phone, email and chat",
       "Depending on the desk: payments and disputes, delivery and logistics, cameras and imaging, home appliances, financial services, or social media content review",
@@ -447,7 +449,7 @@ export const jobs: Job[] = [
     openings: "Several desks, intakes monthly",
     start: "Intakes monthly",
     summary:
-      "Swedish is a scarce language on the ground in Athens, so these desks carry the full relocation package and tend to be looked after. Several programmes run a Swedish seat and we will match you to the one that fits.",
+      "Swedish is a scarce language on the ground in Athens, so these desks carry the full relocation package and tend to be looked after. Several programmes run a Swedish seat and we match you to the one that fits. You swap a Swedish winter for fourteen salaries a year, private healthcare, and a coastline that runs all the way out to the islands.",
     responsibilities: [
       "Support Swedish-speaking customers across phone, email and chat",
       "Depending on the desk: consumer brands, technical support, or social media content review",

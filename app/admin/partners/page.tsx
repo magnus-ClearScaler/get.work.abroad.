@@ -73,7 +73,7 @@ export default function PartnersPage() {
     <>
       <h1 className="h-section text-[1.75rem]">Partner agencies</h1>
       <p className="mt-1.5 max-w-2xl text-[0.9375rem] text-[color:var(--color-body)]">
-        The agencies you pass CVs to. They run their own process from there — this
+        The agencies you pass CVs to. They run their own process from there, and this
         is just so every submission has a name against it.
       </p>
 
@@ -123,7 +123,7 @@ export default function PartnersPage() {
                           <p className="mt-1.5 text-[0.8125rem] text-[color:var(--color-mute)]">
                             {[p.languages.join(", "), p.countries.join(", ")]
                               .filter(Boolean)
-                              .join(" — ")}
+                              .join(" · ")}
                           </p>
                         ) : null}
                         {p.notes ? (

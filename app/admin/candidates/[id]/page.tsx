@@ -260,10 +260,10 @@ export default function CandidatePage() {
         if (r.tier === "unscreened" || r.tier === "ineligible") return null;
         const line =
           r.tier === "ready"
-            ? "Screens as placeable now — EU-eligible, can move soon and means it. Worth walking to TopJobs today."
+            ? "Screens as placeable now: EU-eligible, can move soon and means it. Worth walking to TopJobs today."
             : r.tier === "warming"
               ? "Can move soon but not fully there on the rest. Worth a nudge before you spend a slot on them."
-              : "Pipeline for now — not ready to start soon. Keep warm, do not lead with them.";
+              : "Pipeline for now, not ready to start soon. Keep warm, do not lead with them.";
         return (
           <div
             className={`mt-5 flex flex-wrap items-center gap-3 rounded-xl px-4 py-3 ${r.tone}`}

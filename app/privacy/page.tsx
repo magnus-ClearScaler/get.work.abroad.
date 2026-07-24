@@ -43,7 +43,7 @@ const sections: Section[] = [
   },
   {
     h: "Where your CV goes",
-    p: "The roles listed here come from a range of clients and recruitment firms. When you apply, your details and CV go to the client behind that role so they can consider you for it — that is what applying is for, and it is what you agree to when you send the form. From that point they hold your data under their own privacy notice. We never sell your data and we never pass it to marketing lists.",
+    p: "The roles listed here come from a range of clients and recruitment firms. When you apply, your details and CV go to the client behind that role so they can consider you for it. That is what applying is for, and it is what you agree to when you send the form. From that point they hold your data under their own privacy notice. We never sell your data and we never pass it to marketing lists.",
   },
   {
     h: "Where it is held, and for how long",

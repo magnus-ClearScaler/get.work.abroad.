@@ -12,7 +12,7 @@ const points = [
   {
     n: "01",
     title: "The fastest two years of growth you will get",
-    body: "New country, new language, new job, all at once. It is genuinely hard for about a month and then it is not — and you come out the other side more capable than you had any idea you were.",
+    body: "New country, new language, new job, all at once. It is genuinely hard for about a month and then it is not, and you come out the other side more capable than you had any idea you were.",
   },
   {
     n: "02",

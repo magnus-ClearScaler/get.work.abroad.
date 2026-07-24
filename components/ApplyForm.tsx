@@ -82,7 +82,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
     const get = (k: string) => String(data.get(k) ?? "").trim();
 
     if (!cv) {
-      setError("Attach your CV — we cannot put you forward without one.");
+      setError("Attach your CV. We cannot put you forward without one.");
       return;
     }
 
@@ -171,7 +171,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         </div>
 
         <p className="mt-6 text-[0.8125rem] text-[color:var(--color-mute)]">
-          Neither is necessary — we already have your details.
+          Neither is necessary. We already have your details.
         </p>
       </div>
     );
@@ -246,7 +246,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         <div className="sm:col-span-2 rounded-xl border border-[color:var(--color-sea-200)] bg-[color:var(--color-sea-50)] px-4 py-3">
           <p className="text-[0.8125rem] leading-relaxed text-[color:var(--color-sea-900)]">
             A few quick questions so we can move fast. These roles fill on
-            ongoing intakes — the sooner and surer you can move, the quicker we
+            ongoing intakes, so the sooner and surer you can move, the quicker we
             get your CV in front of the right desk.
           </p>
         </div>
