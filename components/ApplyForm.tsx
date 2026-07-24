@@ -55,7 +55,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
       `Preferred country: ${get("country") || "Open to any"}`,
       `Role type: ${get("category") || "Open to any"}`,
       get("role") ? `Role of interest: ${get("role")}` : "",
-      cv ? `CV: ${cv.name} (already uploaded)` : "",
+      `CV: ${cv?.name ?? ""} (already uploaded)`,
       "",
       get("message") ? `Message: ${get("message")}` : "",
     ]
@@ -71,27 +71,26 @@ export function ApplyForm({ role = "" }: { role?: string }) {
     const data = new FormData(form);
     const get = (k: string) => String(data.get(k) ?? "").trim();
 
+    if (!cv) {
+      setError("Attach your CV — we cannot put you forward without one.");
+      return;
+    }
+
     setBusy(true);
     setError(null);
 
     try {
       /* Upload the CV first: if storage rejects it we want to say so before a
          half-finished candidate row exists. */
-      let cv_path: string | null = null;
-      let cv_filename: string | null = null;
-
-      if (cv) {
-        if (cv.size > MAX_CV_BYTES) {
-          throw new Error("That file is over 10 MB. Send a smaller one.");
-        }
-        const path = `${crypto.randomUUID()}-${safeName(cv.name)}`;
-        const { error: upload } = await supabase.storage
-          .from("cvs")
-          .upload(path, cv, { contentType: cv.type || undefined });
-        if (upload) throw upload;
-        cv_path = path;
-        cv_filename = cv.name;
+      if (cv.size > MAX_CV_BYTES) {
+        throw new Error("That file is over 10 MB. Send a smaller one.");
       }
+      const cv_path = `${crypto.randomUUID()}-${safeName(cv.name)}`;
+      const { error: upload } = await supabase.storage
+        .from("cvs")
+        .upload(cv_path, cv, { contentType: cv.type || undefined });
+      if (upload) throw upload;
+      const cv_filename = cv.name;
 
       const { error: insert } = await supabase.from("candidates").insert({
         name: get("name"),
@@ -131,7 +130,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         </span>
         <h2 className="h-section mt-5 text-[1.5rem]">We have got it</h2>
         <p className="mx-auto mt-3 max-w-md text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
-          Your application is with us{cv ? ", CV and all" : ""}. A recruiter
+          Your application and your CV are with us. A recruiter
           reads it, usually within a few hours on a weekday, and comes back to
           you on the roles that actually match.
         </p>
@@ -267,7 +266,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
 
         {/* ── CV ──────────────────────────────────────────────────────── */}
         <div className="sm:col-span-2">
-          <Field label="Your CV">
+          <Field label="Your CV" required>
             <label
               className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed px-4 py-4 transition-colors ${
                 cv
@@ -302,8 +301,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             </label>
           </Field>
           <p className="mt-2 text-[0.8125rem] text-[color:var(--color-mute)]">
-            Optional, but it is the fastest way for us to place you. You can
-            always send it later.
+            PDF reads best on our side. Word is fine too.
           </p>
         </div>
 

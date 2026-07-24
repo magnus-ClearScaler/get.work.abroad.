@@ -59,6 +59,7 @@ export default function CandidatePage() {
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
   const [savedNote, setSavedNote] = useState(false);
+  const [cvUrl, setCvUrl] = useState<string | null>(null);
 
   /* Fetching is kept separate from the state it produces: the effect body only
      starts the request, and every setState happens inside the callback. */
@@ -79,14 +80,17 @@ export default function CandidatePage() {
     fetchBundle(id).then(apply);
   }, [id, apply]);
 
-  async function openCv() {
+  /* The CV is the thing you actually want to look at, so it is fetched as soon
+     as the candidate loads and shown in place. An hour is long enough to read
+     one without the link going stale mid-scroll, and short enough that a URL
+     copied out of the page stops working the same morning. */
+  useEffect(() => {
     if (!candidate?.cv_path) return;
-    const { data, error } = await supabase.storage
+    supabase.storage
       .from("cvs")
-      .createSignedUrl(candidate.cv_path, 60);
-    if (error) setError(error.message);
-    else window.open(data.signedUrl, "_blank", "noopener,noreferrer");
-  }
+      .createSignedUrl(candidate.cv_path, 3600)
+      .then(({ data }) => setCvUrl(data?.signedUrl ?? null));
+  }, [candidate?.cv_path]);
 
   async function setStatus(status: string) {
     if (!candidate) return;
@@ -169,13 +173,19 @@ export default function CandidatePage() {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           {candidate.cv_path ? (
-            <button
-              type="button"
-              onClick={openCv}
-              className="rounded-full bg-[color:var(--color-sea-700)] px-5 py-2.5 text-[0.875rem] font-semibold text-white"
+            <a
+              href={cvUrl ?? undefined}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-disabled={!cvUrl}
+              className={`rounded-full px-5 py-2.5 text-[0.875rem] font-semibold text-white ${
+                cvUrl
+                  ? "bg-[color:var(--color-sea-700)]"
+                  : "pointer-events-none bg-[color:var(--color-sea-700)]/50"
+              }`}
             >
-              Open CV{candidate.cv_filename ? ` · ${candidate.cv_filename}` : ""}
-            </button>
+              Open CV full screen
+            </a>
           ) : (
             <span className="text-[0.875rem] text-[color:var(--color-mute)]">
               No CV attached
@@ -200,6 +210,20 @@ export default function CandidatePage() {
           No EU passport. We cannot place this candidate on the roles we recruit
           for, so they sit outside the working pool.
         </p>
+      ) : null}
+
+      {candidate.cv_path ? (
+        <section className="mt-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <h2 className="h-section text-[1.15rem]">CV</h2>
+            <span className="text-[0.8125rem] text-[color:var(--color-mute)]">
+              {candidate.cv_filename}
+            </span>
+          </div>
+          <div className="mt-3 overflow-hidden rounded-2xl border border-[color:var(--color-line)] bg-white">
+            <CvPreview url={cvUrl} filename={candidate.cv_filename} />
+          </div>
+        </section>
       ) : null}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
@@ -383,6 +407,63 @@ export default function CandidatePage() {
         </p>
       ) : null}
     </>
+  );
+}
+
+/**
+ * Browsers render PDFs and images inline; Word documents they will not, so
+ * those get an honest download instead of an empty grey frame.
+ */
+function CvPreview({
+  url,
+  filename,
+}: {
+  url: string | null;
+  filename: string | null;
+}) {
+  const ext = (filename ?? "").split(".").pop()?.toLowerCase() ?? "";
+  const isPdf = ext === "pdf";
+  const isImage = ["png", "jpg", "jpeg", "webp", "gif"].includes(ext);
+
+  if (!url) {
+    return (
+      <p className="px-6 py-16 text-center text-[0.9375rem] text-[color:var(--color-mute)]">
+        Loading the CV…
+      </p>
+    );
+  }
+
+  if (isPdf) {
+    return (
+      <iframe
+        src={url}
+        title={filename ?? "CV"}
+        className="h-[80vh] w-full border-0"
+      />
+    );
+  }
+
+  if (isImage) {
+    /* eslint-disable-next-line @next/next/no-img-element -- a signed, expiring
+       URL on a private bucket cannot go through the image optimiser. */
+    return <img src={url} alt={filename ?? "CV"} className="w-full" />;
+  }
+
+  return (
+    <div className="px-6 py-14 text-center">
+      <p className="text-[0.9375rem] text-[color:var(--color-body)]">
+        {ext ? `.${ext} files` : "This file type"} cannot be previewed in the
+        browser. Open it instead.
+      </p>
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="mt-4 inline-block rounded-full bg-[color:var(--color-sea-700)] px-5 py-2.5 text-[0.875rem] font-semibold text-white"
+      >
+        Open {filename ?? "the CV"}
+      </a>
+    </div>
   );
 }
 
