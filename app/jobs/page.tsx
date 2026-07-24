@@ -19,8 +19,8 @@ export default async function JobsPage(props: PageProps<"/jobs">) {
   return (
     <>
       <PhotoHeader
-        photo="/photos/portugal-coast-aerial.jpg"
-        alt="The Atlantic coast of Portugal from the air, cliffs running down to open water"
+        photo="/photos/porto-ribeira.jpg"
+        alt="The painted houses of the Ribeira waterfront in Porto, rabelo boats moored on the Douro below"
         eyebrow={`${jobs.length} roles open`}
         title="Open jobs"
         intro="Permanent roles for native language speakers in Spain, Portugal and Greece. Each listing states the contract, the working model and exactly what the employer covers to get you there. We confirm the salary with you on the first call."

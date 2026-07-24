@@ -191,9 +191,11 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           className="mt-0.5 h-4 w-4 shrink-0 accent-[color:var(--color-sea-700)]"
         />
         <span className="text-[0.8125rem] leading-relaxed text-[color:var(--color-body)]">
-          I agree that {site.name} may store these details and contact me about
-          roles. My CV is never sent to an employer without my say-so, and I can
-          ask for my data to be deleted at any time.{" "}
+          I agree that {site.name} may store these details, contact me about
+          roles, and pass my details and CV to employers with a matching
+          vacancy and to recruitment agencies in their partner network, who may
+          contact me about their own roles. I can ask for network introductions
+          to stop, or for my data to be deleted, at any time.{" "}
           <a
             href="/privacy"
             className="font-medium text-[color:var(--color-sea-700)] underline underline-offset-2"
