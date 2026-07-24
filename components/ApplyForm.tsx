@@ -5,7 +5,7 @@ import { ArrowRight, Whatsapp, Check } from "./Icons";
 import { site, languages } from "@/lib/site";
 import { destinations } from "@/lib/destinations";
 import { jobCategories } from "@/lib/jobs";
-import { supabase } from "@/lib/supabase";
+import { supabase, AVAILABILITY, AVAILABILITY_LABEL } from "@/lib/supabase";
 
 /**
  * The application is saved first and offered to WhatsApp second.
@@ -50,6 +50,8 @@ export function ApplyForm({ role = "" }: { role?: string }) {
       `Email: ${get("email")}`,
       `Phone: ${get("phone")}`,
       `Native language: ${get("language")}`,
+      `EU passport: ${get("eu_passport") === "yes" ? "Yes" : "No"}`,
+      `Could move: ${AVAILABILITY_LABEL[get("availability")] ?? "Not said"}`,
       `Preferred country: ${get("country") || "Open to any"}`,
       `Role type: ${get("category") || "Open to any"}`,
       get("role") ? `Role of interest: ${get("role")}` : "",
@@ -102,6 +104,8 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         message: get("message") || null,
         cv_path,
         cv_filename,
+        eu_passport: get("eu_passport") === "yes",
+        availability: get("availability") || null,
         consent_at: new Date().toISOString(),
         source: "website",
       });
@@ -220,6 +224,31 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             {jobCategories.map((c) => (
               <option key={c} value={c}>
                 {c}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        {/* Right to work decides whether we can place someone at all, so it is
+            asked plainly and up front rather than discovered on the first call. */}
+        <Field label="Do you hold an EU passport?" required>
+          <select name="eu_passport" required defaultValue="" className={field}>
+            <option value="" disabled>
+              Choose one
+            </option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </Field>
+
+        <Field label="When could you move?" required>
+          <select name="availability" required defaultValue="" className={field}>
+            <option value="" disabled>
+              Choose one
+            </option>
+            {AVAILABILITY.map((a) => (
+              <option key={a.value} value={a.value}>
+                {a.label}
               </option>
             ))}
           </select>

@@ -9,6 +9,7 @@ import {
   SUBMISSION_STATUSES,
   STATUS_TONE,
   STATUS_LABEL,
+  AVAILABILITY_LABEL,
   sinceLabel,
   type Candidate,
   type Partner,
@@ -194,6 +195,13 @@ export default function CandidatePage() {
         </div>
       </div>
 
+      {candidate.eu_passport === false ? (
+        <p className="mt-5 rounded-xl border border-[color:var(--color-terra-500)]/30 bg-[color:var(--color-terra-100)] px-4 py-3 text-[0.875rem] font-medium text-[color:var(--color-terra-600)]">
+          No EU passport. We cannot place this candidate on the roles we recruit
+          for, so they sit outside the working pool.
+        </p>
+      ) : null}
+
       <div className="mt-8 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── Details ──────────────────────────────────────────────── */}
         <section>
@@ -212,6 +220,20 @@ export default function CandidatePage() {
               ) : (
                 "—"
               )}
+            </Row>
+            <Row label="EU passport">
+              {candidate.eu_passport === null ? (
+                "Not asked"
+              ) : candidate.eu_passport ? (
+                <span className="font-semibold text-[color:var(--color-olive-600)]">Yes</span>
+              ) : (
+                <span className="font-semibold text-[color:var(--color-terra-600)]">No</span>
+              )}
+            </Row>
+            <Row label="Could move">
+              {candidate.availability
+                ? AVAILABILITY_LABEL[candidate.availability]
+                : "—"}
             </Row>
             <Row label="Preferred country">{candidate.preferred_country ?? "Open to any"}</Row>
             <Row label="Role type">{candidate.role_type ?? "Open to any"}</Row>

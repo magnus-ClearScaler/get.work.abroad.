@@ -36,6 +36,19 @@ export type CandidateStatus =
   | "rejected"
   | "closed";
 
+/** How soon they could actually move. */
+export type Availability = "this_month" | "1_3_months" | "later";
+
+export const AVAILABILITY: { value: Availability; label: string }[] = [
+  { value: "this_month", label: "This month" },
+  { value: "1_3_months", label: "1–3 months" },
+  { value: "later", label: "Later" },
+];
+
+export const AVAILABILITY_LABEL: Record<string, string> = Object.fromEntries(
+  AVAILABILITY.map((a) => [a.value, a.label]),
+);
+
 export type SubmissionStatus =
   | "sent"
   | "screening"
@@ -61,6 +74,9 @@ export type Candidate = {
   cv_filename: string | null;
   source: string;
   status: CandidateStatus;
+  /** Null means we never asked, which is not the same as "no". */
+  eu_passport: boolean | null;
+  availability: Availability | null;
   consent_at: string | null;
   notes: string | null;
 };
