@@ -8,14 +8,21 @@ import { EmployerBand } from "@/components/home/EmployerBand";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { FinalCta } from "@/components/home/FinalCta";
 
+/*
+ * Order matters here. The hero already says "see open roles" twice, so the
+ * page does not need a wall of job cards straight after it — on a phone that
+ * was four full-height cards before anything else. Picking a country is the
+ * easier first decision and the one that sells the move, so Destinations comes
+ * first and the roles sit further down, once the package has been made.
+ */
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <LanguageBand />
-      <FeaturedJobs />
-      <Package />
       <Destinations />
+      <LanguageBand />
+      <Package />
+      <FeaturedJobs />
       <Process />
       <EmployerBand />
       <HomeFaq />
