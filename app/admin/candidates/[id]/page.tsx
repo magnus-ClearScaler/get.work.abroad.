@@ -10,11 +10,14 @@ import {
   STATUS_TONE,
   STATUS_LABEL,
   AVAILABILITY_LABEL,
+  AVAILABILITY,
   sinceLabel,
   type Candidate,
   type Partner,
   type Submission,
 } from "@/lib/supabase";
+import { languages } from "@/lib/site";
+import { destinations } from "@/lib/destinations";
 
 /**
  * One candidate, and the record of every partner their CV went to.
@@ -62,6 +65,7 @@ export default function CandidatePage() {
   const [savedNote, setSavedNote] = useState(false);
   const [cvUrl, setCvUrl] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [editingDetails, setEditingDetails] = useState(false);
 
   /* Fetching is kept separate from the state it produces: the effect body only
      starts the request, and every setState happens inside the callback. */
@@ -105,6 +109,20 @@ export default function CandidatePage() {
     await supabase.from("candidates").update({ notes }).eq("id", candidate.id);
     setSavedNote(true);
     setTimeout(() => setSavedNote(false), 2000);
+  }
+
+  async function saveDetails(values: Partial<Candidate>) {
+    if (!candidate) return;
+    setCandidate({ ...candidate, ...values });
+    setEditingDetails(false);
+    const { error } = await supabase
+      .from("candidates")
+      .update(values)
+      .eq("id", candidate.id);
+    if (error) {
+      setError(error.message);
+      load();
+    }
   }
 
   async function addSubmission(e: React.FormEvent<HTMLFormElement>) {
@@ -256,41 +274,62 @@ export default function CandidatePage() {
       <div className="mt-8 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── Details ──────────────────────────────────────────────── */}
         <section>
-          <h2 className="h-section text-[1.15rem]">Details</h2>
-          <dl className="mt-4 divide-y divide-[color:var(--color-line-soft)] rounded-2xl border border-[color:var(--color-line)] bg-white">
-            <Row label="Email">
-              <a href={`mailto:${candidate.email}`} className="text-[color:var(--color-sea-700)]">
-                {candidate.email}
-              </a>
-            </Row>
-            <Row label="Phone">
-              {candidate.phone ? (
-                <a href={`tel:${candidate.phone}`} className="text-[color:var(--color-sea-700)]">
-                  {candidate.phone}
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="h-section text-[1.15rem]">Details</h2>
+            {!editingDetails ? (
+              <button
+                type="button"
+                onClick={() => setEditingDetails(true)}
+                className="text-[0.8125rem] font-semibold text-[color:var(--color-sea-700)]"
+              >
+                Edit
+              </button>
+            ) : null}
+          </div>
+
+          {editingDetails ? (
+            <DetailsForm
+              candidate={candidate}
+              onCancel={() => setEditingDetails(false)}
+              onSave={saveDetails}
+            />
+          ) : (
+            <dl className="mt-4 divide-y divide-[color:var(--color-line-soft)] rounded-2xl border border-[color:var(--color-line)] bg-white">
+              <Row label="Email">
+                <a href={`mailto:${candidate.email}`} className="text-[color:var(--color-sea-700)]">
+                  {candidate.email}
                 </a>
-              ) : (
-                "—"
-              )}
-            </Row>
-            <Row label="EU passport">
-              {candidate.eu_passport === null ? (
-                "Not asked"
-              ) : candidate.eu_passport ? (
-                <span className="font-semibold text-[color:var(--color-olive-600)]">Yes</span>
-              ) : (
-                <span className="font-semibold text-[color:var(--color-terra-600)]">No</span>
-              )}
-            </Row>
-            <Row label="Could move">
-              {candidate.availability
-                ? AVAILABILITY_LABEL[candidate.availability]
-                : "—"}
-            </Row>
-            <Row label="Preferred country">{candidate.preferred_country ?? "Open to any"}</Row>
-            <Row label="Role type">{candidate.role_type ?? "Open to any"}</Row>
-            <Row label="Role of interest">{candidate.role_interest ?? "—"}</Row>
-            <Row label="Their message">{candidate.message ?? "—"}</Row>
-          </dl>
+              </Row>
+              <Row label="Phone">
+                {candidate.phone ? (
+                  <a href={`tel:${candidate.phone}`} className="text-[color:var(--color-sea-700)]">
+                    {candidate.phone}
+                  </a>
+                ) : (
+                  "—"
+                )}
+              </Row>
+              <Row label="Native language">{candidate.language}</Row>
+              <Row label="EU passport">
+                {candidate.eu_passport === null ? (
+                  "Not asked"
+                ) : candidate.eu_passport ? (
+                  <span className="font-semibold text-[color:var(--color-olive-600)]">Yes</span>
+                ) : (
+                  <span className="font-semibold text-[color:var(--color-terra-600)]">No</span>
+                )}
+              </Row>
+              <Row label="Could move">
+                {candidate.availability
+                  ? AVAILABILITY_LABEL[candidate.availability]
+                  : "—"}
+              </Row>
+              <Row label="Preferred country">{candidate.preferred_country ?? "Open to any"}</Row>
+              <Row label="Role type">{candidate.role_type ?? "Open to any"}</Row>
+              <Row label="Role of interest">{candidate.role_interest ?? "—"}</Row>
+              <Row label="Their message">{candidate.message ?? "—"}</Row>
+            </dl>
+          )}
 
           <h2 className="h-section mt-8 text-[1.15rem]">Your notes</h2>
           <textarea
@@ -448,6 +487,123 @@ export default function CandidatePage() {
         </span>
       </div>
     </>
+  );
+}
+
+/** Correct anything a candidate got wrong, or that came in blank. */
+function DetailsForm({
+  candidate,
+  onSave,
+  onCancel,
+}: {
+  candidate: Candidate;
+  onSave: (values: Partial<Candidate>) => void;
+  onCancel: () => void;
+}) {
+  const field =
+    "w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-2.5 text-[0.9375rem]";
+
+  function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const str = (k: string) => String(data.get(k) ?? "").trim();
+    const eu = str("eu_passport");
+    onSave({
+      name: str("name"),
+      email: str("email"),
+      phone: str("phone") || null,
+      language: str("language"),
+      eu_passport: eu === "" ? null : eu === "yes",
+      availability: (str("availability") || null) as Candidate["availability"],
+      preferred_country: str("preferred_country") || null,
+      role_type: str("role_type") || null,
+      role_interest: str("role_interest") || null,
+    });
+  }
+
+  return (
+    <form
+      onSubmit={submit}
+      className="mt-4 space-y-3 rounded-2xl border border-[color:var(--color-line)] bg-white p-5"
+    >
+      <Labelled label="Name">
+        <input name="name" required defaultValue={candidate.name} className={field} />
+      </Labelled>
+      <Labelled label="Email">
+        <input name="email" type="email" required defaultValue={candidate.email} className={field} />
+      </Labelled>
+      <Labelled label="Phone">
+        <input name="phone" defaultValue={candidate.phone ?? ""} className={field} />
+      </Labelled>
+      <Labelled label="Native language">
+        <select name="language" defaultValue={candidate.language} className={field}>
+          {languages.map((l) => (
+            <option key={l} value={l}>{l}</option>
+          ))}
+          {!languages.includes(candidate.language as (typeof languages)[number]) ? (
+            <option value={candidate.language}>{candidate.language}</option>
+          ) : null}
+          <option value="Other">Other</option>
+        </select>
+      </Labelled>
+      <Labelled label="EU passport">
+        <select
+          name="eu_passport"
+          defaultValue={candidate.eu_passport === null ? "" : candidate.eu_passport ? "yes" : "no"}
+          className={field}
+        >
+          <option value="">Not asked</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </Labelled>
+      <Labelled label="Could move">
+        <select name="availability" defaultValue={candidate.availability ?? ""} className={field}>
+          <option value="">Not said</option>
+          {AVAILABILITY.map((a) => (
+            <option key={a.value} value={a.value}>{a.label}</option>
+          ))}
+        </select>
+      </Labelled>
+      <Labelled label="Preferred country">
+        <select name="preferred_country" defaultValue={candidate.preferred_country ?? ""} className={field}>
+          <option value="">Open to any</option>
+          {destinations.map((d) => (
+            <option key={d.slug} value={d.country}>{d.country}</option>
+          ))}
+        </select>
+      </Labelled>
+      <Labelled label="Role of interest">
+        <input name="role_type" type="hidden" defaultValue={candidate.role_type ?? ""} />
+        <input name="role_interest" defaultValue={candidate.role_interest ?? ""} className={field} />
+      </Labelled>
+      <div className="flex gap-2 pt-1">
+        <button
+          type="submit"
+          className="flex-1 rounded-full bg-[color:var(--color-sea-700)] px-5 py-2.5 text-[0.875rem] font-semibold text-white"
+        >
+          Save changes
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-full border border-[color:var(--color-line)] bg-white px-5 py-2.5 text-[0.875rem] font-semibold text-[color:var(--color-ink)]"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function Labelled({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-[0.75rem] font-medium text-[color:var(--color-mute)]">
+        {label}
+      </span>
+      {children}
+    </label>
   );
 }
 

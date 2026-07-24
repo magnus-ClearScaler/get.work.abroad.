@@ -4,12 +4,12 @@ export const site = {
   url: "https://getworkabroad.com",
 
   /* Live: the domain and the Microsoft 365 mailbox.
-     TODO(Magnus): the WhatsApp number is still a personal mobile, and the
-     Instagram and TikTok handles are guesses — swap them for the brand
-     accounts before promoting the site. */
+     WhatsApp is Kian's mobile for now — a dedicated business number is coming.
+     TODO(Magnus): the Instagram and TikTok handles are still guesses; swap
+     them for the brand accounts before promoting the site. */
   email: "hello@getworkabroad.com",
-  whatsappNumber: "+47 466 71 367",
-  whatsappLink: "https://wa.me/4746671367",
+  whatsappNumber: "+34 681 81 15 89",
+  whatsappLink: "https://wa.me/34681811589",
   instagram: "https://instagram.com/getworkabroad",
   tiktok: "https://tiktok.com/@getworkabroad",
 
