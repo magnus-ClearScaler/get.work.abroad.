@@ -27,8 +27,8 @@ export const destinations: Destination[] = [
     country: "Spain",
     flag: "🇪🇸",
     card: {
-      photo: "/photos/user-malaga-aerial.jpg",
-      alt: "Málaga from above, the bullring and the port meeting the Mediterranean",
+      photo: "/photos/malaga-sunset.jpg",
+      alt: "The sun going down over Málaga, the port and the city under gold light",
       blurb:
         "Málaga and Alicante. Where the Costa del Sol turned into a tech coast.",
     },

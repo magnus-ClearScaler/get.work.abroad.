@@ -3,6 +3,7 @@ import { LanguageBand } from "@/components/home/LanguageBand";
 import { FeaturedJobs } from "@/components/home/FeaturedJobs";
 import { Package } from "@/components/home/Package";
 import { Destinations } from "@/components/home/Destinations";
+import { CountryNotes } from "@/components/home/CountryNotes";
 import { Process } from "@/components/home/Process";
 import { EmployerBand } from "@/components/home/EmployerBand";
 import { HomeFaq } from "@/components/home/HomeFaq";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <LanguageBand />
       <Package />
       <FeaturedJobs />
+      <CountryNotes />
       <Process />
       <EmployerBand />
       <HomeFaq />

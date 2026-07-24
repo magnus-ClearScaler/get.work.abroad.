@@ -125,6 +125,17 @@ body {
     rgba(6, 32, 43, 0.16) 100%
   );
 }
+/* Country cards. Only a name, a count and a link sit on these now, all at the
+   foot, so the photo can stay much clearer than under .scrim-full. */
+.scrim-card {
+  background: linear-gradient(
+    to top,
+    rgba(6, 32, 43, 0.78) 0%,
+    rgba(6, 32, 43, 0.46) 32%,
+    rgba(6, 32, 43, 0.12) 62%,
+    rgba(6, 32, 43, 0) 100%
+  );
+}
 /* For type set in the middle of a bright photo */
 .scrim-center {
   background:

@@ -24,7 +24,10 @@ export function Destinations() {
               <Link
                 key={d.slug}
                 href={`/destinations/${d.slug}`}
-                className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)] sm:aspect-[3/4] lg:aspect-[3/4.2]"
+                /* Landscape on a phone: the card stops being a tall wall of
+                   type and the photograph actually gets room. Portrait again
+                   from tablet up, where three sit side by side. */
+                className="group relative flex aspect-[16/10] flex-col justify-end overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)] sm:aspect-[3/4] lg:aspect-[3/4]"
               >
                 <Image
                   src={d.card.photo}
@@ -34,7 +37,7 @@ export function Destinations() {
                   priority={i === 0}
                   className="object-cover transition-transform duration-[900ms] group-hover:scale-[1.06]"
                 />
-                <div className="scrim-full absolute inset-0" />
+                <div className="scrim-card absolute inset-0" />
 
                 <div className="relative z-10 p-6 sm:p-7">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-2.5 py-1 text-[0.75rem] font-medium text-white backdrop-blur-sm">
@@ -46,11 +49,7 @@ export function Destinations() {
                     {d.country}
                   </h3>
 
-                  <p className="mt-3 max-w-xs text-[0.9375rem] leading-relaxed text-pretty text-white/80">
-                    {d.card.blurb}
-                  </p>
-
-                  <span className="mt-5 inline-flex items-center gap-2 text-[0.875rem] font-semibold text-white">
+                  <span className="mt-4 inline-flex items-center gap-2 text-[0.875rem] font-semibold text-white">
                     Explore {d.country}
                     <span className="grid h-7 w-7 place-items-center rounded-full bg-white/15 transition-colors group-hover:bg-[color:var(--color-sun-400)] group-hover:text-[color:var(--color-sea-950)]">
                       <ArrowUpRight className="h-3.5 w-3.5" />
