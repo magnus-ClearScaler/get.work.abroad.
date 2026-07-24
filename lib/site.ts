@@ -1,9 +1,12 @@
 export const site = {
   name: "Get Work Abroad",
   tagline: "Language jobs on the Mediterranean",
-  url: "https://get-work-abroad.vercel.app",
+  url: "https://getworkabroad.com",
 
-  /* TODO(Magnus): swap these for the real brand accounts before launch. */
+  /* Live: the domain and the Microsoft 365 mailbox.
+     TODO(Magnus): the WhatsApp number is still a personal mobile, and the
+     Instagram and TikTok handles are guesses — swap them for the brand
+     accounts before promoting the site. */
   email: "hello@getworkabroad.com",
   whatsappNumber: "+47 466 71 367",
   whatsappLink: "https://wa.me/4746671367",
