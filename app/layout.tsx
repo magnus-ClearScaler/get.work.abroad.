@@ -42,8 +42,12 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+      /* Vector first for browsers that take it (always crisp), the .ico for
+         the classic slot, then the 512 PNG. All three are the site's logo mark
+         — the rising sun over two waves — on cream. */
+      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
     ],
     apple: [{ url: "/icon.png" }],
   },
