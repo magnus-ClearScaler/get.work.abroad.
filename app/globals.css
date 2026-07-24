@@ -136,6 +136,20 @@ body {
     rgba(6, 32, 43, 0) 100%
   );
 }
+/* Full-bleed page and job headers. Dark enough at the foot to carry the white
+   title and intro, then clears fast so the photograph itself does the emotional
+   work through the top half rather than sitting behind a grey wash. */
+.scrim-hero {
+  background: linear-gradient(
+    to top,
+    rgba(6, 32, 43, 0.90) 0%,
+    rgba(6, 32, 43, 0.80) 18%,
+    rgba(6, 32, 43, 0.55) 38%,
+    rgba(6, 32, 43, 0.26) 56%,
+    rgba(6, 32, 43, 0.08) 76%,
+    rgba(6, 32, 43, 0) 100%
+  );
+}
 /* For type set in the middle of a bright photo */
 .scrim-center {
   background:

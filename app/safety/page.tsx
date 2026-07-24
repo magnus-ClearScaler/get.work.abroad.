@@ -60,8 +60,8 @@ export default function SafetyPage() {
   return (
     <>
       <PhotoHeader
-        photo="/photos/alicante-beach-castle.jpg"
-        alt="Santa Barbara castle standing over the beach at Alicante"
+        photo="/photos/thessaloniki-sunset-boats.jpg"
+        alt="Sailing boats coming into harbour at sunset over a calm sea"
         eyebrow="Your safety"
         title="How to tell we are real, and how to spot the people who are not"
         intro="Recruitment fraud targets people moving abroad specifically, because you are dealing with a new country, an unfamiliar language and a lot of paperwork. Here is exactly what we will and will not do, so you have something to measure anyone against."

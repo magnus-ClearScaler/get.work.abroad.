@@ -37,7 +37,7 @@ export function PageHeader({
   );
 }
 
-/** Full-bleed photographic header for destination pages. */
+/** Full-bleed photographic header for destination and job pages. */
 export function PhotoHeader({
   photo,
   alt,
@@ -45,6 +45,7 @@ export function PhotoHeader({
   title,
   intro,
   children,
+  focal = "center",
 }: {
   photo: string;
   alt: string;
@@ -52,13 +53,15 @@ export function PhotoHeader({
   title: ReactNode;
   intro?: ReactNode;
   children?: ReactNode;
+  /** object-position, e.g. "center 30%", to control what the crop keeps. */
+  focal?: string;
 }) {
   return (
     /* Pulled up under the sticky header, which goes transparent on every route
        that opens on a photo, so the image runs from the top of the viewport.
        The min-heights carry the header's 4.5rem so the visible band is
-       unchanged. */
-    <section className="relative -mt-[4.5rem] flex min-h-[30.5rem] flex-col justify-end overflow-hidden sm:min-h-[38.5rem]">
+       unchanged. Taller than a strip on purpose: the photograph is the sell. */
+    <section className="relative -mt-[4.5rem] flex min-h-[33rem] flex-col justify-end overflow-hidden sm:min-h-[42rem]">
       <Image
         src={photo}
         alt={alt}
@@ -66,12 +69,13 @@ export function PhotoHeader({
         priority
         sizes="100vw"
         className="object-cover"
+        style={{ objectPosition: focal }}
       />
-      <div className="scrim-b absolute inset-0" />
+      <div className="scrim-hero absolute inset-0" />
       {/* Keeps the white nav legible where a photo is bright at the top. */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[color:var(--color-sea-950)]/55 to-transparent"
+        className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[color:var(--color-sea-950)]/45 to-transparent"
       />
       <Container className="relative z-10 pt-32 pb-12 sm:pb-16">
         {eyebrow ? (
