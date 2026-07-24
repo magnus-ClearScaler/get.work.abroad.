@@ -4,7 +4,10 @@ import { HeroVideo } from "./HeroVideo";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[600px] items-center justify-center overflow-hidden bg-[color:var(--color-sea-950)] h-[90svh] max-h-[920px]">
+    /* -mt-[4.5rem] pulls the section up under the sticky header, which goes
+       transparent on this route, so the footage runs edge to edge from the top
+       of the viewport. The header still paints over it at z-50. */
+    <section className="relative -mt-[4.5rem] flex h-[100svh] min-h-[600px] items-center justify-center overflow-hidden bg-[color:var(--color-sea-950)]">
       {/* Background video, poster-first */}
       <HeroVideo />
 
@@ -24,7 +27,9 @@ export function Hero() {
       />
 
       {/* Centred content */}
-      <Container className="relative z-10 flex flex-col items-center py-24 text-center">
+      {/* Extra top padding equal to the header height keeps the block optically
+          centred in the space below the header rather than the whole viewport. */}
+      <Container className="relative z-10 flex flex-col items-center pt-[10.5rem] pb-24 text-center">
         <h1 className="h-display max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.4)]">
           Work in your language,{" "}
           <span className="text-[color:var(--color-sun-400)]">

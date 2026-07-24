@@ -31,17 +31,23 @@ export function Header() {
     };
   }, [open]);
 
+  /* The home hero runs full-bleed underneath this bar, so at the top of that
+     route the header carries no background and its contents flip to white.
+     Scrolling away, or opening the drawer, brings the solid bar back. */
+  const solid = scrolled || open;
+  const onVideo = pathname === "/" && !solid;
+
   return (
     <header
       className={`sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ${
-        scrolled
+        solid
           ? "border-b border-[color:var(--color-line)] bg-[color:var(--color-sand-50)]/85 shadow-[0_1px_0_rgba(6,32,43,0.04)] backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-[84rem] items-center justify-between gap-4 px-5 sm:px-8">
         <Link href="/" aria-label="Get Work Abroad, home" className="shrink-0">
-          <Logo />
+          <Logo tone={onVideo ? "light" : "dark"} />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
@@ -53,9 +59,13 @@ export function Header() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`rounded-full px-3.5 py-2 text-[0.875rem] font-medium transition-colors ${
-                  active
-                    ? "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-700)]"
-                    : "text-[color:var(--color-body)] hover:bg-[color:var(--color-sand-100)] hover:text-[color:var(--color-ink)]"
+                  onVideo
+                    ? active
+                      ? "bg-white/15 text-white"
+                      : "text-white/85 hover:bg-white/10 hover:text-white"
+                    : active
+                      ? "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-700)]"
+                      : "text-[color:var(--color-body)] hover:bg-[color:var(--color-sand-100)] hover:text-[color:var(--color-ink)]"
                 }`}
               >
                 {item.label}
@@ -69,14 +79,22 @@ export function Header() {
             href={site.whatsappLink}
             target="_blank"
             rel="noreferrer noopener"
-            className="hidden items-center gap-2 rounded-full border border-[color:var(--color-line)] bg-white px-4 py-2.5 text-[0.8125rem] font-semibold text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-sea-300)] hover:text-[color:var(--color-sea-700)] sm:inline-flex"
+            className={`hidden items-center gap-2 rounded-full border px-4 py-2.5 text-[0.8125rem] font-semibold transition-colors sm:inline-flex ${
+              onVideo
+                ? "border-white/30 bg-white/10 text-white backdrop-blur-sm hover:border-white/60 hover:bg-white/15"
+                : "border-[color:var(--color-line)] bg-white text-[color:var(--color-ink)] hover:border-[color:var(--color-sea-300)] hover:text-[color:var(--color-sea-700)]"
+            }`}
           >
             <Whatsapp className="h-4 w-4 text-[#25D366]" />
             WhatsApp
           </a>
           <Link
             href="/apply"
-            className="inline-flex items-center whitespace-nowrap rounded-full bg-[color:var(--color-sea-700)] px-4 py-2.5 text-[0.8125rem] font-semibold text-white shadow-[var(--shadow-soft)] transition-colors hover:bg-[color:var(--color-sea-800)] sm:px-5"
+            className={`inline-flex items-center whitespace-nowrap rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold shadow-[var(--shadow-soft)] transition-colors sm:px-5 ${
+              onVideo
+                ? "bg-white text-[color:var(--color-sea-900)] hover:bg-[color:var(--color-sand-100)]"
+                : "bg-[color:var(--color-sea-700)] text-white hover:bg-[color:var(--color-sea-800)]"
+            }`}
           >
             Apply now
           </Link>
@@ -85,7 +103,11 @@ export function Header() {
             onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--color-line)] bg-white text-[color:var(--color-ink)] lg:hidden"
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors lg:hidden ${
+              onVideo
+                ? "border-white/30 bg-white/10 text-white backdrop-blur-sm"
+                : "border-[color:var(--color-line)] bg-white text-[color:var(--color-ink)]"
+            }`}
           >
             {open ? <Close /> : <Menu />}
           </button>
