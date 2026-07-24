@@ -434,15 +434,18 @@ export default function CandidatePage() {
         </p>
       ) : null}
 
-      <div className="mt-14 border-t border-[color:var(--color-line)] pt-6">
+      <div className="mt-14 flex flex-wrap items-center gap-4 border-t border-[color:var(--color-line)] pt-6">
         <button
           type="button"
           onClick={deleteCandidate}
           disabled={deleting}
-          className="text-[0.8125rem] font-medium text-[color:var(--color-mute)] transition-colors hover:text-[color:var(--color-terra-600)] disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-terra-500)]/40 bg-[color:var(--color-terra-100)] px-5 py-2.5 text-[0.875rem] font-semibold text-[color:var(--color-terra-600)] transition-colors hover:border-[color:var(--color-terra-500)] hover:bg-[color:var(--color-terra-500)] hover:text-white disabled:opacity-50"
         >
-          {deleting ? "Deleting…" : "Delete this candidate and their CV"}
+          {deleting ? "Deleting…" : "Delete candidate and CV"}
         </button>
+        <span className="text-[0.8125rem] text-[color:var(--color-mute)]">
+          Removes the row, the CV and every submission. Cannot be undone.
+        </span>
       </div>
     </>
   );
