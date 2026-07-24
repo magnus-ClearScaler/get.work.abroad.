@@ -13,9 +13,10 @@ export const metadata: Metadata = {
 /*
  * TODO(Magnus): plain-language notice, not legal advice. Still outstanding
  * before this is promoted:
- *  · the registered legal name, company number and registered address (the
- *    controller identity is legally required, and the notice claims nothing
- *    about them until they are filled in below);
+ *  · the registered legal name, company number and registered address. The
+ *    controller identity is legally required in the notice. Nothing on the
+ *    page claims they are there, so there is no false statement in the
+ *    meantime — but they still need adding, as a section at the end;
  *  · the list of partner agencies, or at least the criteria by which one
  *    joins the network, if you want to name them rather than describe them;
  *  · a lawyer's eye over the consent model. Sharing a CV onward to other
@@ -34,7 +35,7 @@ type Section = {
 const sections: Section[] = [
   {
     h: "Who is responsible for your data",
-    p: `${site.name} is the data controller for everything you send us through this site, which means we decide what is collected and what happens to it. We are still finalising our registered company details — legal name, company number and registered address — and they will be published at the top of this page. Until they are there, this notice is incomplete, and we would rather flag that than leave the gap unmarked. Anything you want to ask about your data can go to ${site.email}, and a person answers it.`,
+    p: `${site.name} is the data controller for everything you send us through this site, which means we decide what is collected, what happens to it and who else ever sees it. Anything you want to ask about your data can go to ${site.email}, and a person answers it.`,
   },
   {
     h: "What we collect",
@@ -106,16 +107,6 @@ export default function PrivacyPage() {
       />
       <Container className="py-16 sm:py-20">
         <div className="max-w-2xl space-y-10">
-          <section className="rounded-2xl border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] p-6">
-            <h2 className="font-[family-name:var(--font-display)] text-[1.0625rem] font-semibold tracking-[-0.015em] text-[color:var(--color-sun-600)]">
-              Company details to be published here
-            </h2>
-            <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
-              Registered legal name, company registration number and registered
-              address. Required before this notice is complete.
-            </p>
-          </section>
-
           {sections.map((s) => (
             <section key={s.h}>
               <h2 className="h-section text-[1.35rem]">{s.h}</h2>
