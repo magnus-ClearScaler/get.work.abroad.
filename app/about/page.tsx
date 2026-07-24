@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Container, Button, SectionHead } from "@/components/ui";
-import { PageHeader } from "@/components/PageHeader";
+import { PhotoHeader } from "@/components/PageHeader";
 import { ArrowRight, Check } from "@/components/Icons";
 import { FinalCta } from "@/components/home/FinalCta";
 
@@ -33,7 +33,9 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
+      <PhotoHeader
+        photo="/photos/greek-taverna-table.jpg"
+        alt="A shared table outside a Greek taverna, plates and glasses between friends"
         eyebrow="About us"
         title="Moving abroad is the easiest hard thing you will ever do"
         intro="We place native language speakers into permanent roles across Spain, Portugal and Greece. We do it because we have made the move ourselves, and because we have yet to meet anyone who did it and wished they had not."

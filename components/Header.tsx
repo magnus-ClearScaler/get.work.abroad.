@@ -31,11 +31,12 @@ export function Header() {
     };
   }, [open]);
 
-  /* The home hero runs full-bleed underneath this bar, so at the top of that
-     route the header carries no background and its contents flip to white.
-     Scrolling away, or opening the drawer, brings the solid bar back. */
+  /* Every route but the privacy notice opens on a full-bleed photo (or the
+     hero video) that runs underneath this bar, so at the top of the page the
+     header carries no background and its contents flip to white. Scrolling
+     away, or opening the drawer, brings the solid bar back. */
   const solid = scrolled || open;
-  const onVideo = pathname === "/" && !solid;
+  const onPhoto = !pathname.startsWith("/privacy") && !solid;
 
   return (
     <header
@@ -47,7 +48,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-[4.5rem] max-w-[84rem] items-center justify-between gap-4 px-5 sm:px-8">
         <Link href="/" aria-label="Get Work Abroad, home" className="shrink-0">
-          <Logo tone={onVideo ? "light" : "dark"} />
+          <Logo tone={onPhoto ? "light" : "dark"} />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
@@ -59,7 +60,7 @@ export function Header() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`rounded-full px-3.5 py-2 text-[0.875rem] font-medium transition-colors ${
-                  onVideo
+                  onPhoto
                     ? active
                       ? "bg-white/15 text-white"
                       : "text-white/85 hover:bg-white/10 hover:text-white"
@@ -80,7 +81,7 @@ export function Header() {
             target="_blank"
             rel="noreferrer noopener"
             className={`hidden items-center gap-2 rounded-full border px-4 py-2.5 text-[0.8125rem] font-semibold transition-colors sm:inline-flex ${
-              onVideo
+              onPhoto
                 ? "border-white/30 bg-white/10 text-white backdrop-blur-sm hover:border-white/60 hover:bg-white/15"
                 : "border-[color:var(--color-line)] bg-white text-[color:var(--color-ink)] hover:border-[color:var(--color-sea-300)] hover:text-[color:var(--color-sea-700)]"
             }`}
@@ -91,7 +92,7 @@ export function Header() {
           <Link
             href="/apply"
             className={`inline-flex items-center whitespace-nowrap rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold shadow-[var(--shadow-soft)] transition-colors sm:px-5 ${
-              onVideo
+              onPhoto
                 ? "bg-white text-[color:var(--color-sea-900)] hover:bg-[color:var(--color-sand-100)]"
                 : "bg-[color:var(--color-sea-700)] text-white hover:bg-[color:var(--color-sea-800)]"
             }`}
@@ -104,7 +105,7 @@ export function Header() {
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
             className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors lg:hidden ${
-              onVideo
+              onPhoto
                 ? "border-white/30 bg-white/10 text-white backdrop-blur-sm"
                 : "border-[color:var(--color-line)] bg-white text-[color:var(--color-ink)]"
             }`}

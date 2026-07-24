@@ -54,7 +54,11 @@ export function PhotoHeader({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative flex min-h-[26rem] flex-col justify-end overflow-hidden sm:min-h-[34rem]">
+    /* Pulled up under the sticky header, which goes transparent on every route
+       that opens on a photo, so the image runs from the top of the viewport.
+       The min-heights carry the header's 4.5rem so the visible band is
+       unchanged. */
+    <section className="relative -mt-[4.5rem] flex min-h-[30.5rem] flex-col justify-end overflow-hidden sm:min-h-[38.5rem]">
       <Image
         src={photo}
         alt={alt}
@@ -64,6 +68,11 @@ export function PhotoHeader({
         className="object-cover"
       />
       <div className="scrim-b absolute inset-0" />
+      {/* Keeps the white nav legible where a photo is bright at the top. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[color:var(--color-sea-950)]/55 to-transparent"
+      />
       <Container className="relative z-10 pt-32 pb-12 sm:pb-16">
         {eyebrow ? (
           <p className="eyebrow text-[color:var(--color-sun-400)]">{eyebrow}</p>

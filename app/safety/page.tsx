@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Button, SectionHead } from "@/components/ui";
-import { PageHeader } from "@/components/PageHeader";
+import { PhotoHeader } from "@/components/PageHeader";
 import { Check, Close, Shield, Whatsapp } from "@/components/Icons";
 import { site } from "@/lib/site";
 
@@ -59,14 +59,16 @@ const redFlags = [
 export default function SafetyPage() {
   return (
     <>
-      <PageHeader
+      <PhotoHeader
+        photo="/photos/alicante-beach-castle.jpg"
+        alt="Santa Barbara castle standing over the beach at Alicante"
         eyebrow="Your safety"
         title="How to tell we are real, and how to spot the people who are not"
         intro="Recruitment fraud targets people moving abroad specifically, because you are dealing with a new country, an unfamiliar language and a lot of paperwork. Here is exactly what we will and will not do, so you have something to measure anyone against."
       >
-        <div className="mt-8 rounded-2xl border border-[color:var(--color-sea-200)] bg-[color:var(--color-sea-50)] p-6">
-          <p className="flex items-start gap-3 text-[1.0625rem] leading-relaxed font-medium text-[color:var(--color-sea-900)]">
-            <Shield className="mt-0.5 h-6 w-6 shrink-0 text-[color:var(--color-sea-600)]" />
+        <div className="mt-8 max-w-2xl rounded-2xl border border-white/25 bg-white/15 p-6 backdrop-blur-sm">
+          <p className="flex items-start gap-3 text-[1.0625rem] leading-relaxed font-medium text-white">
+            <Shield className="mt-0.5 h-6 w-6 shrink-0 text-[color:var(--color-sun-400)]" />
             <span>
               We never charge candidates a fee, for anything, at any stage. If
               anyone claiming to be {site.name} asks you for money, it is not
@@ -74,7 +76,7 @@ export default function SafetyPage() {
             </span>
           </p>
         </div>
-      </PageHeader>
+      </PhotoHeader>
 
       {/* ── Never / will ────────────────────────────────────────── */}
       <section className="py-20 sm:py-28">

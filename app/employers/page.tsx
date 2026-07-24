@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Container, Button, SectionHead, Faq } from "@/components/ui";
-import { PageHeader } from "@/components/PageHeader";
+import { PhotoHeader } from "@/components/PageHeader";
 import { ArrowRight, Check, Whatsapp } from "@/components/Icons";
 import { site, languages } from "@/lib/site";
 
@@ -52,22 +52,33 @@ const faq = [
 export default function EmployersPage() {
   return (
     <>
-      <PageHeader
+      <PhotoHeader
+        photo="/photos/lisbon-dusk-city.jpg"
+        alt="Lisbon at dusk, the city lights coming on across the hills"
         eyebrow="For employers"
         title="The languages you cannot fill locally"
         intro="We source native speakers for service, sales and support teams across Spain, Portugal and Greece. Our candidates come from channels we own, which is why we can move on the roles everyone else leaves open."
       >
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href={`mailto:${site.email}?subject=Vacancy%20brief`} size="lg">
+          <Button
+            href={`mailto:${site.email}?subject=Vacancy%20brief`}
+            variant="sun"
+            size="lg"
+          >
             Send us a vacancy
             <ArrowRight className="h-4 w-4" />
           </Button>
-          <Button href={site.whatsappLink} external variant="outline" size="lg">
+          <Button
+            href={site.whatsappLink}
+            external
+            variant="ghostLight"
+            size="lg"
+          >
             <Whatsapp className="h-4 w-4 text-[#25D366]" />
             Talk it through
           </Button>
         </div>
-      </PageHeader>
+      </PhotoHeader>
 
       {/* ── How we work ─────────────────────────────────────────── */}
       <section className="py-20 sm:py-28">

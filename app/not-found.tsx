@@ -4,7 +4,7 @@ import { ArrowRight } from "@/components/Icons";
 
 export default function NotFound() {
   return (
-    <section className="relative flex min-h-[70vh] items-center overflow-hidden">
+    <section className="relative -mt-[4.5rem] flex min-h-[calc(70vh+4.5rem)] items-center overflow-hidden">
       <Image
         src="/photos/greece-milos-cove.jpg"
         alt=""

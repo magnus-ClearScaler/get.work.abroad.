@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Button } from "@/components/ui";
-import { PageHeader } from "@/components/PageHeader";
+import { PhotoHeader } from "@/components/PageHeader";
 import { ApplyForm } from "@/components/ApplyForm";
 import { Check, Whatsapp } from "@/components/Icons";
 import { site } from "@/lib/site";
@@ -24,7 +24,9 @@ export default async function ApplyPage(props: PageProps<"/apply">) {
 
   return (
     <>
-      <PageHeader
+      <PhotoHeader
+        photo="/photos/malaga-sunset.jpg"
+        alt="The sun going down over Malaga, the bay turning gold"
         eyebrow="Open application"
         title={role ? `Apply: ${role}` : "Tell us where you want to be"}
         intro="Fill this in once and we will match you against everything on our desk, including the roles that never make it onto the site."
