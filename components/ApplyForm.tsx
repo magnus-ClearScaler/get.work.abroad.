@@ -102,7 +102,6 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         message: get("message") || null,
         cv_path,
         cv_filename,
-        network_opt_out: data.get("network_opt_out") === "on",
         consent_at: new Date().toISOString(),
         source: "website",
       });
@@ -299,30 +298,15 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           className="mt-0.5 h-4 w-4 shrink-0 accent-[color:var(--color-sea-700)]"
         />
         <span className="text-[0.8125rem] leading-relaxed text-[color:var(--color-body)]">
-          I agree that {site.name} may store these details, contact me about
-          roles, and pass my details and CV to employers with a matching
-          vacancy and to recruitment agencies in their partner network, who may
-          contact me about their own roles. I can ask for network introductions
-          to stop, or for my data to be deleted, at any time.{" "}
+          I agree that my details and CV are shared with the client I am
+          applying to, and I understand the roles listed here come from a
+          range of clients and recruitment firms.{" "}
           <a
             href="/privacy"
             className="font-medium text-[color:var(--color-sea-700)] underline underline-offset-2"
           >
             Privacy notice
           </a>
-          .
-        </span>
-      </label>
-
-      <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-xl border border-[color:var(--color-line)] bg-white p-4">
-        <input
-          type="checkbox"
-          name="network_opt_out"
-          className="mt-0.5 h-4 w-4 shrink-0 accent-[color:var(--color-sea-700)]"
-        />
-        <span className="text-[0.8125rem] leading-relaxed text-[color:var(--color-body)]">
-          Keep my CV to your own introductions — do not send it to the partner
-          network. It will not change the service you get.
         </span>
       </label>
 

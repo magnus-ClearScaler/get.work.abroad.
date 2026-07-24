@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy",
   description:
-    "How Get Work Abroad handles your details and your CV, including who we pass them to and how to say no.",
+    "How Get Work Abroad handles your details and your CV, and who they are shared with when you apply."
 };
 
 /*
@@ -17,12 +17,12 @@ export const metadata: Metadata = {
  *    controller identity is legally required in the notice. Nothing on the
  *    page claims they are there, so there is no false statement in the
  *    meantime — but they still need adding, as a section at the end;
- *  · the list of partner agencies, or at least the criteria by which one
- *    joins the network, if you want to name them rather than describe them;
- *  · a lawyer's eye over the consent model. Sharing a CV onward to other
- *    agencies is lawful, but it rests on consent that is specific and freely
- *    given — which is why the tick box on the form now spells it out and why
- *    "network introductions" can be declined without losing the service.
+ *  · if the set of clients grows beyond the current freelance arrangement,
+ *    revisit "Where your CV goes" so it still describes what actually
+ *    happens;
+ *  · a lawyer's eye over the consent model. Passing a CV to the client is
+ *    lawful and expected, but it rests on consent that is specific and
+ *    informed, which is why the tick box on the form names it plainly.
  */
 
 type Section = {
@@ -39,29 +39,19 @@ const sections: Section[] = [
   },
   {
     h: "What we collect",
-    p: "Only what you hand us: your name, email, phone, native language, the countries and roles you are open to, anything you write in the message field, and your CV. No tracking pixel, no profile built from your browsing. The form opens WhatsApp, so that message travels under their terms as well as ours — email us instead if you would rather it did not.",
+    p: "Only what you hand us: your name, email, phone, native language, the countries and roles you are open to, anything you write in the message field, and your CV. No tracking pixel, no profile built from your browsing.",
   },
   {
     h: "Where your CV goes",
-    p: "A CV is only useful if it reaches people who are hiring. When you send yours, you agree that we may pass it and your details to:",
-    list: [
-      "Employers with a live vacancy that fits you",
-      "Recruitment agencies in our partner network, who hold roles we do not and may contact you about their own",
-    ],
-    after:
-      "We only pass it to a partner recruiting for your language, country and kind of role, and we will tell you which ones if you ask. Once they have it they are responsible for it under their own privacy notice. We never sell your data or pass it to marketing lists — we are paid by an employer, only when you are hired.",
-  },
-  {
-    h: "If you would rather we did not",
-    p: `Tell us to keep your CV to our own introductions and that is how it will be handled — email ${site.email}, or just say so in the message field when you apply. It changes nothing about the service you get. You can withdraw your consent altogether at any time, though we cannot recall an introduction already made.`,
+    p: "The roles listed here come from a range of clients and recruitment firms. When you apply, your details and CV go to the client behind that role so they can consider you for it — that is what applying is for, and it is what you agree to when you send the form. From that point they hold your data under their own privacy notice. We never sell your data and we never pass it to marketing lists.",
   },
   {
     h: "Where it is held, and for how long",
-    p: "Within the EU and the UK, and with the employers and partner agencies we introduce you to in Spain, Portugal and Greece. We keep it for two years from your last contact with us, then delete it. Ask us to delete it sooner and we will.",
+    p: "Within the EU and the UK, and with the client whose role you applied for. We keep it for two years from your last contact with us, then delete it. Ask us to delete it sooner and we will.",
   },
   {
     h: "Your rights",
-    p: `You can ask to see what we hold on you, correct it, delete it, stop the partner introductions, or withdraw the consent you gave with the tick box. Email ${site.email} and we will action it, normally within a few days and always within a month. If you are not happy with how we handle it, you can complain to the data protection authority in your country.`,
+    p: `You can ask to see what we hold on you, correct it, delete it, or withdraw your consent. Email ${site.email} and we will action it, normally within a few days and always within a month. If you are not happy with how we handle it, you can complain to the data protection authority in your country.`,
   },
 ];
 
@@ -71,7 +61,7 @@ export default function PrivacyPage() {
       <PageHeader
         eyebrow="Privacy"
         title="What we do with your details"
-        intro="Short version: we use your CV to get you in front of people who are hiring, including partner agencies beyond us, and nothing else. You can opt out of that part at any time."
+        intro="Short version: we use your details to put you in front of the client whose role you applied for, and nothing else."
       />
       <Container className="py-16 sm:py-20">
         <div className="max-w-2xl space-y-10">

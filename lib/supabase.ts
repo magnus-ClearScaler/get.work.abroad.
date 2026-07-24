@@ -30,8 +30,10 @@ export const supabase = createClient(url, publishableKey);
 export type CandidateStatus =
   | "new"
   | "reviewing"
-  | "shared"
+  | "sent_to_topjobs"
+  | "interviewing"
   | "placed"
+  | "rejected"
   | "closed";
 
 export type SubmissionStatus =
@@ -59,7 +61,6 @@ export type Candidate = {
   cv_filename: string | null;
   source: string;
   status: CandidateStatus;
-  network_opt_out: boolean;
   consent_at: string | null;
   notes: string | null;
 };
@@ -92,10 +93,28 @@ export type Submission = {
 export const CANDIDATE_STATUSES: CandidateStatus[] = [
   "new",
   "reviewing",
-  "shared",
+  "sent_to_topjobs",
+  "interviewing",
   "placed",
+  "rejected",
   "closed",
 ];
+
+/** Underscores are for the database, not for the person reading the screen. */
+export const STATUS_LABEL: Record<string, string> = {
+  new: "New",
+  reviewing: "Reviewing",
+  sent_to_topjobs: "Sent to TopJobs",
+  interviewing: "Interviewing",
+  placed: "Placed",
+  rejected: "Rejected",
+  closed: "Closed",
+  sent: "Sent",
+  screening: "Screening",
+  interview: "Interview",
+  offer: "Offer",
+  withdrawn: "Withdrawn",
+};
 
 export const SUBMISSION_STATUSES: SubmissionStatus[] = [
   "sent",
@@ -111,7 +130,10 @@ export const SUBMISSION_STATUSES: SubmissionStatus[] = [
 export const STATUS_TONE: Record<string, string> = {
   new: "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-800)]",
   reviewing: "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",
-  shared: "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",
+  sent_to_topjobs:
+    "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-800)]",
+  interviewing:
+    "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",
   sent: "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-800)]",
   screening: "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",
   interview: "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",

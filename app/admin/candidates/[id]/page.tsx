@@ -8,6 +8,7 @@ import {
   CANDIDATE_STATUSES,
   SUBMISSION_STATUSES,
   STATUS_TONE,
+  STATUS_LABEL,
   sinceLabel,
   type Candidate,
   type Partner,
@@ -112,9 +113,10 @@ export default function CandidatePage() {
     });
     if (error) return setError(error.message);
     form.reset();
-    /* Sending a CV out is what "shared" means — keep the top-level status
+    /* Sending a CV out is the first real step — keep the top-level status
        honest without making anyone remember to change it. */
-    if (candidate && candidate.status === "new") await setStatus("shared");
+    if (candidate && candidate.status === "new")
+      await setStatus("sent_to_topjobs");
     load();
   }
 
@@ -185,19 +187,12 @@ export default function CandidatePage() {
           >
             {CANDIDATE_STATUSES.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {STATUS_LABEL[s]}
               </option>
             ))}
           </select>
         </div>
       </div>
-
-      {candidate.network_opt_out ? (
-        <p className="mt-5 rounded-xl border border-[color:var(--color-terra-500)]/30 bg-[color:var(--color-terra-100)] px-4 py-3 text-[0.875rem] font-medium text-[color:var(--color-terra-600)]">
-          This candidate asked us not to pass their CV to partner agencies. Our
-          own introductions only.
-        </p>
-      ) : null}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── Details ──────────────────────────────────────────────── */}
@@ -275,7 +270,7 @@ export default function CandidatePage() {
                       >
                         {SUBMISSION_STATUSES.map((v) => (
                           <option key={v} value={v}>
-                            {v}
+                            {STATUS_LABEL[v]}
                           </option>
                         ))}
                       </select>
@@ -290,7 +285,7 @@ export default function CandidatePage() {
                     </div>
                   </div>
                   <p className="mt-2 text-[0.8125rem] text-[color:var(--color-mute)]">
-                    {s.status} since {sinceLabel(s.status_changed_at)}
+                    {STATUS_LABEL[s.status]} since {sinceLabel(s.status_changed_at)}
                     {s.notes ? ` · ${s.notes}` : ""}
                   </p>
                 </li>

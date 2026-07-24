@@ -6,6 +6,7 @@ import {
   supabase,
   CANDIDATE_STATUSES,
   STATUS_TONE,
+  STATUS_LABEL,
   sinceLabel,
   type Candidate,
 } from "@/lib/supabase";
@@ -18,7 +19,7 @@ export default function CandidatesPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [q, setQ] = useState("");
-  const [status, setStatus] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [language, setLanguage] = useState("");
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function CandidatesPage() {
   const results = useMemo(() => {
     const needle = q.trim().toLowerCase();
     return rows.filter((c) => {
-      if (status && c.status !== status) return false;
+      if (statusFilter && c.status !== statusFilter) return false;
       if (language && c.language !== language) return false;
       if (!needle) return true;
       return [c.name, c.email, c.phone, c.role_interest, c.preferred_country]
@@ -45,7 +46,28 @@ export default function CandidatesPage() {
         .toLowerCase()
         .includes(needle);
     });
-  }, [rows, q, status, language]);
+  }, [rows, q, statusFilter, language]);
+
+  /* Optimistic: the row flips immediately and the write follows. A failure
+     puts it back rather than leaving the screen lying about the database. */
+  async function setStatus(c: Candidate, status: string) {
+    const previous = c.status;
+    setRows((rs) =>
+      rs.map((r) =>
+        r.id === c.id ? { ...r, status: status as Candidate["status"] } : r,
+      ),
+    );
+    const { error } = await supabase
+      .from("candidates")
+      .update({ status })
+      .eq("id", c.id);
+    if (error) {
+      setError(error.message);
+      setRows((rs) =>
+        rs.map((r) => (r.id === c.id ? { ...r, status: previous } : r)),
+      );
+    }
+  }
 
   const counts = useMemo(() => {
     const map: Record<string, number> = {};
@@ -62,7 +84,7 @@ export default function CandidatesPage() {
             {rows.length} in total
             {CANDIDATE_STATUSES.filter((s) => counts[s]).length ? " · " : ""}
             {CANDIDATE_STATUSES.filter((s) => counts[s])
-              .map((s) => `${counts[s]} ${s}`)
+              .map((s) => `${counts[s]} ${STATUS_LABEL[s].toLowerCase()}`)
               .join(", ")}
           </p>
         </div>
@@ -77,14 +99,14 @@ export default function CandidatesPage() {
           className="flex-1 rounded-full border border-[color:var(--color-line)] bg-white px-5 py-3 text-[0.9375rem] focus:border-[color:var(--color-sea-300)]"
         />
         <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
           className="rounded-full border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem]"
         >
           <option value="">Any status</option>
           {CANDIDATE_STATUSES.map((s) => (
             <option key={s} value={s}>
-              {s}
+              {STATUS_LABEL[s]}
             </option>
           ))}
         </select>
@@ -160,19 +182,21 @@ export default function CandidatesPage() {
                     )}
                   </td>
                   <td className="px-5 py-4">
-                    <span
-                      className={`inline-block rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${STATUS_TONE[c.status]}`}
+                    {/* Editable in place: moving someone to "Sent to TopJobs"
+                        is the most common thing you do, and it should not
+                        require opening the candidate first. */}
+                    <select
+                      value={c.status}
+                      onChange={(e) => setStatus(c, e.target.value)}
+                      aria-label={`Status for ${c.name}`}
+                      className={`cursor-pointer rounded-full px-2.5 py-1.5 text-[0.75rem] font-semibold ${STATUS_TONE[c.status]}`}
                     >
-                      {c.status}
-                    </span>
-                    {c.network_opt_out ? (
-                      <span
-                        title="Asked us not to send their CV to partner agencies"
-                        className="ml-1.5 inline-block rounded-full bg-[color:var(--color-terra-100)] px-2 py-1 text-[0.6875rem] font-semibold text-[color:var(--color-terra-600)]"
-                      >
-                        no network
-                      </span>
-                    ) : null}
+                      {CANDIDATE_STATUSES.map((s) => (
+                        <option key={s} value={s}>
+                          {STATUS_LABEL[s]}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td className="px-5 py-4 text-[0.875rem] text-[color:var(--color-mute)]">
                     {sinceLabel(c.created_at)}

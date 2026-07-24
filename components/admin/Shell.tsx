@@ -94,66 +94,65 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
 function SignIn() {
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function send(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setState("sending");
+    setBusy(true);
     setError(null);
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
-      options: { emailRedirectTo: `${window.location.origin}/admin` },
+      password,
     });
-    if (error) {
-      setError(error.message);
-      setState("idle");
-    } else {
-      setState("sent");
-    }
+    /* Deliberately vague: a precise message would tell whoever is guessing
+       which of the two halves they got right. */
+    if (error) setError("That email and password did not match.");
+    setBusy(false);
   }
 
   return (
     <div className="mx-auto grid min-h-[70vh] w-full max-w-md place-items-center px-5">
       <div className="w-full rounded-2xl border border-[color:var(--color-line)] bg-white p-8 shadow-[var(--shadow-card)]">
         <Logo />
-        <h1 className="h-section mt-6 text-[1.5rem]">Recruiter sign in</h1>
+        <h1 className="h-section mt-6 text-[1.5rem]">Sign in</h1>
+        <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
+          For the Get Work Abroad team.
+        </p>
 
-        {state === "sent" ? (
-          <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
-            Check <strong>{email}</strong> for a sign-in link. It opens this
-            page already signed in.
-          </p>
-        ) : (
-          <>
-            <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
-              We email you a link — no password to remember. Only addresses on
-              the admin list can get in.
+        <form onSubmit={submit} className="mt-6 space-y-3">
+          <input
+            type="email"
+            required
+            autoComplete="username"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@getworkabroad.com"
+            className="w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem] focus:border-[color:var(--color-sea-300)]"
+          />
+          <input
+            type="password"
+            required
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem] focus:border-[color:var(--color-sea-300)]"
+          />
+          {error ? (
+            <p role="alert" className="text-[0.875rem] text-[color:var(--color-terra-600)]">
+              {error}
             </p>
-            <form onSubmit={send} className="mt-6">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@getworkabroad.com"
-                className="w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem] focus:border-[color:var(--color-sea-300)]"
-              />
-              {error ? (
-                <p role="alert" className="mt-3 text-[0.875rem] text-[color:var(--color-terra-600)]">
-                  {error}
-                </p>
-              ) : null}
-              <button
-                type="submit"
-                disabled={state === "sending"}
-                className="mt-4 w-full rounded-full bg-[color:var(--color-sea-700)] px-6 py-3.5 text-[0.9375rem] font-semibold text-white disabled:opacity-60"
-              >
-                {state === "sending" ? "Sending…" : "Email me a link"}
-              </button>
-            </form>
-          </>
-        )}
+          ) : null}
+          <button
+            type="submit"
+            disabled={busy}
+            className="w-full rounded-full bg-[color:var(--color-sea-700)] px-6 py-3.5 text-[0.9375rem] font-semibold text-white disabled:opacity-60"
+          >
+            {busy ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
       </div>
     </div>
   );
