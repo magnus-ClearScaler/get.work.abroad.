@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { OrganizationSchema } from "@/components/StructuredData";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -84,6 +87,10 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <OrganizationSchema />
+        {/* Cookieless, so no consent banner is owed. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

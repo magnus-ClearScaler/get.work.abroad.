@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
   supabase,
@@ -51,6 +51,7 @@ async function fetchBundle(id: string): Promise<Bundle> {
 
 export default function CandidatePage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
 
   const [candidate, setCandidate] = useState<Candidate | null>(null);
   const [subs, setSubs] = useState<Submission[]>([]);
@@ -60,6 +61,7 @@ export default function CandidatePage() {
   const [notes, setNotes] = useState("");
   const [savedNote, setSavedNote] = useState(false);
   const [cvUrl, setCvUrl] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   /* Fetching is kept separate from the state it produces: the effect body only
      starts the request, and every setState happens inside the callback. */
@@ -139,6 +141,31 @@ export default function CandidatePage() {
   async function removeSubmission(sub: Submission) {
     setSubs((rows) => rows.filter((r) => r.id !== sub.id));
     await supabase.from("submissions").delete().eq("id", sub.id);
+  }
+
+  /* A real erase, for GDPR requests and for clearing test rows: the CV leaves
+     storage, the candidate leaves the table (submissions cascade), and we go
+     back to the list. Guarded because it cannot be undone. */
+  async function deleteCandidate() {
+    if (!candidate) return;
+    const ok = window.confirm(
+      `Delete ${candidate.name} for good? This removes their CV and every submission. It cannot be undone.`,
+    );
+    if (!ok) return;
+    setDeleting(true);
+    if (candidate.cv_path) {
+      await supabase.storage.from("cvs").remove([candidate.cv_path]);
+    }
+    const { error } = await supabase
+      .from("candidates")
+      .delete()
+      .eq("id", candidate.id);
+    if (error) {
+      setError(error.message);
+      setDeleting(false);
+      return;
+    }
+    router.push("/admin");
   }
 
   if (loading) {
@@ -406,6 +433,17 @@ export default function CandidatePage() {
           {error}
         </p>
       ) : null}
+
+      <div className="mt-14 border-t border-[color:var(--color-line)] pt-6">
+        <button
+          type="button"
+          onClick={deleteCandidate}
+          disabled={deleting}
+          className="text-[0.8125rem] font-medium text-[color:var(--color-mute)] transition-colors hover:text-[color:var(--color-terra-600)] disabled:opacity-50"
+        >
+          {deleting ? "Deleting…" : "Delete this candidate and their CV"}
+        </button>
+      </div>
     </>
   );
 }

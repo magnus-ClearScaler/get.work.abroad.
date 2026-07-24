@@ -37,9 +37,10 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="mt-6 max-w-xl text-[1.15rem] leading-relaxed text-pretty text-white/90 [text-shadow:0_1px_16px_rgba(6,32,43,0.5)]">
-          Permanent roles for Dutch, German and Scandinavian speakers.
-          Relocation covered.
+        <p className="mt-6 max-w-2xl text-[1.15rem] leading-relaxed text-pretty text-white/90 [text-shadow:0_1px_16px_rgba(6,32,43,0.5)]">
+          Permanent roles for Dutch, German and Scandinavian speakers — the
+          flight, the flat and the paperwork covered. You bring the language.
+          The coast, and the best two years of your twenties, come with it.
         </p>
 
         <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">

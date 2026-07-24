@@ -170,6 +170,8 @@ body {
   html { scroll-behavior: auto; }
   .marquee-track { animation: none; }
   .rise { animation: none; }
+  /* Scroll-reveal content is shown outright, never held hidden. */
+  .reveal { opacity: 1 !important; transform: none !important; }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
   }
