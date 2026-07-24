@@ -71,20 +71,23 @@ export function Logo({
     >
       <LogoMark className="h-9 w-auto sm:h-10" />
       <span className="flex flex-col justify-center">
-        <span className="font-[family-name:var(--font-display)] text-[1.0625rem] leading-none font-bold tracking-[-0.02em] sm:text-[1.2rem]">
+        {/* Weight and posture carry the meaning: "Get Work" is the setup, set
+            quietly; "Abroad" is the promise, so it is heavier, gold, and leans
+            forward. Tracked tight so the two words read as one mark. */}
+        <span className="font-[family-name:var(--font-display)] text-[1.125rem] leading-none tracking-[-0.04em] sm:text-[1.3rem]">
           <span
-            className={
-              light ? "text-white" : "text-[color:var(--color-sea-700)]"
-            }
+            className={`font-medium ${
+              light ? "text-white/90" : "text-[color:var(--color-sea-700)]"
+            }`}
           >
             Get Work
           </span>{" "}
           <span
-            className={
+            className={`font-bold italic ${
               light
                 ? "text-[color:var(--color-sun-400)]"
                 : "text-[color:var(--color-sun-650)]"
-            }
+            }`}
           >
             Abroad
           </span>

@@ -16,6 +16,8 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
   display: "swap",
   weight: ["500", "600", "700"],
+  /* Italic is loaded for one thing only: the "Abroad" in the wordmark. */
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
