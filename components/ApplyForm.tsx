@@ -5,7 +5,15 @@ import { ArrowRight, Whatsapp, Check } from "./Icons";
 import { site, languages } from "@/lib/site";
 import { destinations } from "@/lib/destinations";
 import { jobCategories } from "@/lib/jobs";
-import { supabase, AVAILABILITY, AVAILABILITY_LABEL } from "@/lib/supabase";
+import {
+  supabase,
+  AVAILABILITY,
+  AVAILABILITY_LABEL,
+  COMMITMENTS,
+  COMMITMENT_LABEL,
+  ENGLISH_LEVELS,
+  ENGLISH_LABEL,
+} from "@/lib/supabase";
 
 /**
  * The application is saved first and offered to WhatsApp second.
@@ -52,6 +60,8 @@ export function ApplyForm({ role = "" }: { role?: string }) {
       `Native language: ${get("language")}`,
       `EU passport: ${get("eu_passport") === "yes" ? "Yes" : "No"}`,
       `Could move: ${AVAILABILITY_LABEL[get("availability")] ?? "Not said"}`,
+      `How set: ${COMMITMENT_LABEL[get("commitment")] ?? "Not said"}`,
+      `English: ${ENGLISH_LABEL[get("english_level")] ?? "Not said"}`,
       `Preferred country: ${get("country") || "Open to any"}`,
       `Role type: ${get("category") || "Open to any"}`,
       get("role") ? `Role of interest: ${get("role")}` : "",
@@ -105,6 +115,11 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         cv_filename,
         eu_passport: get("eu_passport") === "yes",
         availability: get("availability") || null,
+        commitment: get("commitment") || null,
+        english_level: get("english_level") || null,
+        relocated_before: get("relocated_before")
+          ? get("relocated_before") === "yes"
+          : null,
         consent_at: new Date().toISOString(),
         source: "website",
       });
@@ -228,6 +243,14 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           </select>
         </Field>
 
+        <div className="sm:col-span-2 rounded-xl border border-[color:var(--color-sea-200)] bg-[color:var(--color-sea-50)] px-4 py-3">
+          <p className="text-[0.8125rem] leading-relaxed text-[color:var(--color-sea-900)]">
+            A few quick questions so we can move fast. These roles fill on
+            ongoing intakes — the sooner and surer you can move, the quicker we
+            get your CV in front of the right desk.
+          </p>
+        </div>
+
         {/* Right to work decides whether we can place someone at all, so it is
             asked plainly and up front rather than discovered on the first call. */}
         <Field label="Do you hold an EU passport?" required>
@@ -250,6 +273,42 @@ export function ApplyForm({ role = "" }: { role?: string }) {
                 {a.label}
               </option>
             ))}
+          </select>
+        </Field>
+
+        <Field label="How set are you on moving?" required>
+          <select name="commitment" required defaultValue="" className={field}>
+            <option value="" disabled>
+              Choose one
+            </option>
+            {COMMITMENTS.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Your English" required>
+          <select name="english_level" required defaultValue="" className={field}>
+            <option value="" disabled>
+              Choose one
+            </option>
+            {ENGLISH_LEVELS.map((e) => (
+              <option key={e.value} value={e.value}>
+                {e.label}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Have you lived or worked abroad before?" required>
+          <select name="relocated_before" required defaultValue="" className={field}>
+            <option value="" disabled>
+              Choose one
+            </option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
           </select>
         </Field>
 

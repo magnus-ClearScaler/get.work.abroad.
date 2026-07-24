@@ -170,12 +170,21 @@ body {
   html { scroll-behavior: auto; }
   .marquee-track { animation: none; }
   .rise { animation: none; }
+  .live-dot { animation: none; }
   /* Scroll-reveal content is shown outright, never held hidden. */
   .reveal { opacity: 1 !important; transform: none !important; }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* The live-need dot on job cards. A slow, calm pulse — a heartbeat, not an
+   alarm. Stilled for reduced-motion above. */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+.live-dot { animation: live-pulse 1.8s ease-in-out infinite; }
 
 /* Native accordion chrome */
 details > summary { list-style: none; cursor: pointer; }

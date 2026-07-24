@@ -21,9 +21,9 @@ export default async function JobsPage(props: PageProps<"/jobs">) {
       <PhotoHeader
         photo="/photos/porto-ribeira.jpg"
         alt="The painted houses of the Ribeira waterfront in Porto, rabelo boats moored on the Douro below"
-        eyebrow={`${jobs.length} roles open`}
+        eyebrow={`${jobs.length} live roles · hiring now`}
         title="Open jobs"
-        intro="Permanent roles for native language speakers in Spain, Portugal and Greece. Each listing states the contract, the working model and exactly what the employer covers to get you there. We confirm the salary with you on the first call."
+        intro="These are live needs, not a job board. Employers are hiring for them now, intakes run every couple of weeks, and most starts are within a month. If you can move soon, this is the fast route in — each listing states the contract, the working model and exactly what the employer covers to get you there."
       />
 
       <Container className="pt-8 pb-20 sm:pb-28">

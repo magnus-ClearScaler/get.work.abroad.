@@ -49,6 +49,112 @@ export const AVAILABILITY_LABEL: Record<string, string> = Object.fromEntries(
   AVAILABILITY.map((a) => [a.value, a.label]),
 );
 
+/** Enough English for training and internal comms — conversational is the floor. */
+export type EnglishLevel = "basic" | "conversational" | "fluent" | "native";
+
+export const ENGLISH_LEVELS: { value: EnglishLevel; label: string }[] = [
+  { value: "basic", label: "Basic" },
+  { value: "conversational", label: "Conversational (B2)" },
+  { value: "fluent", label: "Fluent" },
+  { value: "native", label: "Native" },
+];
+
+/** How set they are on moving. The seriousness signal, distinct from timing. */
+export type Commitment = "ready_now" | "planning" | "exploring";
+
+export const COMMITMENTS: { value: Commitment; label: string }[] = [
+  { value: "ready_now", label: "Ready to go now" },
+  { value: "planning", label: "Planning it seriously" },
+  { value: "exploring", label: "Still exploring" },
+];
+
+export const ENGLISH_LABEL: Record<string, string> = Object.fromEntries(
+  ENGLISH_LEVELS.map((e) => [e.value, e.label]),
+);
+export const COMMITMENT_LABEL: Record<string, string> = Object.fromEntries(
+  COMMITMENTS.map((c) => [c.value, c.label]),
+);
+
+/**
+ * A single readiness read, computed from the screening answers — no stored
+ * score to drift. The point is to spot the placeable lead at a glance: an
+ * EU-eligible candidate who can move soon, means it, and has a CV on file is
+ * the one worth walking over to TopJobs today. Everyone else is pipeline.
+ */
+export type Readiness = {
+  tier: "ready" | "warming" | "early" | "ineligible" | "unscreened";
+  label: string;
+  tone: string; // Tailwind classes
+  score: number;
+};
+
+export function readiness(c: {
+  eu_passport: boolean | null;
+  availability: Availability | null;
+  commitment: Commitment | null;
+  english_level: EnglishLevel | null;
+  relocated_before: boolean | null;
+  cv_path: string | null;
+}): Readiness {
+  // Without the right to work we cannot place them, full stop.
+  if (c.eu_passport === false)
+    return {
+      tier: "ineligible",
+      label: "No EU passport",
+      tone: "bg-[color:var(--color-terra-100)] text-[color:var(--color-terra-600)]",
+      score: 0,
+    };
+
+  const answered =
+    c.availability || c.commitment || c.english_level || c.eu_passport !== null;
+  if (!answered)
+    return {
+      tier: "unscreened",
+      label: "Not screened",
+      tone: "bg-[color:var(--color-sand-200)] text-[color:var(--color-mute)]",
+      score: 0,
+    };
+
+  // Speed to start is weighted hardest — that is where a placement is made.
+  const move = { this_month: 3, "1_3_months": 2, later: 0 } as const;
+  const commit = { ready_now: 3, planning: 1, exploring: 0 } as const;
+  const eng = { native: 2, fluent: 2, conversational: 1, basic: 0 } as const;
+
+  let score = 0;
+  if (c.availability) score += move[c.availability];
+  if (c.commitment) score += commit[c.commitment];
+  if (c.english_level) score += eng[c.english_level];
+  if (c.relocated_before) score += 1;
+  if (c.cv_path) score += 1;
+
+  // Ready = can move soon AND means it AND could actually do the job.
+  const soon =
+    c.availability === "this_month" || c.availability === "1_3_months";
+  const serious = c.commitment === "ready_now" || c.commitment === "planning";
+  const canWork = c.english_level !== "basic";
+
+  if (score >= 7 && soon && serious && canWork)
+    return {
+      tier: "ready",
+      label: "Ready to go",
+      tone: "bg-[color:var(--color-olive-100)] text-[color:var(--color-olive-600)]",
+      score,
+    };
+  if (score >= 4 && soon)
+    return {
+      tier: "warming",
+      label: "Warming up",
+      tone: "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",
+      score,
+    };
+  return {
+    tier: "early",
+    label: "Early / pipeline",
+    tone: "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-800)]",
+    score,
+  };
+}
+
 export type SubmissionStatus =
   | "sent"
   | "screening"
@@ -77,6 +183,9 @@ export type Candidate = {
   /** Null means we never asked, which is not the same as "no". */
   eu_passport: boolean | null;
   availability: Availability | null;
+  english_level: EnglishLevel | null;
+  commitment: Commitment | null;
+  relocated_before: boolean | null;
   consent_at: string | null;
   notes: string | null;
 };

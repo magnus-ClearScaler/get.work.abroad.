@@ -11,6 +11,11 @@ import {
   STATUS_LABEL,
   AVAILABILITY_LABEL,
   AVAILABILITY,
+  ENGLISH_LEVELS,
+  ENGLISH_LABEL,
+  COMMITMENTS,
+  COMMITMENT_LABEL,
+  readiness,
   sinceLabel,
   type Candidate,
   type Partner,
@@ -250,6 +255,27 @@ export default function CandidatePage() {
         </div>
       </div>
 
+      {(() => {
+        const r = readiness(candidate);
+        if (r.tier === "unscreened" || r.tier === "ineligible") return null;
+        const line =
+          r.tier === "ready"
+            ? "Screens as placeable now — EU-eligible, can move soon and means it. Worth walking to TopJobs today."
+            : r.tier === "warming"
+              ? "Can move soon but not fully there on the rest. Worth a nudge before you spend a slot on them."
+              : "Pipeline for now — not ready to start soon. Keep warm, do not lead with them.";
+        return (
+          <div
+            className={`mt-5 flex flex-wrap items-center gap-3 rounded-xl px-4 py-3 ${r.tone}`}
+          >
+            <span className="rounded-full bg-white/60 px-2.5 py-1 text-[0.75rem] font-bold">
+              {r.label}
+            </span>
+            <span className="text-[0.875rem] font-medium">{line}</span>
+          </div>
+        );
+      })()}
+
       {candidate.eu_passport === false ? (
         <p className="mt-5 rounded-xl border border-[color:var(--color-terra-500)]/30 bg-[color:var(--color-terra-100)] px-4 py-3 text-[0.875rem] font-medium text-[color:var(--color-terra-600)]">
           No EU passport. We cannot place this candidate on the roles we recruit
@@ -323,6 +349,19 @@ export default function CandidatePage() {
                 {candidate.availability
                   ? AVAILABILITY_LABEL[candidate.availability]
                   : "—"}
+              </Row>
+              <Row label="How set on moving">
+                {candidate.commitment ? COMMITMENT_LABEL[candidate.commitment] : "—"}
+              </Row>
+              <Row label="English">
+                {candidate.english_level ? ENGLISH_LABEL[candidate.english_level] : "—"}
+              </Row>
+              <Row label="Lived abroad before">
+                {candidate.relocated_before === null
+                  ? "—"
+                  : candidate.relocated_before
+                    ? "Yes"
+                    : "No"}
               </Row>
               <Row label="Preferred country">{candidate.preferred_country ?? "Open to any"}</Row>
               <Row label="Role type">{candidate.role_type ?? "Open to any"}</Row>
@@ -515,6 +554,10 @@ function DetailsForm({
       language: str("language"),
       eu_passport: eu === "" ? null : eu === "yes",
       availability: (str("availability") || null) as Candidate["availability"],
+      commitment: (str("commitment") || null) as Candidate["commitment"],
+      english_level: (str("english_level") || null) as Candidate["english_level"],
+      relocated_before:
+        str("relocated_before") === "" ? null : str("relocated_before") === "yes",
       preferred_country: str("preferred_country") || null,
       role_type: str("role_type") || null,
       role_interest: str("role_interest") || null,
@@ -563,6 +606,33 @@ function DetailsForm({
           {AVAILABILITY.map((a) => (
             <option key={a.value} value={a.value}>{a.label}</option>
           ))}
+        </select>
+      </Labelled>
+      <Labelled label="How set on moving">
+        <select name="commitment" defaultValue={candidate.commitment ?? ""} className={field}>
+          <option value="">Not said</option>
+          {COMMITMENTS.map((c) => (
+            <option key={c.value} value={c.value}>{c.label}</option>
+          ))}
+        </select>
+      </Labelled>
+      <Labelled label="English">
+        <select name="english_level" defaultValue={candidate.english_level ?? ""} className={field}>
+          <option value="">Not said</option>
+          {ENGLISH_LEVELS.map((e) => (
+            <option key={e.value} value={e.value}>{e.label}</option>
+          ))}
+        </select>
+      </Labelled>
+      <Labelled label="Lived or worked abroad before">
+        <select
+          name="relocated_before"
+          defaultValue={candidate.relocated_before === null ? "" : candidate.relocated_before ? "yes" : "no"}
+          className={field}
+        >
+          <option value="">Not said</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
         </select>
       </Labelled>
       <Labelled label="Preferred country">

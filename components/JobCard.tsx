@@ -19,6 +19,12 @@ export function JobCard({ job, priority }: { job: Job; priority?: boolean }) {
           className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
         />
         <div className="absolute inset-0 scrim-b opacity-70" />
+        {/* Live-need signal. These are ongoing openings with fast intakes, and
+            saying so up front is both true and what makes someone apply today. */}
+        <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-[color:var(--color-sun-400)] px-2.5 py-1 text-[0.6875rem] font-bold tracking-wide text-[color:var(--color-sea-950)] uppercase">
+          <span className="live-dot h-1.5 w-1.5 rounded-full bg-[color:var(--color-sea-950)]" />
+          Hiring now
+        </span>
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[0.75rem] font-semibold text-[color:var(--color-ink)] backdrop-blur-sm">
             <span aria-hidden="true">{job.flag}</span>

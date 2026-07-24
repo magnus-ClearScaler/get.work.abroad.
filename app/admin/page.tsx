@@ -8,6 +8,7 @@ import {
   STATUS_TONE,
   STATUS_LABEL,
   AVAILABILITY_LABEL,
+  readiness,
   sinceLabel,
   type Candidate,
 } from "@/lib/supabase";
@@ -25,6 +26,9 @@ export default function CandidatesPage() {
      place them — so the list opens on the pool that is actually workable. */
   const [pool, setPool] = useState<"eu" | "non_eu" | "all">("eu");
   const [language, setLanguage] = useState("");
+  /* The whole point: surface who is placeable now. Defaults to everyone,
+     but one click narrows to the leads worth walking to TopJobs today. */
+  const [readyOnly, setReadyOnly] = useState(false);
 
   useEffect(() => {
     supabase
@@ -45,6 +49,7 @@ export default function CandidatesPage() {
       if (pool === "non_eu" && c.eu_passport === true) return false;
       if (statusFilter && c.status !== statusFilter) return false;
       if (language && c.language !== language) return false;
+      if (readyOnly && readiness(c).tier !== "ready") return false;
       if (!needle) return true;
       return [c.name, c.email, c.phone, c.role_interest, c.preferred_country]
         .filter(Boolean)
@@ -52,7 +57,7 @@ export default function CandidatesPage() {
         .toLowerCase()
         .includes(needle);
     });
-  }, [rows, q, statusFilter, language, pool]);
+  }, [rows, q, statusFilter, language, pool, readyOnly]);
 
   /* Optimistic: the row flips immediately and the write follows. A failure
      puts it back rather than leaving the screen lying about the database. */
@@ -86,6 +91,11 @@ export default function CandidatesPage() {
     return { eu, non_eu: rows.length - eu, all: rows.length };
   }, [rows]);
 
+  const readyCount = useMemo(
+    () => rows.filter((c) => readiness(c).tier === "ready").length,
+    [rows],
+  );
+
   return (
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -101,7 +111,7 @@ export default function CandidatesPage() {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="mt-6 flex flex-wrap items-center gap-2">
         {([
           ["eu", `EU passport · ${pools.eu}`],
           ["non_eu", `Non-EU · ${pools.non_eu}`],
@@ -121,6 +131,22 @@ export default function CandidatesPage() {
             {label}
           </button>
         ))}
+
+        <span className="mx-1 hidden h-6 w-px bg-[color:var(--color-line)] sm:block" />
+
+        {/* The placeable-today filter. Green because it is the money view. */}
+        <button
+          type="button"
+          onClick={() => setReadyOnly((v) => !v)}
+          aria-pressed={readyOnly}
+          className={`rounded-full px-4 py-2 text-[0.875rem] font-semibold transition-colors ${
+            readyOnly
+              ? "bg-[color:var(--color-olive-500)] text-white"
+              : "border border-[color:var(--color-olive-500)]/40 bg-[color:var(--color-olive-100)] text-[color:var(--color-olive-600)] hover:border-[color:var(--color-olive-500)]"
+          }`}
+        >
+          ● Ready to go · {readyCount}
+        </button>
       </div>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -181,8 +207,8 @@ export default function CandidatesPage() {
             <thead className="border-b border-[color:var(--color-line)] text-[0.75rem] tracking-wide text-[color:var(--color-mute)] uppercase">
               <tr>
                 <th className="px-5 py-3.5 font-medium">Name</th>
+                <th className="px-5 py-3.5 font-medium">Readiness</th>
                 <th className="px-5 py-3.5 font-medium">Language</th>
-                <th className="px-5 py-3.5 font-medium">Wants</th>
                 <th className="px-5 py-3.5 font-medium">Can move</th>
                 <th className="px-5 py-3.5 font-medium">CV</th>
                 <th className="px-5 py-3.5 font-medium">Status</th>
@@ -208,11 +234,19 @@ export default function CandidatesPage() {
                       </span>
                     ) : null}
                   </td>
-                  <td className="px-5 py-4 text-[0.9375rem]">{c.language}</td>
-                  <td className="px-5 py-4 text-[0.9375rem] text-[color:var(--color-body)]">
-                    {[c.preferred_country, c.role_type].filter(Boolean).join(" · ") ||
-                      "Open to any"}
+                  <td className="px-5 py-4">
+                    {(() => {
+                      const r = readiness(c);
+                      return (
+                        <span
+                          className={`inline-block rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${r.tone}`}
+                        >
+                          {r.label}
+                        </span>
+                      );
+                    })()}
                   </td>
+                  <td className="px-5 py-4 text-[0.9375rem]">{c.language}</td>
                   <td className="px-5 py-4 text-[0.875rem] text-[color:var(--color-body)]">
                     {c.availability ? AVAILABILITY_LABEL[c.availability] : "—"}
                   </td>
