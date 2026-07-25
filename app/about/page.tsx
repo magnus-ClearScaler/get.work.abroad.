@@ -34,8 +34,8 @@ export default function AboutPage() {
   return (
     <>
       <PhotoHeader
-        photo="/photos/greek-taverna-table.jpg"
-        alt="A shared table outside a Greek taverna, plates and glasses between friends"
+        photo="/photos/about-friends-rooftop.jpg"
+        alt="A diverse group of young friends laughing together on a rooftop at golden hour"
         eyebrow="About us"
         title="Moving abroad is the easiest hard thing you will ever do"
         intro="We place native language speakers into permanent roles across Spain, Portugal and Greece. We do it because we have made the move ourselves, and because we have yet to meet anyone who did it and wished they had not."

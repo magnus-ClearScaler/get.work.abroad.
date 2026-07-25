@@ -53,8 +53,8 @@ export default function EmployersPage() {
   return (
     <>
       <PhotoHeader
-        photo="/photos/lisbon-dusk-city.jpg"
-        alt="Lisbon at dusk, the city lights coming on across the hills"
+        photo="/photos/employers-team-meeting.jpg"
+        alt="A team in discussion around a table in a bright, modern office"
         eyebrow="For employers"
         title="The languages you cannot fill locally"
         intro="We source native speakers for service, sales and support teams across Spain, Portugal and Greece. Our candidates come from channels we own, which is why we can move on the roles everyone else leaves open."

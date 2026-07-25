@@ -64,8 +64,9 @@ export default async function JobPage(props: PageProps<"/jobs/[slug]">) {
   return (
     <>
       <PhotoHeader
-        photo={job.photo}
-        alt={job.alt}
+        photo={job.heroPhoto ?? job.photo}
+        alt={job.heroAlt ?? job.alt}
+        focal={job.heroFocal ?? "center"}
         eyebrow={`${job.flag} ${job.city}, ${job.countryName}`}
         title={job.title}
       >

@@ -27,8 +27,15 @@ export type Job = {
   countryName: string;
   flag: string;
   city: string;
+  /** Card image (16:10). A portrait shot crops fine here. */
   photo: string;
   alt: string;
+  /** Optional wide image for the full-bleed detail hero, where a portrait
+   *  photo would zoom badly. Falls back to `photo`. */
+  heroPhoto?: string;
+  heroAlt?: string;
+  /** object-position for the hero crop, e.g. "center 32%". */
+  heroFocal?: string;
   /** Anonymised description of who you would actually work for. */
   employer: string;
   contract: string;
@@ -90,6 +97,8 @@ export const jobs: Job[] = [
     city: "Lisbon",
     photo: "/photos/user-lisbon-golden.jpg",
     alt: "Lisbon at golden hour, the castle above the rooftops and the Tagus beyond",
+    heroPhoto: "/photos/lisbon-sunset-bridge.jpg",
+    heroAlt: "Lisbon at sunset, rooftops running to the 25 de Abril bridge and the Tagus",
     employer: "A globally recognised brand, from its Lisbon hub",
     contract: "Permanent",
     model: "On-site",
@@ -165,6 +174,7 @@ export const jobs: Job[] = [
     city: "Alicante",
     photo: "/photos/alicante-beach-castle.jpg",
     alt: "Santa Bárbara castle on its mountain above the beach and town of Alicante",
+    heroFocal: "center 34%",
     employer: "A Dutch telecoms provider, from its Alicante hub",
     contract: "Permanent",
     model: "On-site",
@@ -369,6 +379,8 @@ export const jobs: Job[] = [
     city: "Athens",
     photo: "/photos/user-greece-cove.jpg",
     alt: "A turquoise cove with umbrellas on a white pebble beach in Greece",
+    heroPhoto: "/photos/greece-mykonos.jpg",
+    heroAlt: "Whitewashed island houses above turquoise water in the Greek islands",
     employer: "One of the largest customer experience employers in Greece",
     contract: "Permanent",
     model: "On-site",
