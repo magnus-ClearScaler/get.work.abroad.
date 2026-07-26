@@ -21,8 +21,9 @@ export default function HowItWorksPage() {
   return (
     <>
       <PhotoHeader
-        photo="/photos/athens-golden.jpg"
-        alt="The Acropolis above Athens at golden hour"
+        photo="/photos/mediterranean-cliff-town.jpg"
+        alt="A clifftop dining terrace over the sea in a golden-lit Mediterranean town"
+        focal="center 40%"
         eyebrow="How it works"
         title="From your CV to your first day, in four steps"
         intro="We are paid by the employer when you are hired, which is the only reason this is free for you. It also means we have no interest in sending you somewhere you will leave in three months."
