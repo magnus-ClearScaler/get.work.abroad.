@@ -40,8 +40,8 @@ export function Package() {
     <section className="bg-[color:var(--color-sand-100)] py-14 sm:py-20">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <div className="relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-photo)] lg:sticky lg:top-28">
+          <div className="relative lg:sticky lg:top-28">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-photo)]">
               <Image
                 src="/photos/greece-taverna-alley.jpg"
                 alt="Bougainvillea hanging over a taverna terrace in a whitewashed Greek alley"

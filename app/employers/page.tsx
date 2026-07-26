@@ -103,14 +103,16 @@ export default function EmployersPage() {
               </div>
             </div>
 
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-photo)] lg:sticky lg:top-28">
-              <Image
-                src="/photos/porto-azulejo.jpg"
-                alt="A blue azulejo-tiled wall in Porto"
-                fill
-                sizes="(max-width: 1024px) 92vw, 40vw"
-                className="object-cover"
-              />
+            <div className="lg:sticky lg:top-28">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-photo)]">
+                <Image
+                  src="/photos/porto-azulejo.jpg"
+                  alt="A blue azulejo-tiled wall in Porto"
+                  fill
+                  sizes="(max-width: 1024px) 92vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         </Container>
