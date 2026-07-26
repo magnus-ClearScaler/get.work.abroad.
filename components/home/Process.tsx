@@ -32,18 +32,26 @@ const steps = [
   },
 ];
 
-export function Process() {
+/**
+ * `showHead` is off on the standalone /how-it-works page, where the heading
+ * already lives in the photo hero above the steps.
+ */
+export function Process({ showHead = true }: { showHead?: boolean }) {
   return (
     <section className="bg-[color:var(--color-sand-100)] py-14 sm:py-20">
       <Container>
-        <SectionHead
-          eyebrow="How it works"
-          title="From your CV to your first day, in four steps"
-          intro="We are paid by the employer when you are hired, which is the only reason this is free for you. It also means we have no interest in sending you somewhere you will leave in three months."
-          align="center"
-        />
+        {showHead ? (
+          <SectionHead
+            eyebrow="How it works"
+            title="From your CV to your first day, in four steps"
+            intro="We are paid by the employer when you are hired, which is the only reason this is free for you. It also means we have no interest in sending you somewhere you will leave in three months."
+            align="center"
+          />
+        ) : null}
 
-        <ol className="mt-14 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+        <ol
+          className={`grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 ${showHead ? "mt-14" : ""}`}
+        >
           {steps.map((s) => (
             <li
               key={s.n}

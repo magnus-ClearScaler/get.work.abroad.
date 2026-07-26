@@ -18,6 +18,7 @@ export const site = {
     { label: "Spain", href: "/destinations/spain" },
     { label: "Portugal", href: "/destinations/portugal" },
     { label: "Greece", href: "/destinations/greece" },
+    { label: "How it works", href: "/how-it-works" },
     { label: "For employers", href: "/employers" },
     { label: "About", href: "/about" },
   ],

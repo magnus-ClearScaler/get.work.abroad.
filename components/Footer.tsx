@@ -61,6 +61,7 @@ export function Footer() {
             title="Company"
             links={[
               { label: "About us", href: "/about" },
+              { label: "How it works", href: "/how-it-works" },
               { label: "For employers", href: "/employers" },
               { label: "Your safety", href: "/safety" },
               { label: "Privacy", href: "/privacy" },
