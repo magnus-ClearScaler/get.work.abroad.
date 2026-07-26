@@ -8,6 +8,8 @@ import {
   STATUS_TONE,
   STATUS_LABEL,
   AVAILABILITY_LABEL,
+  COMMITMENT_LABEL,
+  ENGLISH_LABEL,
   readiness,
   sinceLabel,
   type Candidate,
@@ -96,19 +98,73 @@ export default function CandidatesPage() {
     [rows],
   );
 
+  /* Same email applied more than once. Flagged rather than blocked: a real
+     person re-applying is fine, we just want to see it. */
+  const dupEmails = useMemo(() => {
+    const seen = new Map<string, number>();
+    for (const c of rows) {
+      const e = c.email.trim().toLowerCase();
+      seen.set(e, (seen.get(e) ?? 0) + 1);
+    }
+    return new Set([...seen].filter(([, n]) => n > 1).map(([e]) => e));
+  }, [rows]);
+
+  /* Download the current view as a spreadsheet, for a backup or a batch
+     handoff. Respects the filters that are on, so "Ready to go" plus a
+     language gives you exactly that list. */
+  function exportCsv() {
+    type Col = [string, keyof Candidate | ((c: Candidate) => string)];
+    const cols: Col[] = [
+      ["Name", "name"],
+      ["Email", "email"],
+      ["Phone", "phone"],
+      ["Language", "language"],
+      ["EU passport", (c) => (c.eu_passport === null ? "" : c.eu_passport ? "Yes" : "No")],
+      ["Can move", (c) => (c.availability ? AVAILABILITY_LABEL[c.availability] : "")],
+      ["How set", (c) => (c.commitment ? COMMITMENT_LABEL[c.commitment] : "")],
+      ["English", (c) => (c.english_level ? ENGLISH_LABEL[c.english_level] : "")],
+      ["Lived abroad", (c) => (c.relocated_before === null ? "" : c.relocated_before ? "Yes" : "No")],
+      ["Readiness", (c) => readiness(c).label],
+      ["Preferred country", "preferred_country"],
+      ["Role type", "role_type"],
+      ["Role of interest", "role_interest"],
+      ["Status", (c) => STATUS_LABEL[c.status]],
+      ["CV", (c) => c.cv_filename ?? ""],
+      ["Applied", (c) => new Date(c.created_at).toISOString().slice(0, 10)],
+    ];
+    const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const rowsCsv = results.map((c) =>
+      cols.map(([, k]) => esc(typeof k === "function" ? k(c) : c[k])).join(","),
+    );
+    const csv = [cols.map((col) => col[0]).join(","), ...rowsCsv].join("\r\n");
+    const url = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `candidates-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="h-section text-[1.75rem]">Candidates</h1>
-          <p className="mt-1.5 text-[0.9375rem] text-[color:var(--color-body)]">
-            {rows.length} in total
-            {CANDIDATE_STATUSES.filter((s) => counts[s]).length ? " · " : ""}
-            {CANDIDATE_STATUSES.filter((s) => counts[s])
-              .map((s) => `${counts[s]} ${STATUS_LABEL[s].toLowerCase()}`)
-              .join(", ")}
-          </p>
-        </div>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="h-section text-[1.75rem]">Candidates</h1>
+        <button
+          type="button"
+          onClick={exportCsv}
+          disabled={results.length === 0}
+          className="rounded-full border border-[color:var(--color-line)] bg-white px-4 py-2 text-[0.8125rem] font-semibold text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-sea-300)] disabled:opacity-50"
+        >
+          Export CSV ({results.length})
+        </button>
+      </div>
+
+      {/* At a glance. Placed and Ready are the two numbers that matter most. */}
+      <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Tile label="Total" value={rows.length} />
+        <Tile label="Ready to go" value={readyCount} tone="olive" />
+        <Tile label="Sent to TopJobs" value={counts.sent_to_topjobs ?? 0} tone="sea" />
+        <Tile label="Placed" value={counts.placed ?? 0} tone="olive" />
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-2">
@@ -228,11 +284,21 @@ export default function CandidatesPage() {
                     <div className="text-[0.8125rem] text-[color:var(--color-mute)]">
                       {c.email}
                     </div>
-                    {c.eu_passport === false ? (
-                      <span className="mt-1 inline-block rounded-full bg-[color:var(--color-terra-100)] px-2 py-0.5 text-[0.6875rem] font-semibold text-[color:var(--color-terra-600)]">
-                        No EU passport
-                      </span>
-                    ) : null}
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {c.eu_passport === false ? (
+                        <span className="inline-block rounded-full bg-[color:var(--color-terra-100)] px-2 py-0.5 text-[0.6875rem] font-semibold text-[color:var(--color-terra-600)]">
+                          No EU passport
+                        </span>
+                      ) : null}
+                      {dupEmails.has(c.email.trim().toLowerCase()) ? (
+                        <span
+                          title="This email applied more than once"
+                          className="inline-block rounded-full bg-[color:var(--color-sun-100)] px-2 py-0.5 text-[0.6875rem] font-semibold text-[color:var(--color-sun-700)]"
+                        >
+                          Duplicate
+                        </span>
+                      ) : null}
+                    </div>
                   </td>
                   <td className="px-5 py-4">
                     {(() => {
@@ -284,5 +350,32 @@ export default function CandidatesPage() {
         </div>
       )}
     </>
+  );
+}
+
+function Tile({
+  label,
+  value,
+  tone = "plain",
+}: {
+  label: string;
+  value: number;
+  tone?: "plain" | "olive" | "sea";
+}) {
+  const num =
+    tone === "olive"
+      ? "text-[color:var(--color-olive-600)]"
+      : tone === "sea"
+        ? "text-[color:var(--color-sea-700)]"
+        : "text-[color:var(--color-ink)]";
+  return (
+    <div className="rounded-2xl border border-[color:var(--color-line)] bg-white px-5 py-4">
+      <div className={`font-[family-name:var(--font-display)] text-[1.75rem] font-semibold tracking-[-0.02em] ${num}`}>
+        {value}
+      </div>
+      <div className="mt-0.5 text-[0.8125rem] text-[color:var(--color-mute)]">
+        {label}
+      </div>
+    </div>
   );
 }

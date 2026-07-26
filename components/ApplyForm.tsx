@@ -81,6 +81,14 @@ export function ApplyForm({ role = "" }: { role?: string }) {
     const data = new FormData(form);
     const get = (k: string) => String(data.get(k) ?? "").trim();
 
+    /* Honeypot: a field hidden from people but happily filled by bots. If it
+       has anything in it, act successful and drop the submission, so the open
+       apply endpoint does not become a spam funnel into the CV bucket. */
+    if (get("website")) {
+      setSent(summarise(data));
+      return;
+    }
+
     if (!cv) {
       setError("Attach your CV. We cannot put you forward without one.");
       return;
@@ -182,6 +190,15 @@ export function ApplyForm({ role = "" }: { role?: string }) {
       onSubmit={handleSubmit}
       className="rounded-2xl border border-[color:var(--color-line)] bg-white p-6 shadow-[var(--shadow-card)] sm:p-8"
     >
+      {/* Honeypot. Off-screen, not a tab stop, hidden from screen readers, so
+          only a bot fills it. Real applicants never see it. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <label>
+          Website
+          <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name" required>
           <input name="name" required className={field} placeholder="Anna Jansen" />
