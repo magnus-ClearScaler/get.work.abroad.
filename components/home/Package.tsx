@@ -10,8 +10,8 @@ const included = [
   },
   {
     Icon: Keys,
-    title: "Somewhere to land",
-    body: "Two to four weeks of accommodation on arrival, and genuine help finding a flat after that.",
+    title: "Help to land",
+    body: "Many roles cover your first weeks of accommodation on arrival, and there is genuine help finding a flat either way.",
   },
   {
     Icon: Shield,

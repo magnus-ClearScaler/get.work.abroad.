@@ -31,17 +31,17 @@ export function Hero() {
           centred in the space below the header rather than the whole viewport. */}
       <Container className="relative z-10 flex flex-col items-center pt-[10.5rem] pb-24 text-center">
         <h1 className="h-display max-w-[20ch] text-[clamp(2.25rem,5vw,3.75rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.55)]">
-          Live on the Mediterranean,{" "}
+          Live on the Mediterranean.{" "}
           <span className="text-[color:var(--color-sun-300)]">
-            paid to speak your own language.
+            Get paid to speak your own language.
           </span>
         </h1>
 
         <p className="mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-pretty text-white [text-shadow:0_1px_16px_rgba(6,32,43,0.6)]">
-          Permanent roles for Dutch, German and Scandinavian speakers, with the
-          flight, the flat and the paperwork covered. You bring the language.
-          The coast, the people, and the version of you that comes back come
-          with it.
+          Permanent roles for Dutch, German and Scandinavian speakers, with a
+          relocation package and help with the paperwork. You bring the
+          language. The coast, the people, and the version of you that comes
+          back come with it.
         </p>
 
         <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">

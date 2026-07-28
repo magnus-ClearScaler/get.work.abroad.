@@ -8,7 +8,7 @@ import { ArrowRight, Plane } from "@/components/Icons";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "From your CV to your first day in four steps. We are paid by the employer, so it is free for you: flights, accommodation and paid training covered in Spain, Portugal and Greece.",
+    "From your CV to your first day in four steps. We are paid by the employer, so it is free for you: flights, relocation support and paid training covered in Spain, Portugal and Greece.",
   openGraph: {
     title: "How it works · Get Work Abroad",
     description:

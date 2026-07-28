@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s · Get Work Abroad",
   },
   description:
-    "Permanent jobs on the Mediterranean for native language speakers. Flights, accommodation and paid training included. Free for candidates, always.",
+    "Permanent jobs on the Mediterranean for native language speakers. Flights, relocation support and paid training included. Free for candidates, always.",
   keywords: [
     "jobs abroad",
     "language jobs",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Get Work Abroad · Language jobs on the Mediterranean",
     description:
-      "Permanent roles in Spain, Portugal and Greece for native language speakers. Flights, accommodation and paid training included.",
+      "Permanent roles in Spain, Portugal and Greece for native language speakers. Flights, relocation support and paid training included.",
     url: site.url,
     siteName: site.name,
     type: "website",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Get Work Abroad · Language jobs on the Mediterranean",
     description:
-      "Permanent roles in Spain, Portugal and Greece. Flights, accommodation and paid training included.",
+      "Permanent roles in Spain, Portugal and Greece. Flights, relocation support and paid training included.",
     images: ["/og.jpg"],
   },
 };
