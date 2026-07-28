@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "How it works · Get Work Abroad",
     description:
-      "From your CV to your first day in four steps. Free for candidates — the employer pays. Permanent roles on the Mediterranean.",
+      "From your CV to your first day in four steps. Free for candidates: the employer pays. Permanent roles on the Mediterranean.",
     images: [{ url: "/og.jpg", width: 1200, height: 630 }],
   },
 };

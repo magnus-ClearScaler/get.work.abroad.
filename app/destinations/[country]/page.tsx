@@ -272,8 +272,8 @@ export default async function DestinationPage(
               </h3>
               <p className="mx-auto mt-3 max-w-md text-[1.0625rem] leading-relaxed text-pretty text-[color:var(--color-body)]">
                 Intakes here open on a rolling basis. Send your CV and we will
-                come to you the moment a {d.country} role that fits opens up —
-                you will be first in the queue, not last to hear.
+                come to you the moment a {d.country} role that fits opens up.
+                You will be first in the queue, not last to hear.
               </p>
               <div className="mt-7 flex flex-wrap justify-center gap-3">
                 <Button href="/apply" variant="sun">

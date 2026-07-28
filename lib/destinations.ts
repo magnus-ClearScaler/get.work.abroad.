@@ -38,7 +38,7 @@ export const destinations: Destination[] = [
     },
     headline: "Spain",
     intro:
-      "Three hundred days of sun a year, swimming into October, and a winter that is a mild grey fortnight rather than a season — that is the part that changes your life. The timing is the rest of it: Málaga spent the last decade turning from a beach town into the fastest-growing tech city in Spain. Google put its largest European cybersecurity centre here, on the seafront between the marina and La Malagueta beach, and Vodafone a €225 million research hub. The city ran out of local candidates, which is exactly why it is hiring people like you.",
+      "Three hundred days of sun a year, swimming into October, and a winter that is a mild grey fortnight rather than a season. That is the part that changes your life. The timing is the rest of it: Málaga spent the last decade turning from a beach town into the fastest-growing tech city in Spain. Google put its largest European cybersecurity centre here, on the seafront between the marina and La Malagueta beach, and Vodafone a €225 million research hub. The city ran out of local candidates, which is exactly why it is hiring people like you.",
     whyMove: [
       {
         title: "You are moving somewhere that is going up",

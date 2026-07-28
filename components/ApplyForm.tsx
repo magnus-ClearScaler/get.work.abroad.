@@ -167,7 +167,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         <p className="mx-auto mt-3 max-w-md text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
           {cv
             ? "Your application and your CV are with us. A recruiter reads it, always within one working day, and comes back to you on the roles that actually match."
-            : "Your application is with us. Send your CV over on WhatsApp or by email using the buttons below and we are ready to go — a recruiter comes back to you within one working day."}
+            : "Your application is with us. Send your CV over on WhatsApp or by email using the buttons below and we are ready to go. A recruiter comes back to you within one working day."}
         </p>
 
         <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -193,7 +193,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         <p className="mt-6 text-[0.8125rem] text-[color:var(--color-mute)]">
           {cv
             ? "Neither is necessary. We already have your details."
-            : "This is how you get your CV to us — it takes a few seconds."}
+            : "This is how you get your CV to us. It takes a few seconds."}
         </p>
       </div>
     );
@@ -269,7 +269,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           <div className="sm:col-span-2 rounded-xl border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-4 py-3">
             <p className="text-[0.8125rem] leading-relaxed text-[color:var(--color-sun-700)]">
               We recruit mainly for Dutch, German, Danish, Norwegian and Swedish
-              speakers. You are welcome to apply anyway — just tell us your
+              speakers. You are welcome to apply anyway. Just tell us your
               languages in the last box and we will be straight with you about
               what is possible.
             </p>
@@ -328,7 +328,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           <div className="sm:col-span-2 rounded-xl border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-4 py-3">
             <p className="text-[0.8125rem] leading-relaxed text-[color:var(--color-sun-700)]">
               Almost all our roles need an EU passport or an existing right to
-              work in the EU. You are still welcome to apply — tell us your
+              work in the EU. You are still welcome to apply. Tell us your
               situation in the last box and we will be honest with you about
               what is realistic.
             </p>
@@ -428,7 +428,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             </label>
           </Field>
           <p className="mt-2 text-[0.8125rem] text-[color:var(--color-mute)]">
-            PDF reads best on our side, Word is fine too — or skip it for now and
+            PDF reads best on our side, Word is fine too. Or skip it for now and
             send it on WhatsApp once you are at a computer.
           </p>
         </div>

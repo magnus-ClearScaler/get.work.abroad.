@@ -30,17 +30,17 @@ export function Hero() {
       {/* Extra top padding equal to the header height keeps the block optically
           centred in the space below the header rather than the whole viewport. */}
       <Container className="relative z-10 flex flex-col items-center pt-[10.5rem] pb-24 text-center">
-        <h1 className="h-display max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.55)]">
+        <h1 className="h-display max-w-[20ch] text-[clamp(2.25rem,5vw,3.75rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.55)]">
           Live on the Mediterranean,{" "}
           <span className="text-[color:var(--color-sun-300)]">
             paid to speak your own language.
           </span>
         </h1>
 
-        <p className="mt-6 max-w-2xl text-[1.15rem] leading-relaxed text-pretty text-white [text-shadow:0_1px_16px_rgba(6,32,43,0.6)]">
+        <p className="mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-pretty text-white [text-shadow:0_1px_16px_rgba(6,32,43,0.6)]">
           Permanent roles for Dutch, German and Scandinavian speakers, with the
-          flight, the flat and the paperwork covered. You bring the language —
-          the coast, the people, and the version of you that comes back come
+          flight, the flat and the paperwork covered. You bring the language.
+          The coast, the people, and the version of you that comes back come
           with it.
         </p>
 

@@ -38,7 +38,7 @@ type Section = {
 const sections: Section[] = [
   {
     h: "Who is responsible for your data",
-    p: `${site.name} is the data controller for what you send us through this site — we decide what is collected and why. Any question about your data, or any request under the rights below, can go to ${site.email}, and a person answers it.`,
+    p: `${site.name} is the data controller for what you send us through this site: we decide what is collected and why. Any question about your data, or any request under the rights below, can go to ${site.email}, and a person answers it.`,
   },
   {
     h: "What we collect",
@@ -46,11 +46,11 @@ const sections: Section[] = [
   },
   {
     h: "Why we are allowed to use it",
-    p: "Under the GDPR we rely on your consent for the heart of it — the box you tick when you send the form, letting us hold your details and pass your CV to a client. You can withdraw that consent at any time. Running the service around it — replying to you, keeping our own records straight, and meeting any legal obligation we are under — rests on our legitimate interest as a recruiter. We never share your CV with a client before you have consented to it.",
+    p: "Under the GDPR we rely on your consent for the heart of it: the box you tick when you send the form, letting us hold your details and pass your CV to a client. You can withdraw that consent at any time. Running the service around it (replying to you, keeping our own records straight, and meeting any legal obligation we are under) rests on our legitimate interest as a recruiter. We never share your CV with a client before you have consented to it.",
   },
   {
     h: "Where your CV goes",
-    p: "The roles listed here come from a range of clients and recruitment partners. When you apply, your details and CV go to the partner or client behind that role so they can consider you for it — that is what applying is for, and what you agree to when you send the form. From that point they also hold your data, under their own privacy notice. We never sell your data, and we never pass it to marketing lists.",
+    p: "The roles listed here come from a range of clients and recruitment partners. When you apply, your details and CV go to the partner or client behind that role so they can consider you for it. That is what applying is for, and what you agree to when you send the form. From that point they also hold your data, under their own privacy notice. We never sell your data, and we never pass it to marketing lists.",
   },
   {
     h: "Where it is held",
@@ -58,11 +58,11 @@ const sections: Section[] = [
   },
   {
     h: "How long we keep it",
-    p: "We keep your details for up to two years from your last contact with us, and your CV is deleted on request or after two years, whichever comes first — unless the law requires us to keep something longer. Ask us to delete it sooner and we will.",
+    p: "We keep your details for up to two years from your last contact with us, and your CV is deleted on request or after two years, whichever comes first, unless the law requires us to keep something longer. Ask us to delete it sooner and we will.",
   },
   {
     h: "How we keep it safe",
-    p: "Your data travels to us encrypted, and your CV sits in private storage that is never publicly listed — it is only ever reached through short-lived, single-use links. Access is limited to the Get Work Abroad team, and every time a CV is opened, downloaded or exported it is recorded, so access to your data is always accountable.",
+    p: "Your data travels to us encrypted, and your CV sits in private storage that is never publicly listed: it is only ever reached through short-lived, single-use links. Access is limited to the Get Work Abroad team, and every time a CV is opened, downloaded or exported it is recorded, so access to your data is always accountable.",
   },
   {
     h: "Your rights",
@@ -70,7 +70,7 @@ const sections: Section[] = [
     list: [
       "see the data we hold on you (access);",
       "correct anything wrong or incomplete (rectification);",
-      "delete it — the right to be forgotten (erasure);",
+      "delete it, the right to be forgotten (erasure);",
       "pause how we use it while something is sorted out (restriction);",
       "stop us using it for a particular purpose (objection);",
       "receive a copy in a portable format, or have it sent on (portability);",
