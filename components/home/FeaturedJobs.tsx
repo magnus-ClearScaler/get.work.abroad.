@@ -20,8 +20,8 @@ export function FeaturedJobs() {
         </div>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          {featuredJobs.map((job, i) => (
-            <JobCard key={job.slug} job={job} priority={i < 2} />
+          {featuredJobs.map((job) => (
+            <JobCard key={job.slug} job={job} />
           ))}
         </div>
       </Container>

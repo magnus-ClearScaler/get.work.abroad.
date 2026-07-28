@@ -42,7 +42,7 @@ export function HomeFaq() {
             <div className="mt-8 rounded-2xl border border-[color:var(--color-line)] bg-white p-6 shadow-[var(--shadow-card)]">
               <p className="text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
                 Not covered here? Message us on WhatsApp. A person answers, and
-                usually within the hour.
+                always within one working day.
               </p>
               <Button
                 href={site.whatsappLink}

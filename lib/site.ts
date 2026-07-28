@@ -13,13 +13,16 @@ export const site = {
   instagram: "https://instagram.com/getworkabroad",
   tiktok: "https://tiktok.com/@getworkabroad",
 
+  /* Employers is deliberately kept out of the primary nav (it still lives in
+     the footer): this bar is the candidate funnel, and "Your safety" earns a
+     slot here because trust is the thing a relocating jobseeker needs most. */
   nav: [
     { label: "Open jobs", href: "/jobs" },
     { label: "Spain", href: "/destinations/spain" },
     { label: "Portugal", href: "/destinations/portugal" },
     { label: "Greece", href: "/destinations/greece" },
     { label: "How it works", href: "/how-it-works" },
-    { label: "For employers", href: "/employers" },
+    { label: "Your safety", href: "/safety" },
     { label: "About", href: "/about" },
   ],
 } as const;

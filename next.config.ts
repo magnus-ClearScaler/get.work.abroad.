@@ -10,6 +10,19 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1600, 1920],
     minimumCacheTTL: 60 * 60 * 24 * 365,
   },
+  // The hero clips are content-addressed by name and never change, so let the
+  // browser and CDN keep them for a year instead of re-fetching (they were
+  // being served no-cache, so every visit paid for the video again).
+  async headers() {
+    return [
+      {
+        source: "/video/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

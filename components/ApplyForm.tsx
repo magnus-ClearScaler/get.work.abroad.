@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Whatsapp, Check } from "./Icons";
 import { site, languages } from "@/lib/site";
 import { destinations } from "@/lib/destinations";
@@ -48,6 +48,17 @@ export function ApplyForm({ role = "" }: { role?: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cv, setCv] = useState<File | null>(null);
+  /* Tracked so we can give honest, inline feedback on the two answers that
+     decide relevance — right to work, and a language we don't recruit. */
+  const [language, setLanguage] = useState("");
+  const [euPassport, setEuPassport] = useState("");
+  const errorRef = useRef<HTMLParagraphElement>(null);
+
+  // Bring a validation/submit error into view rather than leaving it off-screen
+  // below a long form the person has scrolled past.
+  useEffect(() => {
+    if (error) errorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [error]);
 
   function summarise(data: FormData) {
     const get = (k: string) => String(data.get(k) ?? "").trim();
@@ -65,7 +76,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
       `Preferred country: ${get("country") || "Open to any"}`,
       `Role type: ${get("category") || "Open to any"}`,
       get("role") ? `Role of interest: ${get("role")}` : "",
-      `CV: ${cv?.name ?? ""} (already uploaded)`,
+      cv ? `CV: ${cv.name} (already uploaded)` : "CV: to follow via WhatsApp/email",
       "",
       get("message") ? `Message: ${get("message")}` : "",
     ]
@@ -89,26 +100,27 @@ export function ApplyForm({ role = "" }: { role?: string }) {
       return;
     }
 
-    if (!cv) {
-      setError("Attach your CV. We cannot put you forward without one.");
-      return;
-    }
-
     setBusy(true);
     setError(null);
 
     try {
-      /* Upload the CV first: if storage rejects it we want to say so before a
-         half-finished candidate row exists. */
-      if (cv.size > MAX_CV_BYTES) {
-        throw new Error("That file is over 10 MB. Send a smaller one.");
+      /* The CV is no longer a wall: someone on their phone without a file to
+         hand can still get into the pipeline now and send it over on WhatsApp
+         after. If they did attach one, upload it first — if storage rejects it
+         we want to say so before a half-finished candidate row exists. */
+      let cv_path: string | null = null;
+      let cv_filename: string | null = null;
+      if (cv) {
+        if (cv.size > MAX_CV_BYTES) {
+          throw new Error("That file is over 10 MB. Send a smaller one.");
+        }
+        cv_path = `${crypto.randomUUID()}-${safeName(cv.name)}`;
+        const { error: upload } = await supabase.storage
+          .from("cvs")
+          .upload(cv_path, cv, { contentType: cv.type || undefined });
+        if (upload) throw upload;
+        cv_filename = cv.name;
       }
-      const cv_path = `${crypto.randomUUID()}-${safeName(cv.name)}`;
-      const { error: upload } = await supabase.storage
-        .from("cvs")
-        .upload(cv_path, cv, { contentType: cv.type || undefined });
-      if (upload) throw upload;
-      const cv_filename = cv.name;
 
       const { error: insert } = await supabase.from("candidates").insert({
         name: get("name"),
@@ -153,9 +165,9 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         </span>
         <h2 className="h-section mt-5 text-[1.5rem]">We have got it</h2>
         <p className="mx-auto mt-3 max-w-md text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
-          Your application and your CV are with us. A recruiter
-          reads it, usually within a few hours on a weekday, and comes back to
-          you on the roles that actually match.
+          {cv
+            ? "Your application and your CV are with us. A recruiter reads it, always within one working day, and comes back to you on the roles that actually match."
+            : "Your application is with us. Send your CV over on WhatsApp or by email using the buttons below and we are ready to go — a recruiter comes back to you within one working day."}
         </p>
 
         <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -179,7 +191,9 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         </div>
 
         <p className="mt-6 text-[0.8125rem] text-[color:var(--color-mute)]">
-          Neither is necessary. We already have your details.
+          {cv
+            ? "Neither is necessary. We already have your details."
+            : "This is how you get your CV to us — it takes a few seconds."}
         </p>
       </div>
     );
@@ -199,9 +213,14 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         </label>
       </div>
 
+      <p className="mb-6 text-[0.9375rem] leading-relaxed text-[color:var(--color-body)]">
+        Takes about three minutes. No CV on this device? You can still apply now
+        and send it over on WhatsApp after.
+      </p>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name" required>
-          <input name="name" required className={field} placeholder="Anna Jansen" />
+          <input name="name" required autoComplete="name" className={field} placeholder="Anna Jansen" />
         </Field>
 
         <Field label="Email" required>
@@ -209,6 +228,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             name="email"
             type="email"
             required
+            autoComplete="email"
             className={field}
             placeholder="anna@example.com"
           />
@@ -219,13 +239,20 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             name="phone"
             type="tel"
             required
+            autoComplete="tel"
             className={field}
             placeholder="+31 6 12 34 56 78"
           />
         </Field>
 
         <Field label="Native language" required>
-          <select name="language" required defaultValue="" className={field}>
+          <select
+            name="language"
+            required
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className={field}
+          >
             <option value="" disabled>
               Choose a language
             </option>
@@ -237,6 +264,17 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             <option value="Other">Other</option>
           </select>
         </Field>
+
+        {language === "Other" ? (
+          <div className="sm:col-span-2 rounded-xl border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-4 py-3">
+            <p className="text-[0.8125rem] leading-relaxed text-[color:var(--color-sun-700)]">
+              We recruit mainly for Dutch, German, Danish, Norwegian and Swedish
+              speakers. You are welcome to apply anyway — just tell us your
+              languages in the last box and we will be straight with you about
+              what is possible.
+            </p>
+          </div>
+        ) : null}
 
         <Field label="Preferred country">
           <select name="country" defaultValue="" className={field}>
@@ -271,7 +309,13 @@ export function ApplyForm({ role = "" }: { role?: string }) {
         {/* Right to work decides whether we can place someone at all, so it is
             asked plainly and up front rather than discovered on the first call. */}
         <Field label="Do you hold an EU passport?" required>
-          <select name="eu_passport" required defaultValue="" className={field}>
+          <select
+            name="eu_passport"
+            required
+            value={euPassport}
+            onChange={(e) => setEuPassport(e.target.value)}
+            className={field}
+          >
             <option value="" disabled>
               Choose one
             </option>
@@ -279,6 +323,17 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             <option value="no">No</option>
           </select>
         </Field>
+
+        {euPassport === "no" ? (
+          <div className="sm:col-span-2 rounded-xl border border-[color:var(--color-sun-200)] bg-[color:var(--color-sun-100)] px-4 py-3">
+            <p className="text-[0.8125rem] leading-relaxed text-[color:var(--color-sun-700)]">
+              Almost all our roles need an EU passport or an existing right to
+              work in the EU. You are still welcome to apply — tell us your
+              situation in the last box and we will be honest with you about
+              what is realistic.
+            </p>
+          </div>
+        ) : null}
 
         <Field label="When could you move?" required>
           <select name="availability" required defaultValue="" className={field}>
@@ -293,11 +348,9 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           </select>
         </Field>
 
-        <Field label="How set are you on moving?" required>
-          <select name="commitment" required defaultValue="" className={field}>
-            <option value="" disabled>
-              Choose one
-            </option>
+        <Field label="How set are you on moving?">
+          <select name="commitment" defaultValue="" className={field}>
+            <option value="">Prefer not to say</option>
             {COMMITMENTS.map((c) => (
               <option key={c.value} value={c.value}>
                 {c.label}
@@ -319,11 +372,9 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           </select>
         </Field>
 
-        <Field label="Have you lived or worked abroad before?" required>
-          <select name="relocated_before" required defaultValue="" className={field}>
-            <option value="" disabled>
-              Choose one
-            </option>
+        <Field label="Have you lived or worked abroad before?">
+          <select name="relocated_before" defaultValue="" className={field}>
+            <option value="">Prefer not to say</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
@@ -342,7 +393,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
 
         {/* ── CV ──────────────────────────────────────────────────────── */}
         <div className="sm:col-span-2">
-          <Field label="Your CV" required>
+          <Field label="Your CV">
             <label
               className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-dashed px-4 py-4 transition-colors ${
                 cv
@@ -377,7 +428,8 @@ export function ApplyForm({ role = "" }: { role?: string }) {
             </label>
           </Field>
           <p className="mt-2 text-[0.8125rem] text-[color:var(--color-mute)]">
-            PDF reads best on our side. Word is fine too.
+            PDF reads best on our side, Word is fine too — or skip it for now and
+            send it on WhatsApp once you are at a computer.
           </p>
         </div>
 
@@ -401,9 +453,11 @@ export function ApplyForm({ role = "" }: { role?: string }) {
           className="mt-0.5 h-4 w-4 shrink-0 accent-[color:var(--color-sea-700)]"
         />
         <span className="text-[0.8125rem] leading-relaxed text-[color:var(--color-body)]">
-          I agree that my details and CV are shared with the client I am
-          applying to, and I understand the roles listed here come from a
-          range of clients and recruitment firms.{" "}
+          I agree that Get Work Abroad may hold my details and share my details
+          and CV with the recruitment partner or client behind the role so they
+          can consider me for it. I understand the roles come from a range of
+          partners and clients, and that I can withdraw this consent at any
+          time.{" "}
           <a
             href="/privacy"
             className="font-medium text-[color:var(--color-sea-700)] underline underline-offset-2"
@@ -415,6 +469,7 @@ export function ApplyForm({ role = "" }: { role?: string }) {
 
       {error ? (
         <p
+          ref={errorRef}
           role="alert"
           className="mt-5 rounded-xl border border-[color:var(--color-terra-500)]/30 bg-[color:var(--color-terra-100)] px-4 py-3 text-[0.875rem] text-[color:var(--color-terra-600)]"
         >

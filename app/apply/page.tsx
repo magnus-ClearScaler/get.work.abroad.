@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const reassurance = [
   "No fee at any stage. The employer pays us, not you",
-  "A person reads every application, usually the same day",
+  "A person reads every application, always within one working day",
   "We tell you what the role actually pays before you interview",
   "Your CV goes to matching employers and to our partner agencies. Say the word and we keep it to our own introductions",
 ];
@@ -43,7 +43,7 @@ export default async function ApplyPage(props: PageProps<"/apply">) {
                 {
                   n: "1",
                   t: "We read it",
-                  b: "Usually within a few hours on a weekday.",
+                  b: "Always within one working day.",
                 },
                 {
                   n: "2",

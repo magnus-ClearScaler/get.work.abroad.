@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase, type Partner } from "@/lib/supabase";
 
-/** The agencies we hand CVs to — add, edit, retire or remove. */
+/** The agencies we place candidates through — add, edit, retire or remove. */
 export default function PartnersPage() {
   const [rows, setRows] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,8 +73,13 @@ export default function PartnersPage() {
     <>
       <h1 className="h-section text-[1.75rem]">Partner agencies</h1>
       <p className="mt-1.5 max-w-2xl text-[0.9375rem] text-[color:var(--color-body)]">
-        The agencies you pass CVs to. They run their own process from there, and this
-        is just so every submission has a name against it.
+        The agencies you place candidates through. They run their own process
+        from there, and this is just so every submission has a name against it.
+        The end-clients themselves live on the{" "}
+        <a href="/admin/clients" className="font-medium text-[color:var(--color-sea-700)] underline">
+          Clients
+        </a>{" "}
+        page.
       </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">

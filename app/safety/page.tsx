@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container, Button, SectionHead } from "@/components/ui";
 import { PhotoHeader } from "@/components/PageHeader";
-import { Check, Close, Shield, Whatsapp } from "@/components/Icons";
+import { ArrowRight, Check, Close, Shield, Whatsapp } from "@/components/Icons";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -221,6 +221,31 @@ export default function SafetyPage() {
                 ))}
               </ul>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Closing CTA: now that trust is established, let them act ─── */}
+      <section className="bg-[color:var(--color-sea-950)] py-16 sm:py-24">
+        <Container className="text-center">
+          <p className="eyebrow text-[color:var(--color-sun-400)]">
+            Free for candidates. Always.
+          </p>
+          <h2 className="h-section mt-3 text-[clamp(1.9rem,4.6vw,3rem)] text-balance text-white">
+            Now you know what to look for, take a look
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-[1.0625rem] leading-relaxed text-pretty text-[color:var(--color-sea-200)]/85">
+            Browse the roles open right now, or send your CV and we will come
+            back to you within one working day with the ones that actually fit.
+          </p>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button href="/jobs" variant="sun" size="lg">
+              See open roles
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button href="/apply" variant="ghostLight" size="lg">
+              Send your CV
+            </Button>
           </div>
         </Container>
       </section>

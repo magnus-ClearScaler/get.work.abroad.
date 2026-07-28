@@ -19,7 +19,8 @@ export function OrganizationSchema() {
       "Recruitment for native Dutch, German and Scandinavian speakers into permanent, relocation-covered roles in Spain, Portugal and Greece.",
     email: site.email,
     areaServed: ["ES", "PT", "GR"],
-    sameAs: [site.instagram, site.tiktok],
+    /* sameAs omitted until the real, verified social handles exist — pointing
+       Google at guessed URLs is worse than pointing it nowhere. */
   };
   return (
     <script

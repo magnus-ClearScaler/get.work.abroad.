@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { Instagram, TikTok, Whatsapp, ArrowUpRight } from "./Icons";
+import { Whatsapp, ArrowUpRight } from "./Icons";
 import { site } from "@/lib/site";
 import { destinations } from "@/lib/destinations";
 
@@ -20,8 +20,10 @@ export function Footer() {
             </p>
             <div className="mt-6 flex items-center gap-2.5">
               {[
-                { href: site.instagram, label: "Instagram", Icon: Instagram },
-                { href: site.tiktok, label: "TikTok", Icon: TikTok },
+                /* Instagram/TikTok are intentionally omitted until the real
+                   brand handles exist — a social link that 404s reads as a
+                   scam signal, which is the opposite of what it should do.
+                   Re-add here and in OrganizationSchema sameAs once confirmed. */
                 { href: site.whatsappLink, label: "WhatsApp", Icon: Whatsapp },
               ].map(({ href, label, Icon }) => (
                 <a

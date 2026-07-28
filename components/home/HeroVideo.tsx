@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -34,6 +35,14 @@ export function HeroVideo() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Don't pull several MB of video on a metered or data-saver connection —
+    // the optimized poster already carries the hero. The clip is a bonus for
+    // people who can afford it, not a tax on people who can't.
+    const conn = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+    if (conn && (conn.saveData || /(^|-)2g$|(^|-)3g$/.test(conn.effectiveType ?? "")))
+      return;
     const pick = () =>
       setTier(
         window.matchMedia("(min-width: 768px)").matches ? "desktop" : "mobile",
@@ -79,23 +88,36 @@ export function HeroVideo() {
   }, [tier]);
 
   return (
-    <video
-      ref={ref}
-      className="absolute inset-0 h-full w-full object-cover"
-      poster="/video/coast-poster.jpg"
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="none"
-      aria-hidden="true"
-      tabIndex={-1}
-    >
-      {tier
-        ? SOURCES[tier].map((s) => (
-            <source key={s.src} src={s.src} type={s.type} />
-          ))
-        : null}
-    </video>
+    <>
+      {/* The poster is the LCP element, so it goes through the image optimizer
+          (AVIF/WebP, responsive sizes) and is marked priority for an early
+          fetch. It sits behind the video and shows until the first frame paints
+          — and stays if the video is skipped or blocked. */}
+      <Image
+        src="/video/coast-poster.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      <video
+        ref={ref}
+        className="absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        {tier
+          ? SOURCES[tier].map((s) => (
+              <source key={s.src} src={s.src} type={s.type} />
+            ))
+          : null}
+      </video>
+    </>
   );
 }

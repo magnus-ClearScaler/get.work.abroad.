@@ -79,13 +79,30 @@ export const COMMITMENT_LABEL: Record<string, string> = Object.fromEntries(
  * A single readiness read, computed from the screening answers — no stored
  * score to drift. The point is to spot the placeable lead at a glance: an
  * EU-eligible candidate who can move soon, means it, and has a CV on file is
- * the one worth walking over to TopJobs today. Everyone else is pipeline.
+ * the one worth sending to a client today. Everyone else is pipeline.
  */
 export type Readiness = {
   tier: "ready" | "warming" | "early" | "ineligible" | "unscreened";
   label: string;
   tone: string; // Tailwind classes
   score: number;
+};
+
+/** Label + colour per readiness tier, for rendering directly from the stored
+ *  readiness_tier column (server-side list) without recomputing readiness(). */
+export const READINESS_LABEL: Record<string, string> = {
+  ready: "Ready to go",
+  warming: "Warming up",
+  early: "Early / pipeline",
+  ineligible: "No EU passport",
+  unscreened: "Not screened",
+};
+export const READINESS_TONE: Record<string, string> = {
+  ready: "bg-[color:var(--color-olive-100)] text-[color:var(--color-olive-600)]",
+  warming: "bg-[color:var(--color-sun-100)] text-[color:var(--color-sun-700)]",
+  early: "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-800)]",
+  ineligible: "bg-[color:var(--color-terra-100)] text-[color:var(--color-terra-600)]",
+  unscreened: "bg-[color:var(--color-sand-200)] text-[color:var(--color-mute)]",
 };
 
 export function readiness(c: {
@@ -186,6 +203,12 @@ export type Candidate = {
   english_level: EnglishLevel | null;
   commitment: Commitment | null;
   relocated_before: boolean | null;
+  /** Generated in Postgres, mirrors readiness().tier. Server-filterable. */
+  readiness_tier: Readiness["tier"] | null;
+  /** The end-client this candidate has been presented to, if any. */
+  client_id: string | null;
+  /** Manually-entered start date; the rebate countdown runs from here. */
+  start_date: string | null;
   consent_at: string | null;
   notes: string | null;
 };
@@ -199,6 +222,19 @@ export type Partner = {
   countries: string[];
   languages: string[];
   notes: string | null;
+  active: boolean;
+};
+
+/**
+ * An end-client we place candidates with (reached through the placement
+ * partner). Each carries its own rebate/payout window — how long after a
+ * candidate's start date the fee can still be clawed back if they leave.
+ */
+export type Client = {
+  id: string;
+  created_at: string;
+  name: string;
+  rebate_days: number | null;
   active: boolean;
 };
 
@@ -229,7 +265,7 @@ export const CANDIDATE_STATUSES: CandidateStatus[] = [
 export const STATUS_LABEL: Record<string, string> = {
   new: "New",
   reviewing: "Reviewing",
-  sent_to_topjobs: "Sent to TopJobs",
+  sent_to_topjobs: "Sent to client",
   interviewing: "Interviewing",
   placed: "Placed",
   rejected: "Rejected",
@@ -268,6 +304,68 @@ export const STATUS_TONE: Record<string, string> = {
   withdrawn: "bg-[color:var(--color-sand-200)] text-[color:var(--color-mute)]",
   closed: "bg-[color:var(--color-sand-200)] text-[color:var(--color-mute)]",
 };
+
+/** The dashboard numbers, from the candidate_overview() RPC in one round trip. */
+export type AdminOverview = {
+  total: number;
+  new: number;
+  reviewing: number;
+  sent_to_topjobs: number;
+  interviewing: number;
+  placed: number;
+  rejected: number;
+  closed: number;
+  ready: number;
+  eu: number;
+  non_eu: number;
+  new_7d: number;
+  ready_not_sent: number;
+  unreviewed: number;
+};
+
+export type AccessAction =
+  | "view_cv"
+  | "download_cv"
+  | "csv_export"
+  | "delete_candidate";
+
+/**
+ * Record a PII-access event (who touched candidate data, and when). Best
+ * effort: it never blocks or breaks the action it is logging.
+ */
+export async function logAccess(
+  action: AccessAction,
+  candidateId?: string | null,
+  detail?: string | null,
+): Promise<void> {
+  try {
+    const { data } = await supabase.auth.getUser();
+    await supabase.from("access_log").insert({
+      actor_email: data.user?.email ?? "unknown",
+      action,
+      candidate_id: candidateId ?? null,
+      detail: detail ?? null,
+    });
+  } catch {
+    /* logging must never stop the recruiter from working */
+  }
+}
+
+/**
+ * A short-lived (10 min) signed URL for a CV, recorded in the access log first.
+ * This is how every CV view/download goes out, so access is always accountable.
+ */
+export async function cvSignedUrl(
+  path: string,
+  candidateId: string,
+): Promise<string> {
+  await logAccess("view_cv", candidateId, path);
+  const { data, error } = await supabase.storage
+    .from("cvs")
+    .createSignedUrl(path, 600);
+  if (error) throw error;
+  return data.signedUrl;
+}
 
 /** "3 days ago" — enough to spot a submission that has gone quiet. */
 export function sinceLabel(iso: string): string {

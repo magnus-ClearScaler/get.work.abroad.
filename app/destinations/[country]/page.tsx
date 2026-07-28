@@ -50,12 +50,19 @@ export default async function DestinationPage(
         intro={d.intro}
       >
         <div className="mt-7 flex flex-wrap gap-3">
-          <Button href="#jobs" variant="sun">
-            {openJobs.length} open {openJobs.length === 1 ? "role" : "roles"}
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-          <Button href="/apply" variant="ghostLight">
-            Send your CV
+          {openJobs.length > 0 ? (
+            <Button href="#jobs" variant="sun">
+              {openJobs.length} open {openJobs.length === 1 ? "role" : "roles"}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button href="/apply" variant="sun">
+              Send your CV
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
+          <Button href="/jobs" variant="ghostLight">
+            See all open roles
           </Button>
         </div>
       </PhotoHeader>
@@ -248,15 +255,37 @@ export default async function DestinationPage(
               title={`Open roles in ${d.country}`}
             />
             <Button href="/jobs" variant="outline" className="shrink-0">
-              All destinations
+              See all open roles
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {openJobs.map((job) => (
-              <JobCard key={job.slug} job={job} />
-            ))}
-          </div>
+          {openJobs.length > 0 ? (
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+              {openJobs.map((job) => (
+                <JobCard key={job.slug} job={job} />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-10 rounded-[1.5rem] border border-dashed border-[color:var(--color-line)] bg-[color:var(--color-sand-50)] px-6 py-14 text-center">
+              <h3 className="font-[family-name:var(--font-display)] text-[1.4rem] font-semibold tracking-[-0.02em] text-[color:var(--color-ink)]">
+                No {d.country} roles live this minute
+              </h3>
+              <p className="mx-auto mt-3 max-w-md text-[1.0625rem] leading-relaxed text-pretty text-[color:var(--color-body)]">
+                Intakes here open on a rolling basis. Send your CV and we will
+                come to you the moment a {d.country} role that fits opens up —
+                you will be first in the queue, not last to hear.
+              </p>
+              <div className="mt-7 flex flex-wrap justify-center gap-3">
+                <Button href="/apply" variant="sun">
+                  Send your CV
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+                <Button href="/jobs" variant="outline">
+                  See all open roles
+                </Button>
+              </div>
+            </div>
+          )}
         </Container>
       </section>
 

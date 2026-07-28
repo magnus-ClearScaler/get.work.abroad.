@@ -1,243 +1,110 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   supabase,
-  CANDIDATE_STATUSES,
   STATUS_TONE,
   STATUS_LABEL,
-  AVAILABILITY_LABEL,
-  COMMITMENT_LABEL,
-  ENGLISH_LABEL,
-  readiness,
+  READINESS_TONE,
+  READINESS_LABEL,
   sinceLabel,
+  type AdminOverview,
   type Candidate,
 } from "@/lib/supabase";
-import { languages } from "@/lib/site";
 
-/** Every CV that has come in, newest first. */
-export default function CandidatesPage() {
-  const [rows, setRows] = useState<Candidate[]>([]);
+/* The columns a queue row needs — a light slice of Candidate, so the dashboard
+   pulls only what it shows rather than every field of every row. */
+type Lead = Pick<
+  Candidate,
+  | "id"
+  | "name"
+  | "email"
+  | "language"
+  | "status"
+  | "readiness_tier"
+  | "eu_passport"
+  | "client_id"
+  | "created_at"
+>;
+const LEAD_COLS =
+  "id,name,email,language,status,readiness_tier,eu_passport,client_id,created_at";
+
+/**
+ * The landing screen: what needs doing today, then the numbers. The full
+ * searchable list lives on /admin/candidates — this page is deliberately a
+ * short, scannable summary so nothing important gets buried.
+ */
+export default function DashboardPage() {
+  const [overview, setOverview] = useState<AdminOverview | null>(null);
+  const [readyToSend, setReadyToSend] = useState<Lead[]>([]);
+  const [unreviewed, setUnreviewed] = useState<Lead[]>([]);
+  const [recent, setRecent] = useState<Lead[]>([]);
+  const [clientMap, setClientMap] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [q, setQ] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  /* EU passport is the first filter that matters — without one we cannot
-     place them — so the list opens on the pool that is actually workable. */
-  const [pool, setPool] = useState<"eu" | "non_eu" | "all">("eu");
-  const [language, setLanguage] = useState("");
-  /* The whole point: surface who is placeable now. Defaults to everyone,
-     but one click narrows to the leads worth walking to TopJobs today. */
-  const [readyOnly, setReadyOnly] = useState(false);
-
   useEffect(() => {
-    supabase
-      .from("candidates")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) setError(error.message);
-        else setRows((data ?? []) as Candidate[]);
-        setLoading(false);
-      });
+    let live = true;
+    (async () => {
+      const [ov, ready, fresh, latest, clientRows] = await Promise.all([
+        supabase.rpc("candidate_overview"),
+        // Ready to place but not yet sent onward — the money queue.
+        supabase
+          .from("candidates")
+          .select(LEAD_COLS)
+          .eq("readiness_tier", "ready")
+          .in("status", ["new", "reviewing"])
+          .order("created_at", { ascending: true })
+          .limit(8),
+        // New and untouched — oldest first so nobody waits too long.
+        supabase
+          .from("candidates")
+          .select(LEAD_COLS)
+          .eq("status", "new")
+          .order("created_at", { ascending: true })
+          .limit(8),
+        // Most recent arrivals, for a pulse of what is coming in.
+        supabase
+          .from("candidates")
+          .select(LEAD_COLS)
+          .order("created_at", { ascending: false })
+          .limit(6),
+        // Client names, to show which client each candidate is with.
+        supabase.from("clients").select("id,name"),
+      ]);
+      if (!live) return;
+      const firstErr =
+        ov.error || ready.error || fresh.error || latest.error || null;
+      if (firstErr) setError(firstErr.message);
+      else {
+        setOverview(ov.data as AdminOverview);
+        setReadyToSend((ready.data ?? []) as Lead[]);
+        setUnreviewed((fresh.data ?? []) as Lead[]);
+        setRecent((latest.data ?? []) as Lead[]);
+        if (clientRows.data)
+          setClientMap(
+            Object.fromEntries(clientRows.data.map((c) => [c.id, c.name])),
+          );
+      }
+      setLoading(false);
+    })();
+    return () => {
+      live = false;
+    };
   }, []);
 
-  const results = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    return rows.filter((c) => {
-      if (pool === "eu" && c.eu_passport !== true) return false;
-      if (pool === "non_eu" && c.eu_passport === true) return false;
-      if (statusFilter && c.status !== statusFilter) return false;
-      if (language && c.language !== language) return false;
-      if (readyOnly && readiness(c).tier !== "ready") return false;
-      if (!needle) return true;
-      return [c.name, c.email, c.phone, c.role_interest, c.preferred_country]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase()
-        .includes(needle);
-    });
-  }, [rows, q, statusFilter, language, pool, readyOnly]);
-
-  /* Optimistic: the row flips immediately and the write follows. A failure
-     puts it back rather than leaving the screen lying about the database. */
-  async function setStatus(c: Candidate, status: string) {
-    const previous = c.status;
-    setRows((rs) =>
-      rs.map((r) =>
-        r.id === c.id ? { ...r, status: status as Candidate["status"] } : r,
-      ),
-    );
-    const { error } = await supabase
-      .from("candidates")
-      .update({ status })
-      .eq("id", c.id);
-    if (error) {
-      setError(error.message);
-      setRows((rs) =>
-        rs.map((r) => (r.id === c.id ? { ...r, status: previous } : r)),
-      );
-    }
-  }
-
-  const counts = useMemo(() => {
-    const map: Record<string, number> = {};
-    for (const c of rows) map[c.status] = (map[c.status] ?? 0) + 1;
-    return map;
-  }, [rows]);
-
-  const pools = useMemo(() => {
-    const eu = rows.filter((c) => c.eu_passport === true).length;
-    return { eu, non_eu: rows.length - eu, all: rows.length };
-  }, [rows]);
-
-  const readyCount = useMemo(
-    () => rows.filter((c) => readiness(c).tier === "ready").length,
-    [rows],
-  );
-
-  /* Same email applied more than once. Flagged rather than blocked: a real
-     person re-applying is fine, we just want to see it. */
-  const dupEmails = useMemo(() => {
-    const seen = new Map<string, number>();
-    for (const c of rows) {
-      const e = c.email.trim().toLowerCase();
-      seen.set(e, (seen.get(e) ?? 0) + 1);
-    }
-    return new Set([...seen].filter(([, n]) => n > 1).map(([e]) => e));
-  }, [rows]);
-
-  /* Download the current view as a spreadsheet, for a backup or a batch
-     handoff. Respects the filters that are on, so "Ready to go" plus a
-     language gives you exactly that list. */
-  function exportCsv() {
-    type Col = [string, keyof Candidate | ((c: Candidate) => string)];
-    const cols: Col[] = [
-      ["Name", "name"],
-      ["Email", "email"],
-      ["Phone", "phone"],
-      ["Language", "language"],
-      ["EU passport", (c) => (c.eu_passport === null ? "" : c.eu_passport ? "Yes" : "No")],
-      ["Can move", (c) => (c.availability ? AVAILABILITY_LABEL[c.availability] : "")],
-      ["How set", (c) => (c.commitment ? COMMITMENT_LABEL[c.commitment] : "")],
-      ["English", (c) => (c.english_level ? ENGLISH_LABEL[c.english_level] : "")],
-      ["Lived abroad", (c) => (c.relocated_before === null ? "" : c.relocated_before ? "Yes" : "No")],
-      ["Readiness", (c) => readiness(c).label],
-      ["Preferred country", "preferred_country"],
-      ["Role type", "role_type"],
-      ["Role of interest", "role_interest"],
-      ["Status", (c) => STATUS_LABEL[c.status]],
-      ["CV", (c) => c.cv_filename ?? ""],
-      ["Applied", (c) => new Date(c.created_at).toISOString().slice(0, 10)],
-    ];
-    const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-    const rowsCsv = results.map((c) =>
-      cols.map(([, k]) => esc(typeof k === "function" ? k(c) : c[k])).join(","),
-    );
-    const csv = [cols.map((col) => col[0]).join(","), ...rowsCsv].join("\r\n");
-    const url = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `candidates-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  const summary = overview
+    ? `${overview.new_7d} new this week · ${overview.ready_not_sent} ready to send · ${overview.unreviewed} to review`
+    : "…";
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="h-section text-[1.75rem]">Candidates</h1>
-        <button
-          type="button"
-          onClick={exportCsv}
-          disabled={results.length === 0}
-          className="rounded-full border border-[color:var(--color-line)] bg-white px-4 py-2 text-[0.8125rem] font-semibold text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-sea-300)] disabled:opacity-50"
-        >
-          Export CSV ({results.length})
-        </button>
-      </div>
-
-      {/* At a glance. Placed and Ready are the two numbers that matter most. */}
-      <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Tile label="Total" value={rows.length} />
-        <Tile label="Ready to go" value={readyCount} tone="olive" />
-        <Tile label="Sent to TopJobs" value={counts.sent_to_topjobs ?? 0} tone="sea" />
-        <Tile label="Placed" value={counts.placed ?? 0} tone="olive" />
-      </div>
-
-      <div className="mt-6 flex flex-wrap items-center gap-2">
-        {([
-          ["eu", `EU passport · ${pools.eu}`],
-          ["non_eu", `Non-EU · ${pools.non_eu}`],
-          ["all", `Everyone · ${pools.all}`],
-        ] as const).map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            onClick={() => setPool(value)}
-            aria-pressed={pool === value}
-            className={`rounded-full px-4 py-2 text-[0.875rem] font-semibold transition-colors ${
-              pool === value
-                ? "bg-[color:var(--color-sea-700)] text-white"
-                : "border border-[color:var(--color-line)] bg-white text-[color:var(--color-body)] hover:border-[color:var(--color-sea-300)]"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-
-        <span className="mx-1 hidden h-6 w-px bg-[color:var(--color-line)] sm:block" />
-
-        {/* The placeable-today filter. Green because it is the money view. */}
-        <button
-          type="button"
-          onClick={() => setReadyOnly((v) => !v)}
-          aria-pressed={readyOnly}
-          className={`rounded-full px-4 py-2 text-[0.875rem] font-semibold transition-colors ${
-            readyOnly
-              ? "bg-[color:var(--color-olive-500)] text-white"
-              : "border border-[color:var(--color-olive-500)]/40 bg-[color:var(--color-olive-100)] text-[color:var(--color-olive-600)] hover:border-[color:var(--color-olive-500)]"
-          }`}
-        >
-          ● Ready to go · {readyCount}
-        </button>
-      </div>
-
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-        <input
-          type="search"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search name, email, phone or role"
-          className="flex-1 rounded-full border border-[color:var(--color-line)] bg-white px-5 py-3 text-[0.9375rem] focus:border-[color:var(--color-sea-300)]"
-        />
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-full border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem]"
-        >
-          <option value="">Any status</option>
-          {CANDIDATE_STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {STATUS_LABEL[s]}
-            </option>
-          ))}
-        </select>
-        <select
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          className="rounded-full border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem]"
-        >
-          <option value="">Any language</option>
-          {languages.map((l) => (
-            <option key={l} value={l}>
-              {l}
-            </option>
-          ))}
-          <option value="Other">Other</option>
-        </select>
+      <div>
+        <h1 className="h-section text-[1.75rem]">Dashboard</h1>
+        <p className="mt-1 text-[0.9375rem] text-[color:var(--color-body)]">
+          {summary}
+        </p>
       </div>
 
       {error ? (
@@ -246,121 +113,108 @@ export default function CandidatesPage() {
         </p>
       ) : loading ? (
         <p className="mt-8 text-[0.9375rem] text-[color:var(--color-mute)]">Loading…</p>
-      ) : results.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-dashed border-[color:var(--color-line)] bg-white px-6 py-16 text-center">
-          <h2 className="h-section text-[1.25rem]">
-            {rows.length === 0 ? "No applications yet" : "Nothing matches that"}
-          </h2>
-          <p className="mx-auto mt-2 max-w-md text-[0.9375rem] text-[color:var(--color-body)]">
-            {rows.length === 0
-              ? "Applications sent through the site land here the moment they are submitted."
-              : "Try a wider filter."}
-          </p>
-        </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-[color:var(--color-line)] bg-white">
-          <table className="w-full min-w-[52rem] text-left">
-            <thead className="border-b border-[color:var(--color-line)] text-[0.75rem] tracking-wide text-[color:var(--color-mute)] uppercase">
-              <tr>
-                <th className="px-5 py-3.5 font-medium">Name</th>
-                <th className="px-5 py-3.5 font-medium">Readiness</th>
-                <th className="px-5 py-3.5 font-medium">Language</th>
-                <th className="px-5 py-3.5 font-medium">Can move</th>
-                <th className="px-5 py-3.5 font-medium">CV</th>
-                <th className="px-5 py-3.5 font-medium">Status</th>
-                <th className="px-5 py-3.5 font-medium">Applied</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[color:var(--color-line-soft)]">
-              {results.map((c) => (
-                <tr key={c.id} className="hover:bg-[color:var(--color-sand-50)]">
-                  <td className="px-5 py-4">
-                    <Link
-                      href={`/admin/candidates/${c.id}`}
-                      className="font-semibold text-[color:var(--color-ink)] hover:text-[color:var(--color-sea-700)]"
-                    >
-                      {c.name}
-                    </Link>
-                    <div className="text-[0.8125rem] text-[color:var(--color-mute)]">
-                      {c.email}
-                    </div>
-                    <div className="mt-1 flex flex-wrap gap-1">
-                      {c.eu_passport === false ? (
-                        <span className="inline-block rounded-full bg-[color:var(--color-terra-100)] px-2 py-0.5 text-[0.6875rem] font-semibold text-[color:var(--color-terra-600)]">
-                          No EU passport
-                        </span>
-                      ) : null}
-                      {dupEmails.has(c.email.trim().toLowerCase()) ? (
-                        <span
-                          title="This email applied more than once"
-                          className="inline-block rounded-full bg-[color:var(--color-sun-100)] px-2 py-0.5 text-[0.6875rem] font-semibold text-[color:var(--color-sun-700)]"
-                        >
-                          Duplicate
-                        </span>
-                      ) : null}
-                    </div>
-                  </td>
-                  <td className="px-5 py-4">
-                    {(() => {
-                      const r = readiness(c);
-                      return (
-                        <span
-                          className={`inline-block rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${r.tone}`}
-                        >
-                          {r.label}
-                        </span>
-                      );
-                    })()}
-                  </td>
-                  <td className="px-5 py-4 text-[0.9375rem]">{c.language}</td>
-                  <td className="px-5 py-4 text-[0.875rem] text-[color:var(--color-body)]">
-                    {c.availability ? AVAILABILITY_LABEL[c.availability] : "—"}
-                  </td>
-                  <td className="px-5 py-4 text-[0.9375rem]">
-                    {c.cv_path ? (
-                      <span className="text-[color:var(--color-olive-600)]">Yes</span>
-                    ) : (
-                      <span className="text-[color:var(--color-mute)]">—</span>
-                    )}
-                  </td>
-                  <td className="px-5 py-4">
-                    {/* Editable in place: moving someone to "Sent to TopJobs"
-                        is the most common thing you do, and it should not
-                        require opening the candidate first. */}
-                    <select
-                      value={c.status}
-                      onChange={(e) => setStatus(c, e.target.value)}
-                      aria-label={`Status for ${c.name}`}
-                      className={`cursor-pointer rounded-full px-2.5 py-1.5 text-[0.75rem] font-semibold ${STATUS_TONE[c.status]}`}
-                    >
-                      {CANDIDATE_STATUSES.map((s) => (
-                        <option key={s} value={s}>
-                          {STATUS_LABEL[s]}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="px-5 py-4 text-[0.875rem] text-[color:var(--color-mute)]">
-                    {sinceLabel(c.created_at)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <>
+          {/* The numbers. Ready and Placed are the two that pay the bills. */}
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <Stat label="Total" value={overview?.total ?? 0} href="/admin/candidates?pool=all" />
+            <Stat label="New this week" value={overview?.new_7d ?? 0} />
+            <Stat label="Ready to go" value={overview?.ready ?? 0} tone="olive" href="/admin/candidates?ready=1" />
+            <Stat label="Sent to client" value={overview?.sent_to_topjobs ?? 0} tone="sea" />
+            <Stat label="Interviewing" value={overview?.interviewing ?? 0} tone="sea" />
+            <Stat label="Placed" value={overview?.placed ?? 0} tone="olive" />
+          </div>
+
+          {/* Two work queues, side by side: what to act on right now. */}
+          <div className="mt-8 grid gap-5 lg:grid-cols-2">
+            <Queue
+              title="Ready to send to a client"
+              hint="Placeable now, not yet passed on"
+              tone="olive"
+              rows={readyToSend}
+              clientMap={clientMap}
+              emptyLabel="Nothing waiting — you're on top of it."
+            />
+            <Queue
+              title="New, not yet reviewed"
+              hint="Oldest first, so nobody waits"
+              tone="sun"
+              rows={unreviewed}
+              clientMap={clientMap}
+              emptyLabel="Every application has been looked at."
+            />
+          </div>
+
+          {/* A quiet pulse of the latest arrivals. */}
+          <div className="mt-8">
+            <div className="flex items-center justify-between">
+              <h2 className="h-section text-[1.125rem]">Latest applications</h2>
+              <Link
+                href="/admin/candidates"
+                className="text-[0.875rem] font-semibold text-[color:var(--color-sea-700)] hover:underline"
+              >
+                See all →
+              </Link>
+            </div>
+            <div className="mt-3 overflow-hidden rounded-2xl border border-[color:var(--color-line)] bg-white">
+              {recent.length === 0 ? (
+                <p className="px-5 py-10 text-center text-[0.9375rem] text-[color:var(--color-mute)]">
+                  No applications yet.
+                </p>
+              ) : (
+                <ul className="divide-y divide-[color:var(--color-line-soft)]">
+                  {recent.map((c) => (
+                    <li key={c.id}>
+                      <Link
+                        href={`/admin/candidates/${c.id}`}
+                        className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-[color:var(--color-sand-50)]"
+                      >
+                        <div className="min-w-0">
+                          <div className="truncate font-semibold text-[color:var(--color-ink)]">
+                            {c.name}
+                          </div>
+                          <div className="truncate text-[0.8125rem] text-[color:var(--color-mute)]">
+                            {c.language} · {c.email}
+                          </div>
+                        </div>
+                        <div className="flex shrink-0 items-center gap-2">
+                          {c.client_id && clientMap[c.client_id] ? (
+                            <span className="hidden rounded-full bg-[color:var(--color-sea-50)] px-2.5 py-1 text-[0.75rem] font-semibold text-[color:var(--color-sea-700)] sm:inline-block">
+                              {clientMap[c.client_id]}
+                            </span>
+                          ) : null}
+                          <span
+                            className={`hidden rounded-full px-2.5 py-1 text-[0.75rem] font-semibold sm:inline-block ${STATUS_TONE[c.status]}`}
+                          >
+                            {STATUS_LABEL[c.status]}
+                          </span>
+                          <span className="w-20 text-right text-[0.8125rem] text-[color:var(--color-mute)]">
+                            {sinceLabel(c.created_at)}
+                          </span>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </>
       )}
     </>
   );
 }
 
-function Tile({
+function Stat({
   label,
   value,
   tone = "plain",
+  href,
 }: {
   label: string;
   value: number;
   tone?: "plain" | "olive" | "sea";
+  href?: string;
 }) {
   const num =
     tone === "olive"
@@ -368,8 +222,8 @@ function Tile({
       : tone === "sea"
         ? "text-[color:var(--color-sea-700)]"
         : "text-[color:var(--color-ink)]";
-  return (
-    <div className="rounded-2xl border border-[color:var(--color-line)] bg-white px-5 py-4">
+  const body = (
+    <div className="rounded-2xl border border-[color:var(--color-line)] bg-white px-5 py-4 transition-colors hover:border-[color:var(--color-sea-300)]">
       <div className={`font-[family-name:var(--font-display)] text-[1.75rem] font-semibold tracking-[-0.02em] ${num}`}>
         {value}
       </div>
@@ -377,5 +231,86 @@ function Tile({
         {label}
       </div>
     </div>
+  );
+  return href ? <Link href={href}>{body}</Link> : body;
+}
+
+function Queue({
+  title,
+  hint,
+  tone,
+  rows,
+  clientMap,
+  emptyLabel,
+}: {
+  title: string;
+  hint: string;
+  tone: "olive" | "sun";
+  rows: Lead[];
+  clientMap: Record<string, string>;
+  emptyLabel: string;
+}) {
+  const dot =
+    tone === "olive"
+      ? "bg-[color:var(--color-olive-500)]"
+      : "bg-[color:var(--color-sun-500)]";
+  return (
+    <section className="rounded-2xl border border-[color:var(--color-line)] bg-white">
+      <div className="flex items-center gap-2.5 border-b border-[color:var(--color-line-soft)] px-5 py-4">
+        <span className={`h-2 w-2 shrink-0 rounded-full ${dot}`} />
+        <div>
+          <h2 className="text-[1rem] font-semibold text-[color:var(--color-ink)]">
+            {title}
+          </h2>
+          <p className="text-[0.8125rem] text-[color:var(--color-mute)]">{hint}</p>
+        </div>
+        {rows.length > 0 ? (
+          <span className="ml-auto rounded-full bg-[color:var(--color-sand-100)] px-2.5 py-0.5 text-[0.8125rem] font-semibold text-[color:var(--color-body)]">
+            {rows.length}
+          </span>
+        ) : null}
+      </div>
+      {rows.length === 0 ? (
+        <p className="px-5 py-8 text-center text-[0.875rem] text-[color:var(--color-mute)]">
+          {emptyLabel}
+        </p>
+      ) : (
+        <ul className="divide-y divide-[color:var(--color-line-soft)]">
+          {rows.map((c) => (
+            <li key={c.id}>
+              <Link
+                href={`/admin/candidates/${c.id}`}
+                className="flex items-center justify-between gap-3 px-5 py-3 hover:bg-[color:var(--color-sand-50)]"
+              >
+                <div className="min-w-0">
+                  <div className="truncate font-semibold text-[color:var(--color-ink)]">
+                    {c.name}
+                  </div>
+                  <div className="truncate text-[0.8125rem] text-[color:var(--color-mute)]">
+                    {c.language}
+                    {c.client_id && clientMap[c.client_id]
+                      ? ` · ${clientMap[c.client_id]}`
+                      : ""}
+                    {c.eu_passport === false ? " · No EU passport" : ""}
+                  </div>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  {c.readiness_tier ? (
+                    <span
+                      className={`hidden rounded-full px-2 py-0.5 text-[0.6875rem] font-semibold sm:inline-block ${READINESS_TONE[c.readiness_tier]}`}
+                    >
+                      {READINESS_LABEL[c.readiness_tier]}
+                    </span>
+                  ) : null}
+                  <span className="w-20 text-right text-[0.8125rem] text-[color:var(--color-mute)]">
+                    {sinceLabel(c.created_at)}
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }

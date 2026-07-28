@@ -18,7 +18,7 @@ export function Destinations() {
         </div>
 
         <div className="mt-12 grid gap-5 sm:gap-6 lg:grid-cols-3">
-          {destinations.map((d, i) => {
+          {destinations.map((d) => {
             const count = jobsByCountry(d.slug).length;
             return (
               <Link
@@ -34,7 +34,6 @@ export function Destinations() {
                   alt={d.card.alt}
                   fill
                   sizes="(max-width: 1024px) 92vw, 31vw"
-                  priority={i === 0}
                   className="object-cover transition-transform duration-[900ms] group-hover:scale-[1.06]"
                 />
                 <div className="scrim-card absolute inset-0" />

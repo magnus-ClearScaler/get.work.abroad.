@@ -7,6 +7,7 @@ export function JobCard({ job, priority }: { job: Job; priority?: boolean }) {
   return (
     <Link
       href={`/jobs/${job.slug}`}
+      aria-label={`${job.title} in ${job.city}`}
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[color:var(--color-line)] bg-white shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--color-sea-200)] hover:shadow-[var(--shadow-lift)]"
     >
       <div className="relative aspect-[16/10] overflow-hidden">

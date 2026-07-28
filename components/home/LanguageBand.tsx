@@ -13,7 +13,9 @@ export function LanguageBand() {
           The five languages we recruit
         </p>
       </div>
-      <div className="marquee-mask overflow-hidden">
+      {/* The scrolling track is decorative repetition, so it is hidden from
+          assistive tech; the real language list is announced once, below. */}
+      <div className="marquee-mask overflow-hidden" aria-hidden="true">
         <div className="marquee-track flex w-max items-center gap-3 sm:gap-4">
           {row.map((lang, i) => (
             <span
@@ -25,6 +27,11 @@ export function LanguageBand() {
           ))}
         </div>
       </div>
+      <ul className="sr-only">
+        {languages.map((lang) => (
+          <li key={lang}>{lang}</li>
+        ))}
+      </ul>
     </section>
   );
 }

@@ -91,20 +91,21 @@ export function Header() {
           </a>
           <Link
             href="/apply"
-            className={`inline-flex items-center whitespace-nowrap rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold shadow-[var(--shadow-soft)] transition-colors sm:px-5 ${
+            className={`inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold shadow-[var(--shadow-soft)] transition-colors sm:px-5 ${
               onPhoto
                 ? "bg-white text-[color:var(--color-sea-900)] hover:bg-[color:var(--color-sand-100)]"
                 : "bg-[color:var(--color-sea-700)] text-white hover:bg-[color:var(--color-sea-800)]"
             }`}
           >
-            Apply now
+            Send your CV
           </Link>
           <button
             type="button"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
+            aria-controls="mobile-drawer"
             aria-label={open ? "Close menu" : "Open menu"}
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors lg:hidden ${
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors lg:hidden ${
               onPhoto
                 ? "border-white/30 bg-white/10 text-white backdrop-blur-sm"
                 : "border-[color:var(--color-line)] bg-white text-[color:var(--color-ink)]"
@@ -115,8 +116,12 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer. `inert` when closed removes it from the tab order and
+          the accessibility tree entirely, so keyboard and screen-reader users
+          never land on invisible links while it is hidden. */}
       <div
+        id="mobile-drawer"
+        inert={!open}
         className={`fixed inset-x-0 top-[4.5rem] bottom-0 z-40 origin-top overflow-y-auto border-t border-[color:var(--color-line)] bg-[color:var(--color-sand-50)] px-5 pt-4 pb-10 transition duration-200 lg:hidden ${
           open
             ? "pointer-events-auto opacity-100"
@@ -137,9 +142,9 @@ export function Header() {
         <div className="mt-7 flex flex-col gap-3">
           <Link
             href="/apply"
-            className="inline-flex items-center justify-center rounded-full bg-[color:var(--color-sea-700)] px-6 py-3.5 text-[0.9375rem] font-semibold text-white"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-[color:var(--color-sea-700)] px-6 py-3.5 text-[0.9375rem] font-semibold text-white"
           >
-            Apply now
+            Send your CV
           </Link>
           <a
             href={site.whatsappLink}

@@ -15,7 +15,7 @@ export function Hero() {
           the colour of the footage still read through. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,rgba(6,32,43,0.32),rgba(6,32,43,0.62)_100%)]"
+        className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,rgba(6,32,43,0.48),rgba(6,32,43,0.7)_100%)]"
       />
       <div
         aria-hidden="true"
@@ -30,17 +30,18 @@ export function Hero() {
       {/* Extra top padding equal to the header height keeps the block optically
           centred in the space below the header rather than the whole viewport. */}
       <Container className="relative z-10 flex flex-col items-center pt-[10.5rem] pb-24 text-center">
-        <h1 className="h-display max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.4)]">
-          Work in your language,{" "}
-          <span className="text-[color:var(--color-sun-400)]">
-            on the Mediterranean.
+        <h1 className="h-display max-w-[16ch] text-[clamp(2.75rem,7vw,5rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.55)]">
+          Live on the Mediterranean,{" "}
+          <span className="text-[color:var(--color-sun-300)]">
+            paid to speak your own language.
           </span>
         </h1>
 
-        <p className="mt-6 max-w-2xl text-[1.15rem] leading-relaxed text-pretty text-white/90 [text-shadow:0_1px_16px_rgba(6,32,43,0.5)]">
+        <p className="mt-6 max-w-2xl text-[1.15rem] leading-relaxed text-pretty text-white [text-shadow:0_1px_16px_rgba(6,32,43,0.6)]">
           Permanent roles for Dutch, German and Scandinavian speakers, with the
-          flight, the flat and the paperwork covered. You bring the language.
-          The coast, and the best two years of your twenties, come with it.
+          flight, the flat and the paperwork covered. You bring the language —
+          the coast, the people, and the version of you that comes back come
+          with it.
         </p>
 
         <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">

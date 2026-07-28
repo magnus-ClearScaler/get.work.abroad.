@@ -17,7 +17,10 @@ import {
   COMMITMENT_LABEL,
   readiness,
   sinceLabel,
+  cvSignedUrl,
+  logAccess,
   type Candidate,
+  type Client,
   type Partner,
   type Submission,
 } from "@/lib/supabase";
@@ -36,11 +39,12 @@ type Bundle = {
   candidate: Candidate | null;
   subs: Submission[];
   partners: Partner[];
+  clients: Client[];
   error: string | null;
 };
 
 async function fetchBundle(id: string): Promise<Bundle> {
-  const [c, s, p] = await Promise.all([
+  const [c, s, p, cl] = await Promise.all([
     supabase.from("candidates").select("*").eq("id", id).single(),
     supabase
       .from("submissions")
@@ -48,11 +52,13 @@ async function fetchBundle(id: string): Promise<Bundle> {
       .eq("candidate_id", id)
       .order("sent_at", { ascending: false }),
     supabase.from("partners").select("*").order("name"),
+    supabase.from("clients").select("*").eq("active", true).order("name"),
   ]);
   return {
     candidate: (c.data as Candidate) ?? null,
     subs: (s.data ?? []) as Submission[],
     partners: (p.data ?? []) as Partner[],
+    clients: (cl.data ?? []) as Client[],
     error: c.error?.message ?? null,
   };
 }
@@ -64,6 +70,7 @@ export default function CandidatePage() {
   const [candidate, setCandidate] = useState<Candidate | null>(null);
   const [subs, setSubs] = useState<Submission[]>([]);
   const [partners, setPartners] = useState<Partner[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
@@ -82,6 +89,7 @@ export default function CandidatePage() {
     }
     setSubs(b.subs);
     setPartners(b.partners);
+    setClients(b.clients);
     setLoading(false);
   }, []);
 
@@ -92,21 +100,36 @@ export default function CandidatePage() {
   }, [id, apply]);
 
   /* The CV is the thing you actually want to look at, so it is fetched as soon
-     as the candidate loads and shown in place. An hour is long enough to read
-     one without the link going stale mid-scroll, and short enough that a URL
-     copied out of the page stops working the same morning. */
+     as the candidate loads and shown in place. cvSignedUrl records the view in
+     the access log first, then hands back a 10-minute link: long enough to read
+     one, short enough that a URL copied out of the page stops working soon. */
   useEffect(() => {
-    if (!candidate?.cv_path) return;
-    supabase.storage
-      .from("cvs")
-      .createSignedUrl(candidate.cv_path, 3600)
-      .then(({ data }) => setCvUrl(data?.signedUrl ?? null));
-  }, [candidate?.cv_path]);
+    const path = candidate?.cv_path;
+    if (!path) return;
+    cvSignedUrl(path, id)
+      .then(setCvUrl)
+      .catch(() => setCvUrl(null));
+  }, [candidate?.cv_path, id]);
 
   async function setStatus(status: string) {
     if (!candidate) return;
     setCandidate({ ...candidate, status: status as Candidate["status"] });
     await supabase.from("candidates").update({ status }).eq("id", candidate.id);
+  }
+
+  /* The client this candidate has been presented to, and their start date once
+     hired. Both save on change; the start date anchors the rebate countdown. */
+  async function setPlacement(values: {
+    client_id?: string | null;
+    start_date?: string | null;
+  }) {
+    if (!candidate) return;
+    setCandidate({ ...candidate, ...values });
+    const { error } = await supabase
+      .from("candidates")
+      .update(values)
+      .eq("id", candidate.id);
+    if (error) setError(error.message);
   }
 
   async function saveNotes() {
@@ -176,6 +199,9 @@ export default function CandidatePage() {
     );
     if (!ok) return;
     setDeleting(true);
+    /* Record who erased whom before the row is gone — a deletion is exactly the
+       kind of PII event the access log exists to keep. */
+    await logAccess("delete_candidate", candidate.id, candidate.email);
     if (candidate.cv_path) {
       await supabase.storage.from("cvs").remove([candidate.cv_path]);
     }
@@ -188,7 +214,7 @@ export default function CandidatePage() {
       setDeleting(false);
       return;
     }
-    router.push("/admin");
+    router.push("/admin/candidates");
   }
 
   if (loading) {
@@ -208,7 +234,7 @@ export default function CandidatePage() {
   return (
     <>
       <Link
-        href="/admin"
+        href="/admin/candidates"
         className="text-[0.875rem] font-medium text-[color:var(--color-sea-700)]"
       >
         ← All candidates
@@ -260,7 +286,7 @@ export default function CandidatePage() {
         if (r.tier === "unscreened" || r.tier === "ineligible") return null;
         const line =
           r.tier === "ready"
-            ? "Screens as placeable now: EU-eligible, can move soon and means it. Worth walking to TopJobs today."
+            ? "Screens as placeable now: EU-eligible, can move soon and means it. Worth sending to a client today."
             : r.tier === "warming"
               ? "Can move soon but not fully there on the rest. Worth a nudge before you spend a slot on them."
               : "Pipeline for now, not ready to start soon. Keep warm, do not lead with them.";
@@ -282,6 +308,54 @@ export default function CandidatePage() {
           for, so they sit outside the working pool.
         </p>
       ) : null}
+
+      {/* ── Placement: client presented to + start date ─────────────── */}
+      <section className="mt-6 rounded-2xl border border-[color:var(--color-line)] bg-white p-5 sm:p-6">
+        <h2 className="h-section text-[1.15rem]">Placement</h2>
+        <p className="mt-1 text-[0.8125rem] text-[color:var(--color-mute)]">
+          The client this candidate has been presented to, and — once hired —
+          their start date. The rebate countdown runs from the start date on the{" "}
+          <Link href="/admin/placements" className="text-[color:var(--color-sea-700)] underline">
+            Placements
+          </Link>{" "}
+          page.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className="block">
+            <span className="mb-1.5 block text-[0.8125rem] font-semibold text-[color:var(--color-ink)]">
+              Presented to client
+            </span>
+            <select
+              value={candidate.client_id ?? ""}
+              onChange={(e) => setPlacement({ client_id: e.target.value || null })}
+              className="w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-2.5 text-[0.9375rem]"
+            >
+              <option value="">Not presented yet</option>
+              {clients.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+              {/* Keep a since-deactivated client visible if it's the one set. */}
+              {candidate.client_id &&
+              !clients.some((c) => c.id === candidate.client_id) ? (
+                <option value={candidate.client_id}>(inactive client)</option>
+              ) : null}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1.5 block text-[0.8125rem] font-semibold text-[color:var(--color-ink)]">
+              Start date
+            </span>
+            <input
+              type="date"
+              value={candidate.start_date ?? ""}
+              onChange={(e) => setPlacement({ start_date: e.target.value || null })}
+              className="w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-2.5 text-[0.9375rem]"
+            />
+          </label>
+        </div>
+      </section>
 
       {candidate.cv_path ? (
         <section className="mt-8">

@@ -40,54 +40,70 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   if (!session) return <SignIn />;
 
-  const tabs = [
-    { href: "/admin", label: "Candidates" },
+  const nav = [
+    { href: "/admin", label: "Dashboard", exact: true },
+    { href: "/admin/candidates", label: "Candidates" },
+    { href: "/admin/placements", label: "Placements" },
+    { href: "/admin/clients", label: "Clients" },
     { href: "/admin/partners", label: "Partners" },
+    { href: "/admin/settings", label: "Settings" },
   ];
+  const isActive = (item: (typeof nav)[number]) =>
+    item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
   return (
-    <div className="mx-auto w-full max-w-[84rem] px-5 py-10 sm:px-8">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--color-line)] pb-5">
-        <div className="flex items-center gap-5">
-          <Link href="/admin" aria-label="Admin home">
+    <div className="flex min-h-screen flex-col lg:flex-row">
+      {/* Sidebar (rail on desktop, top bar with scrolling nav on mobile) */}
+      <aside className="sticky top-0 z-30 shrink-0 border-b border-[color:var(--color-line)] bg-[color:var(--color-sand-50)]/95 backdrop-blur-xl lg:h-screen lg:w-60 lg:border-r lg:border-b-0">
+        <div className="flex h-full flex-col px-4 py-4 lg:px-5 lg:py-6">
+          <Link href="/admin" aria-label="Admin home" className="hidden lg:block">
             <Logo />
           </Link>
-          <nav className="flex gap-1">
-            {tabs.map((t) => {
-              const active =
-                t.href === "/admin"
-                  ? pathname === "/admin" || pathname.startsWith("/admin/candidates")
-                  : pathname.startsWith(t.href);
-              return (
-                <Link
-                  key={t.href}
-                  href={t.href}
-                  className={`rounded-full px-3.5 py-2 text-[0.875rem] font-medium transition-colors ${
-                    active
-                      ? "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-700)]"
-                      : "text-[color:var(--color-body)] hover:bg-[color:var(--color-sand-100)]"
-                  }`}
-                >
-                  {t.label}
-                </Link>
-              );
-            })}
+          <nav className="mt-0 flex gap-1 overflow-x-auto lg:mt-8 lg:flex-col lg:gap-0.5 lg:overflow-visible">
+            <Link href="/admin" aria-label="Admin home" className="mr-2 shrink-0 self-center lg:hidden">
+              <Logo />
+            </Link>
+            {nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item) ? "page" : undefined}
+                className={`shrink-0 whitespace-nowrap rounded-xl px-3.5 py-2.5 text-[0.9375rem] font-medium transition-colors ${
+                  isActive(item)
+                    ? "bg-[color:var(--color-sea-100)] text-[color:var(--color-sea-700)]"
+                    : "text-[color:var(--color-body)] hover:bg-[color:var(--color-sand-100)] hover:text-[color:var(--color-ink)]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-[0.8125rem] text-[color:var(--color-mute)]">
-            {session.user.email}
-          </span>
+
+          <div className="mt-auto hidden border-t border-[color:var(--color-line-soft)] pt-4 lg:block">
+            <p className="truncate text-[0.8125rem] text-[color:var(--color-mute)]">
+              {session.user.email}
+            </p>
+            <button
+              type="button"
+              onClick={() => supabase.auth.signOut()}
+              className="mt-2 w-full rounded-full border border-[color:var(--color-line)] bg-white px-4 py-2 text-[0.8125rem] font-semibold text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-sea-300)]"
+            >
+              Sign out
+            </button>
+          </div>
           <button
             type="button"
             onClick={() => supabase.auth.signOut()}
-            className="rounded-full border border-[color:var(--color-line)] bg-white px-4 py-2 text-[0.8125rem] font-semibold text-[color:var(--color-ink)]"
+            className="ml-2 shrink-0 self-center rounded-full border border-[color:var(--color-line)] bg-white px-3 py-1.5 text-[0.75rem] font-semibold text-[color:var(--color-ink)] lg:hidden"
           >
             Sign out
           </button>
         </div>
-      </div>
-      <div className="pt-8">{children}</div>
+      </aside>
+
+      <main className="min-w-0 flex-1 px-5 py-8 sm:px-8 lg:py-10">
+        <div className="mx-auto w-full max-w-[76rem]">{children}</div>
+      </main>
     </div>
   );
 }

@@ -92,7 +92,8 @@ export function JobsBrowser({
         </div>
 
         <div className="mt-3 flex items-center gap-3">
-          <p className="text-[0.875rem] text-[color:var(--color-mute)]">
+          {/* Announced to screen readers on every filter change. */}
+          <p className="text-[0.875rem] text-[color:var(--color-mute)]" aria-live="polite" role="status">
             <span className="font-semibold text-[color:var(--color-ink)]">
               {results.length}
             </span>{" "}
@@ -103,7 +104,7 @@ export function JobsBrowser({
             <button
               type="button"
               onClick={reset}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--color-line)] bg-white px-3 py-1 text-[0.8125rem] font-medium text-[color:var(--color-body)] transition-colors hover:text-[color:var(--color-ink)]"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[color:var(--color-line)] bg-white px-3 py-1 text-[0.8125rem] font-medium text-[color:var(--color-body)] transition-colors hover:text-[color:var(--color-ink)]"
             >
               <Close className="h-3 w-3" />
               Clear filters
