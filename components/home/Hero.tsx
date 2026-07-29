@@ -37,11 +37,9 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="mt-6 max-w-2xl text-[1.0625rem] leading-relaxed text-pretty text-white [text-shadow:0_1px_16px_rgba(6,32,43,0.6)]">
+        <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-pretty text-white [text-shadow:0_1px_16px_rgba(6,32,43,0.6)]">
           Permanent roles for Dutch, German and Scandinavian speakers, with a
-          relocation package and help with the paperwork. You bring the
-          language. The coast, the people, and the version of you that comes
-          back come with it.
+          relocation package and help with the paperwork.
         </p>
 
         <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
