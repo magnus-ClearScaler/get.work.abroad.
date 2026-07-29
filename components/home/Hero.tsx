@@ -31,9 +31,9 @@ export function Hero() {
           centred in the space below the header rather than the whole viewport. */}
       <Container className="relative z-10 flex flex-col items-center pt-[10.5rem] pb-24 text-center">
         <h1 className="h-display max-w-[20ch] text-[clamp(2.25rem,5vw,3.75rem)] text-balance text-white [text-shadow:0_2px_30px_rgba(6,32,43,0.55)]">
-          Live on the Mediterranean.{" "}
+          Live on the Mediterranean,{" "}
           <span className="text-[color:var(--color-sun-300)]">
-            Get paid to speak your own language.
+            work in your own language.
           </span>
         </h1>
 
