@@ -30,7 +30,7 @@ export const destinations: Destination[] = [
       photo: "/photos/malaga-sunset.jpg",
       alt: "The sun going down over Málaga, the port and the city under gold light",
       blurb:
-        "Málaga and Alicante. Where the Costa del Sol turned into a tech coast.",
+        "Málaga, Valencia and Alicante. Sun, sea and a Spanish contract.",
     },
     hero: {
       photo: "/photos/malaga-bluehour.jpg",
@@ -66,7 +66,7 @@ export const destinations: Destination[] = [
       },
     ],
     facts: [
-      { label: "Where we place", value: "Málaga and Alicante" },
+      { label: "Where we place", value: "Málaga, Valencia and Alicante" },
       { label: "Typical contract", value: "Permanent Spanish contract" },
       { label: "Working week", value: "39 hours" },
       { label: "Paid holiday", value: "23 days plus public holidays" },
@@ -97,6 +97,12 @@ export const destinations: Destination[] = [
         photo: "/photos/user-alicante-explanada.jpg",
         alt: "Palms and the Explanada promenade in Alicante under a Spanish flag",
         note: "Costa Blanca, around 10% cheaper than Málaga, and smaller in a way people either love or outgrow. The Explanada and the beach are both a short walk from the office.",
+      },
+      {
+        name: "Valencia",
+        photo: "/photos/valencia-plaza-virgen.jpg",
+        alt: "Plaza de la Virgen in Valencia, the cathedral and the Micalet tower behind the fountain",
+        note: "Spain's third city, with the beach a tram ride from the centre and a nine-kilometre park running through the old riverbed. Our Dutch and German desks here come with breakfast and lunch provided every working day.",
       },
     ],
     living: [
