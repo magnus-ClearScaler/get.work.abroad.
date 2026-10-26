@@ -339,14 +339,14 @@ export const destinations: Destination[] = [
     country: "Cyprus",
     flag: "🇨🇾",
     card: {
-      photo: "/photos/greek-taverna-table.jpg",
-      alt: "A taverna table with blue chairs set right beside the sea",
+      photo: "/photos/larnaca-finikoudes-promenade-palms.jpg",
+      alt: "The palm-lined Finikoudes promenade and beach in Larnaca",
       blurb:
         "Larnaca. Tax-free up to around €22,000, your first month of housing covered, and summer from April to November.",
     },
     hero: {
-      photo: "/photos/greece-milos-cove.jpg",
-      alt: "A sheltered turquoise cove on the eastern Mediterranean",
+      photo: "/photos/larnaca-seafront-aerial.jpg",
+      alt: "Larnaca seafront from above, the beach and promenade running along the town",
     },
     headline: "Cyprus",
     intro:
@@ -355,20 +355,20 @@ export const destinations: Destination[] = [
       {
         title: "Most of your salary is simply yours",
         body: "Cyprus does not tax employment income up to around €22,000 a year, which covers a full-time customer service salary. What you see on the offer is very close to what lands in your account, and with your first month of housing covered, it is one of the easiest places there is to start saving.",
-        photo: "/photos/greek-taverna-table.jpg",
-        alt: "A taverna table with blue chairs set right beside the sea",
+        photo: "/photos/larnaca-finikoudes-promenade-palms.jpg",
+        alt: "The palm-lined Finikoudes promenade and beach in Larnaca",
       },
       {
         title: "A soft landing in English",
         body: "English is spoken almost everywhere, from the bank to the landlord to the doctor, so the paperwork and the first weeks are far less daunting than in most countries. You still live somewhere genuinely different, with Greek and Turkish on the street signs, but you are never stuck.",
-        photo: "/photos/greek-salad.jpg",
-        alt: "A village salad with feta, tomato and olives",
+        photo: "/photos/larnaca-st-lazarus-church.jpg",
+        alt: "The stone church of St Lazarus in Larnaca under a blue sky",
       },
       {
         title: "Summer is most of the year",
         body: "Cyprus is one of the sunniest places in Europe. Swimming season runs from May well into November, winters are mild, and in the colder months you can drive up into the Troodos mountains and see snow in the morning and the sea in the afternoon.",
-        photo: "/photos/greece-milos-cove.jpg",
-        alt: "A sheltered turquoise cove on the eastern Mediterranean",
+        photo: "/photos/cyprus-sea-caves-blue.jpg",
+        alt: "Sea caves and clear blue water on the Cyprus coast",
       },
     ],
     facts: [
@@ -390,8 +390,8 @@ export const destinations: Destination[] = [
     cities: [
       {
         name: "Larnaca",
-        photo: "/photos/greek-taverna-table.jpg",
-        alt: "A taverna table with blue chairs set right beside the sea",
+        photo: "/photos/larnaca-seafront-aerial.jpg",
+        alt: "Larnaca seafront from above, the beach and promenade running along the town",
         note: "A small, walkable seaside city with a palm-lined promenade, a salt lake that fills with flamingos in winter, and the island's main airport fifteen minutes away. Nicosia, Limassol and Ayia Napa are all under an hour by car or bus.",
       },
     ],
