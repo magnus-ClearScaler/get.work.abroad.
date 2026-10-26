@@ -17,6 +17,8 @@ import { Logo } from "@/components/Logo";
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
+  // True after arriving from a password-reset email, until a new password is set.
+  const [recovering, setRecovering] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -24,9 +26,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       setSession(data.session);
       setReady(true);
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) =>
-      setSession(s),
-    );
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      setSession(s);
+      if (event === "PASSWORD_RECOVERY") setRecovering(true);
+    });
     return () => sub.subscription.unsubscribe();
   }, []);
 
@@ -39,6 +42,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   if (!session) return <SignIn />;
+  if (recovering) return <SetPassword onDone={() => setRecovering(false)} />;
 
   const nav = [
     { href: "/admin", label: "Dashboard", exact: true },
@@ -113,11 +117,13 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    setNotice(null);
     const { error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
@@ -125,6 +131,21 @@ function SignIn() {
     /* Deliberately vague: a precise message would tell whoever is guessing
        which of the two halves they got right. */
     if (error) setError("That email and password did not match.");
+    setBusy(false);
+  }
+
+  async function forgot() {
+    if (!email.trim()) {
+      setError("Enter your email first, then press “Forgot password?”.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/admin`,
+    });
+    // Same message either way, so this cannot be used to probe which emails exist.
+    setNotice("If that email has an account, a reset link is on its way.");
     setBusy(false);
   }
 
@@ -167,6 +188,71 @@ function SignIn() {
             className="w-full rounded-full bg-[color:var(--color-sea-700)] px-6 py-3.5 text-[0.9375rem] font-semibold text-white disabled:opacity-60"
           >
             {busy ? "Signing in…" : "Sign in"}
+          </button>
+          {notice ? (
+            <p role="status" className="text-[0.875rem] text-[color:var(--color-sea-700)]">
+              {notice}
+            </p>
+          ) : null}
+          <button
+            type="button"
+            onClick={forgot}
+            disabled={busy}
+            className="w-full text-center text-[0.875rem] font-medium text-[color:var(--color-sea-700)] hover:underline disabled:opacity-60"
+          >
+            Forgot password?
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function SetPassword({ onDone }: { onDone: () => void }) {
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (password.length < 10) {
+      setError("Use at least 10 characters.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    const { error } = await supabase.auth.updateUser({ password });
+    setBusy(false);
+    if (error) setError(error.message);
+    else onDone();
+  }
+
+  return (
+    <div className="mx-auto grid min-h-[70vh] w-full max-w-md place-items-center px-5">
+      <div className="w-full rounded-2xl border border-[color:var(--color-line)] bg-white p-8 shadow-[var(--shadow-card)]">
+        <Logo />
+        <h1 className="h-section mt-6 text-[1.5rem]">Choose a new password</h1>
+        <form onSubmit={submit} className="mt-6 space-y-3">
+          <input
+            type="password"
+            required
+            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="New password"
+            className="w-full rounded-xl border border-[color:var(--color-line)] bg-white px-4 py-3 text-[0.9375rem] focus:border-[color:var(--color-sea-300)]"
+          />
+          {error ? (
+            <p role="alert" className="text-[0.875rem] text-[color:var(--color-terra-600)]">
+              {error}
+            </p>
+          ) : null}
+          <button
+            type="submit"
+            disabled={busy}
+            className="w-full rounded-full bg-[color:var(--color-sea-700)] px-6 py-3.5 text-[0.9375rem] font-semibold text-white disabled:opacity-60"
+          >
+            {busy ? "Saving…" : "Save password"}
           </button>
         </form>
       </div>
