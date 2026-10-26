@@ -837,11 +837,11 @@ export const jobs: Job[] = [
     employer: "A global customer experience company, from its Larnaca hub",
     contract: "Full-time",
     model: "On-site",
-    packageHighlight: "Tax-free up to ~€22,000 · flight reimbursed",
+    packageHighlight: "First month of housing free · flight reimbursed",
     start: "Regular intakes",
     featured: true,
     summary:
-      "For a first move abroad, Cyprus is about as gentle as it gets, and it still changes you the way only living abroad can. You work in Danish from a customer experience hub in Larnaca, supporting players of a world-famous gaming brand or readers of a leading e-book platform. No customer service experience needed. The package takes the risk out of the move: your first month in shared accommodation is free, your flight down is reimbursed, there is a monthly bonus on top of your salary, and no income tax on earnings up to around €22,000 a year, so almost everything you earn is yours to keep. Around you: a palm-lined promenade, swimming from May to November, English spoken everywhere, and a team from all over Europe. Come for the sun and the savings. Leave, whenever you do, with friends from ten countries and the confidence of someone who made it work somewhere new.",
+      "For a first move abroad, Cyprus is about as gentle as it gets, and it still changes you the way only living abroad can. You work in Danish from a customer experience hub in Larnaca, supporting players of a world-famous gaming brand or readers of a leading e-book platform. No customer service experience needed. The package takes the risk out of the move: your first month in shared accommodation is free, your flight down is reimbursed and there is a monthly bonus on top of your salary. Around you: a palm-lined promenade, swimming from May to November, English spoken everywhere, and a team from all over Europe. Come for the sun. Leave, whenever you do, with friends from ten countries and the confidence of someone who made it work somewhere new.",
     responsibilities: [
       "Support Danish-speaking customers by phone, email and chat",
       "Depending on the project: a world-famous gaming brand, or a leading e-book and audiobook platform",
@@ -858,7 +858,6 @@ export const jobs: Job[] = [
       "Your first month of shared accommodation free",
       "Your flight down reimbursed",
       "A monthly performance bonus on top of your salary",
-      "No income tax on salaries up to around €22,000 a year",
       "An international team in a seaside city",
     ],
   },

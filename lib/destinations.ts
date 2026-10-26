@@ -342,7 +342,7 @@ export const destinations: Destination[] = [
       photo: "/photos/larnaca-finikoudes-promenade-palms.jpg",
       alt: "The palm-lined Finikoudes promenade and beach in Larnaca",
       blurb:
-        "Larnaca. Tax-free up to around €22,000, your first month of housing covered, and summer from April to November.",
+        "Larnaca. Your first month of housing covered, your flight reimbursed, and summer from April to November.",
     },
     hero: {
       photo: "/photos/larnaca-seafront-aerial.jpg",
@@ -350,11 +350,11 @@ export const destinations: Destination[] = [
     },
     headline: "Cyprus",
     intro:
-      "The easiest first move abroad we know. Everyone speaks English, the euro is the currency, the sea is warm enough to swim in from May to November, and on most salaries there is simply no income tax to pay. You land in Larnaca, a small, easy seaside city with the airport fifteen minutes from the promenade, and your first month of housing is taken care of before you arrive. It is the kind of place where you find your feet fast, and then use them to see the rest of the eastern Mediterranean.",
+      "The easiest first move abroad we know. Everyone speaks English, the euro is the currency, the sea is warm enough to swim in from May to November. You land in Larnaca, a small, easy seaside city with the airport fifteen minutes from the promenade, and your first month of housing is taken care of before you arrive. It is the kind of place where you find your feet fast, and then use them to see the rest of the eastern Mediterranean.",
     whyMove: [
       {
-        title: "Most of your salary is simply yours",
-        body: "Cyprus does not tax employment income up to around €22,000 a year, which covers a full-time customer service salary. What you see on the offer is very close to what lands in your account, and with your first month of housing covered, it is one of the easiest places there is to start saving.",
+        title: "A move that is taken care of",
+        body: "Your first month in shared accommodation is covered and your flight down is reimbursed, so you arrive with a bed, a team and a month to find your feet before rent is your problem. Larnaca is small and easy, and life here costs less than in most of northern Europe.",
         photo: "/photos/larnaca-finikoudes-promenade-palms.jpg",
         alt: "The palm-lined Finikoudes promenade and beach in Larnaca",
       },
@@ -373,7 +373,6 @@ export const destinations: Destination[] = [
     ],
     facts: [
       { label: "Where we place", value: "Larnaca" },
-      { label: "Income tax", value: "None on employment income up to around €22,000 a year" },
       { label: "Housing", value: "First month of shared accommodation free" },
       { label: "Language needed", value: "Your native language plus good English" },
       { label: "Currency", value: "Euro" },
