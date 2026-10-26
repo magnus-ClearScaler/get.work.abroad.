@@ -35,4 +35,5 @@ export const languages = [
   "Danish",
   "Norwegian",
   "Swedish",
+  "Portuguese",
 ] as const;

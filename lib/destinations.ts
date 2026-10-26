@@ -102,7 +102,7 @@ export const destinations: Destination[] = [
         name: "Valencia",
         photo: "/photos/valencia-plaza-virgen.jpg",
         alt: "Plaza de la Virgen in Valencia, the cathedral and the Micalet tower behind the fountain",
-        note: "Spain's third city, with the beach a tram ride from the centre and a nine-kilometre park running through the old riverbed. Our Dutch and German desks here come with breakfast and lunch provided every working day.",
+        note: "Spain's third city, with the beach a tram ride from the centre and a nine-kilometre park running through the old riverbed. Our Dutch, German, Swedish and Portuguese desks here come with breakfast and lunch provided every working day.",
       },
     ],
     living: [
@@ -342,7 +342,7 @@ export const destinations: Destination[] = [
       photo: "/photos/greek-taverna-table.jpg",
       alt: "A taverna table with blue chairs set right beside the sea",
       blurb:
-        "Larnaca. Tax-free up to around €22,000, a room on arrival, and summer from April to November.",
+        "Larnaca. Tax-free up to around €22,000, your first month of housing covered, and summer from April to November.",
     },
     hero: {
       photo: "/photos/greece-milos-cove.jpg",
@@ -350,11 +350,11 @@ export const destinations: Destination[] = [
     },
     headline: "Cyprus",
     intro:
-      "The easiest first move abroad we know. Everyone speaks English, the euro is the currency, the sea is warm enough to swim in from May to November, and on most salaries there is simply no income tax to pay. You land in Larnaca, a small, easy seaside city with the airport fifteen minutes from the promenade, and the first weeks of housing are taken care of before you arrive. It is the kind of place where you find your feet fast, and then use them to see the rest of the eastern Mediterranean.",
+      "The easiest first move abroad we know. Everyone speaks English, the euro is the currency, the sea is warm enough to swim in from May to November, and on most salaries there is simply no income tax to pay. You land in Larnaca, a small, easy seaside city with the airport fifteen minutes from the promenade, and your first month of housing is taken care of before you arrive. It is the kind of place where you find your feet fast, and then use them to see the rest of the eastern Mediterranean.",
     whyMove: [
       {
         title: "Most of your salary is simply yours",
-        body: "Cyprus does not tax employment income up to around €22,000 a year, which covers a full-time customer service salary. What you see on the offer is very close to what lands in your account, and with your housing covered at the start, the first months are the easiest you will ever have to save in.",
+        body: "Cyprus does not tax employment income up to around €22,000 a year, which covers a full-time customer service salary. What you see on the offer is very close to what lands in your account, and with your first month of housing covered, it is one of the easiest places there is to start saving.",
         photo: "/photos/greek-taverna-table.jpg",
         alt: "A taverna table with blue chairs set right beside the sea",
       },
@@ -374,7 +374,7 @@ export const destinations: Destination[] = [
     facts: [
       { label: "Where we place", value: "Larnaca" },
       { label: "Income tax", value: "None on employment income up to around €22,000 a year" },
-      { label: "Housing", value: "Shared accommodation provided on arrival" },
+      { label: "Housing", value: "First month of shared accommodation free" },
       { label: "Language needed", value: "Your native language plus good English" },
       { label: "Currency", value: "Euro" },
       { label: "Getting around", value: "Driving is on the left" },
@@ -386,7 +386,7 @@ export const destinations: Destination[] = [
       { item: "Bus ticket, single journey", price: "Around €2" },
     ],
     costNote:
-      "Rough 2026 ranges for Larnaca. Accommodation is covered at the start of every Cyprus role we place on, so the rent line only matters once that period ends.",
+      "Rough 2026 ranges for Larnaca. Your first month of shared accommodation is covered, so the rent line starts from month two.",
     cities: [
       {
         name: "Larnaca",
@@ -402,7 +402,7 @@ export const destinations: Destination[] = [
       },
       {
         title: "Finding somewhere to live",
-        body: "You start in shared accommodation arranged for you, so there is no flat hunt from abroad. Once you know the city, most people stay central near the Finikoudes promenade or move a little out towards Mackenzie beach.",
+        body: "You start in shared accommodation arranged for you, free for the first month, so there is no flat hunt from abroad. Once you know the city, most people stay central near the Finikoudes promenade or move a little out towards Mackenzie beach.",
       },
       {
         title: "Weekends",
