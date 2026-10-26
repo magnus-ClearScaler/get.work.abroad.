@@ -17,11 +17,11 @@ import { createClient } from "@supabase/supabase-js";
 
 const url =
   process.env.NEXT_PUBLIC_SUPABASE_URL ??
-  "https://yscvyhpltclbwuuwzdca.supabase.co";
+  "https://hwtmsapjengkxakgpnxh.supabase.co";
 
 const publishableKey =
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
-  "sb_publishable_so1r_rlZ8WpmFTgikrVaKQ_I-ZeHhwD";
+  "sb_publishable_66fMdd3BD0oXJUOxxpW2Qw_CCrXIFUL";
 
 export const supabase = createClient(url, publishableKey);
 
