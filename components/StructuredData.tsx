@@ -16,7 +16,7 @@ export function OrganizationSchema() {
     name: site.name,
     url: site.url,
     description:
-      "Recruitment for native Dutch, German and Scandinavian speakers into permanent, relocation-covered roles in Spain, Portugal and Greece.",
+      "Recruitment for native Dutch, German and Scandinavian speakers into permanent, relocation-covered roles in Spain, Portugal, Greece and Cyprus.",
     email: site.email,
     areaServed: ["ES", "PT", "GR"],
     /* sameAs omitted until the real, verified social handles exist — pointing

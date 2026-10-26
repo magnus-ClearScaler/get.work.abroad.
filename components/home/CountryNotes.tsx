@@ -20,7 +20,7 @@ export function CountryNotes() {
           title="What each country is actually like"
         />
 
-        <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-3">
+        <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
           {destinations.map((d) => (
             <li key={d.slug}>
               <h3 className="flex items-center gap-2 font-[family-name:var(--font-display)] text-[1.25rem] font-semibold tracking-[-0.02em] text-[color:var(--color-ink)]">

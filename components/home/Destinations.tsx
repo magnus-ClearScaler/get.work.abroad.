@@ -12,12 +12,12 @@ export function Destinations() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <SectionHead
             eyebrow="Where you could be"
-            title="Three countries. One coastline."
-            intro="We keep our focus narrow on purpose. These are the three markets where the packages are real, the contracts are permanent and we know the employers by name."
+            title="Four countries. One sea."
+            intro="We keep our focus narrow on purpose. These are the four markets where the packages are real, the contracts are permanent and we know the employers by name."
           />
         </div>
 
-        <div className="mt-12 grid gap-5 sm:gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {destinations.map((d) => {
             const count = jobsByCountry(d.slug).length;
             return (
@@ -33,7 +33,7 @@ export function Destinations() {
                   src={d.card.photo}
                   alt={d.card.alt}
                   fill
-                  sizes="(max-width: 1024px) 92vw, 31vw"
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 23vw"
                   className="object-cover transition-transform duration-[900ms] group-hover:scale-[1.06]"
                 />
                 <div className="scrim-card absolute inset-0" />

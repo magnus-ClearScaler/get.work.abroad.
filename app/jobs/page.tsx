@@ -6,7 +6,7 @@ import { FinalCta } from "@/components/home/FinalCta";
 import { jobs } from "@/lib/jobs";
 
 export const metadata: Metadata = {
-  title: "Open jobs in Spain, Portugal & Greece",
+  title: "Open jobs in Spain, Portugal, Greece & Cyprus",
   description:
     "Every language role we are currently hiring for on the Mediterranean. Salary, contract and relocation package listed on each one.",
 };

@@ -109,6 +109,8 @@ export default async function JobPage(props: PageProps<"/jobs/[slug]">) {
               </p>
             ) : null}
 
+            <GrowthNote />
+
             <Block title="What you will be doing">
               <ul className="space-y-3">
                 {job.responsibilities.map((r) => (
@@ -245,6 +247,52 @@ export default async function JobPage(props: PageProps<"/jobs/[slug]">) {
         </Container>
       </section>
     </>
+  );
+}
+
+/* The red line through every listing: the package gets people interested,
+   but what actually sells a move abroad is who you become by making it. */
+const GROWTH = [
+  {
+    title: "You meet the world",
+    body: "Colleagues and friends from a dozen countries, each of whom took a completely different road to the same table. You start to see how many ways there are to live a life.",
+  },
+  {
+    title: "You learn to figure it out",
+    body: "New paperwork, a new system, a language you do not speak yet. Every small thing you solve on your own builds a confidence that no job at home can give you.",
+  },
+  {
+    title: "Doors open afterwards",
+    body: "The people we know who did this went on to better jobs, their own companies and new countries, or came home with an edge every employer notices.",
+  },
+];
+
+function GrowthNote() {
+  return (
+    <section className="mt-10 rounded-2xl bg-[color:var(--color-sea-950)] p-6 text-white sm:p-8">
+      <p className="text-[0.6875rem] font-semibold tracking-[0.16em] text-[color:var(--color-sun-400)] uppercase">
+        What you really take home
+      </p>
+      <h2 className="mt-2 font-[family-name:var(--font-display)] text-[1.35rem] leading-tight font-semibold tracking-[-0.02em] sm:text-[1.55rem]">
+        Everyone who moves abroad comes back a different person.
+      </h2>
+      <p className="mt-3 text-[0.9875rem] leading-relaxed text-pretty text-white/80">
+        We moved abroad for our first jobs too, and almost everyone we met along
+        the way grew more in a year than they would have in ten at home. The
+        salary is decent for where you live. The growth you cannot get anywhere
+        else.
+      </p>
+      <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+        {GROWTH.map((g) => (
+          <li key={g.title} className="rounded-xl bg-white/[0.06] p-4">
+            <p className="font-semibold text-[color:var(--color-sun-400)]">{g.title}</p>
+            <p className="mt-1.5 text-[0.875rem] leading-relaxed text-pretty text-white/75">
+              {g.body}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

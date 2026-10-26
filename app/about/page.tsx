@@ -8,7 +8,7 @@ import { FinalCta } from "@/components/home/FinalCta";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Get Work Abroad places native language speakers into permanent roles in Spain, Portugal and Greece. Free for candidates, paid by the employer.",
+    "Get Work Abroad places native language speakers into permanent roles in Spain, Portugal, Greece and Cyprus. Free for candidates, paid by the employer.",
 };
 
 const principles = [
@@ -38,7 +38,7 @@ export default function AboutPage() {
         alt="A diverse group of young friends laughing together on a rooftop at golden hour"
         eyebrow="About us"
         title="Moving abroad is the easiest hard thing you will ever do"
-        intro="We place native language speakers into permanent roles across Spain, Portugal and Greece. We do it because we have made the move ourselves, and because we have yet to meet anyone who did it and wished they had not."
+        intro="We place native language speakers into permanent roles across Spain, Portugal, Greece and Cyprus. We do it because we have made the move ourselves, and because we have yet to meet anyone who did it and wished they had not."
       />
 
       {/* ── Story ───────────────────────────────────────────────── */}

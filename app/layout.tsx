@@ -26,7 +26,7 @@ const interTight = Inter_Tight({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Get Work Abroad · Language jobs in Spain, Portugal & Greece",
+    default: "Get Work Abroad · Language jobs in Spain, Portugal, Greece & Cyprus",
     template: "%s · Get Work Abroad",
   },
   description:
@@ -47,18 +47,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Get Work Abroad · Language jobs on the Mediterranean",
     description:
-      "Permanent roles in Spain, Portugal and Greece for native language speakers. Flights, relocation support and paid training included.",
+      "Permanent roles in Spain, Portugal, Greece and Cyprus for native language speakers. Flights, relocation support and paid training included.",
     url: site.url,
     siteName: site.name,
     type: "website",
     locale: "en_GB",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Get Work Abroad, permanent roles in Spain, Portugal and Greece" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Get Work Abroad, permanent roles in Spain, Portugal, Greece and Cyprus" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Get Work Abroad · Language jobs on the Mediterranean",
     description:
-      "Permanent roles in Spain, Portugal and Greece. Flights, relocation support and paid training included.",
+      "Permanent roles in Spain, Portugal, Greece and Cyprus. Flights, relocation support and paid training included.",
     images: ["/og.jpg"],
   },
 };

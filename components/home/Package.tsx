@@ -63,7 +63,7 @@ export function Package() {
             <SectionHead
               eyebrow="What is actually included"
               title="You should not have to fund your own move."
-              intro="These roles exist because employers in Spain, Portugal and Greece need native speakers they cannot find locally. That is why the relocation package looks the way it does, and why none of it comes out of your pocket."
+              intro="These roles exist because employers in Spain, Portugal, Greece and Cyprus need native speakers they cannot find locally. That is why the relocation package looks the way it does, and why none of it comes out of your pocket."
             />
 
             <ul className="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2">

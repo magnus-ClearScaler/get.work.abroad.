@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Apply",
   description:
-    "Send your CV and we will match you against every role on our desk in Spain, Portugal and Greece. Free for candidates, always.",
+    "Send your CV and we will match you against every role on our desk in Spain, Portugal, Greece and Cyprus. Free for candidates, always.",
 };
 
 const reassurance = [

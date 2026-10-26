@@ -1,4 +1,4 @@
-export type CountrySlug = "spain" | "portugal" | "greece";
+export type CountrySlug = "spain" | "portugal" | "greece" | "cyprus";
 
 export type Destination = {
   slug: CountrySlug;
@@ -244,7 +244,7 @@ export const destinations: Destination[] = [
     },
     headline: "Greece",
     intro:
-      "Greece is the value play and it is not close. The relocation packages are the most complete we place on anywhere, the cost of living is the lowest of the three countries, and a Greek contract pays fourteen salaries a year rather than twelve. People move to Athens meaning to stay a year and are still there four years later.",
+      "Greece is the value play and it is not close. The relocation packages are the most complete we place on anywhere, the cost of living is the lowest of the mainland countries we place in, and a Greek contract pays fourteen salaries a year rather than twelve. People move to Athens meaning to stay a year and are still there four years later.",
     whyMove: [
       {
         title: "Fourteen salaries a year, and someone else buys the flight",
@@ -331,6 +331,85 @@ export const destinations: Destination[] = [
       "Content review",
       "Inside sales",
     ],
+  },
+
+  /* ── CYPRUS ────────────────────────────────────────────────────────── */
+  {
+    slug: "cyprus",
+    country: "Cyprus",
+    flag: "🇨🇾",
+    card: {
+      photo: "/photos/greek-taverna-table.jpg",
+      alt: "A taverna table with blue chairs set right beside the sea",
+      blurb:
+        "Larnaca. Tax-free up to around €22,000, a room on arrival, and summer from April to November.",
+    },
+    hero: {
+      photo: "/photos/greece-milos-cove.jpg",
+      alt: "A sheltered turquoise cove on the eastern Mediterranean",
+    },
+    headline: "Cyprus",
+    intro:
+      "The easiest first move abroad we know. Everyone speaks English, the euro is the currency, the sea is warm enough to swim in from May to November, and on most salaries there is simply no income tax to pay. You land in Larnaca, a small, easy seaside city with the airport fifteen minutes from the promenade, and the first weeks of housing are taken care of before you arrive. It is the kind of place where you find your feet fast, and then use them to see the rest of the eastern Mediterranean.",
+    whyMove: [
+      {
+        title: "Most of your salary is simply yours",
+        body: "Cyprus does not tax employment income up to around €22,000 a year, which covers a full-time customer service salary. What you see on the offer is very close to what lands in your account, and with your housing covered at the start, the first months are the easiest you will ever have to save in.",
+        photo: "/photos/greek-taverna-table.jpg",
+        alt: "A taverna table with blue chairs set right beside the sea",
+      },
+      {
+        title: "A soft landing in English",
+        body: "English is spoken almost everywhere, from the bank to the landlord to the doctor, so the paperwork and the first weeks are far less daunting than in most countries. You still live somewhere genuinely different, with Greek and Turkish on the street signs, but you are never stuck.",
+        photo: "/photos/greek-salad.jpg",
+        alt: "A village salad with feta, tomato and olives",
+      },
+      {
+        title: "Summer is most of the year",
+        body: "Cyprus is one of the sunniest places in Europe. Swimming season runs from May well into November, winters are mild, and in the colder months you can drive up into the Troodos mountains and see snow in the morning and the sea in the afternoon.",
+        photo: "/photos/greece-milos-cove.jpg",
+        alt: "A sheltered turquoise cove on the eastern Mediterranean",
+      },
+    ],
+    facts: [
+      { label: "Where we place", value: "Larnaca" },
+      { label: "Income tax", value: "None on employment income up to around €22,000 a year" },
+      { label: "Housing", value: "Shared accommodation provided on arrival" },
+      { label: "Language needed", value: "Your native language plus good English" },
+      { label: "Currency", value: "Euro" },
+      { label: "Getting around", value: "Driving is on the left" },
+    ],
+    costs: [
+      { item: "Room in a shared flat, Larnaca", price: "€400 to €600" },
+      { item: "Freddo coffee on the promenade", price: "€3 to €4.50" },
+      { item: "Souvlaki in pitta", price: "€4 to €6" },
+      { item: "Bus ticket, single journey", price: "Around €2" },
+    ],
+    costNote:
+      "Rough 2026 ranges for Larnaca. Accommodation is covered at the start of every Cyprus role we place on, so the rent line only matters once that period ends.",
+    cities: [
+      {
+        name: "Larnaca",
+        photo: "/photos/greek-taverna-table.jpg",
+        alt: "A taverna table with blue chairs set right beside the sea",
+        note: "A small, walkable seaside city with a palm-lined promenade, a salt lake that fills with flamingos in winter, and the island's main airport fifteen minutes away. Nicosia, Limassol and Ayia Napa are all under an hour by car or bus.",
+      },
+    ],
+    living: [
+      {
+        title: "Getting set up",
+        body: "As an EU citizen you register your residence after arriving and get a social insurance number through your employer. Because English is the working language of almost every office, it is the most straightforward paperwork in the Mediterranean.",
+      },
+      {
+        title: "Finding somewhere to live",
+        body: "You start in shared accommodation arranged for you, so there is no flat hunt from abroad. Once you know the city, most people stay central near the Finikoudes promenade or move a little out towards Mackenzie beach.",
+      },
+      {
+        title: "Weekends",
+        body: "Hike the Troodos mountains, swim at the sea caves at Cape Greco, or take a cheap flight to Athens, Tel Aviv or the Greek islands. The island is small enough that nowhere is far, and different enough that every corner feels new.",
+      },
+    ],
+    hiringFor: ["Customer advisor"],
   },
 ];
 

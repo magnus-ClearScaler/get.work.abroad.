@@ -21,6 +21,7 @@ export const site = {
     { label: "Spain", href: "/destinations/spain" },
     { label: "Portugal", href: "/destinations/portugal" },
     { label: "Greece", href: "/destinations/greece" },
+    { label: "Cyprus", href: "/destinations/cyprus" },
     { label: "How it works", href: "/how-it-works" },
     { label: "Your safety", href: "/safety" },
     { label: "About", href: "/about" },

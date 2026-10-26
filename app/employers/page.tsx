@@ -8,7 +8,7 @@ import { site, languages } from "@/lib/site";
 export const metadata: Metadata = {
   title: "For employers",
   description:
-    "We source native language speakers for service, sales and support teams in Spain, Portugal and Greece, through our own channels rather than a job board.",
+    "We source native language speakers for service, sales and support teams in Spain, Portugal, Greece and Cyprus, through our own channels rather than a job board.",
 };
 
 const how = [
@@ -41,7 +41,7 @@ const faq = [
   },
   {
     q: "Which markets do you cover?",
-    a: "Spain, Portugal and Greece. We stay narrow on purpose. It is the only way to know the packages, the cities and the practical realities of relocating someone well enough to be useful.",
+    a: "Spain, Portugal, Greece and Cyprus. We stay narrow on purpose. It is the only way to know the packages, the cities and the practical realities of relocating someone well enough to be useful.",
   },
   {
     q: "What do you charge?",
@@ -57,7 +57,7 @@ export default function EmployersPage() {
         alt="A team in discussion around a table in a bright, modern office"
         eyebrow="For employers"
         title="The languages you cannot fill locally"
-        intro="We source native speakers for service, sales and support teams across Spain, Portugal and Greece. Our candidates come from channels we own, which is why we can move on the roles everyone else leaves open."
+        intro="We source native speakers for service, sales and support teams across Spain, Portugal, Greece and Cyprus. Our candidates come from channels we own, which is why we can move on the roles everyone else leaves open."
       >
         <div className="mt-8 flex flex-wrap gap-3">
           <Button
